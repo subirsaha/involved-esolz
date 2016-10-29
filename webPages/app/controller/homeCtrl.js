@@ -273,40 +273,44 @@
                  
                 var flag = 0;
                 
-                if (StudentIds != ''){          
-                     flag++;
+                if (StudentIds != ''){
+                  
+                    flag++;
                 }
                 if(tasktype == '' || tasktype == null || tasktype == 'null')
                 {
                     
                 }else{
-                
+                    
                     flag++; 
                 }
                 if(title == ''|| title == null)
                 {
                     
                 }else{
-                
+                  
                     flag++; 
                 }
                 if(description == ''|| description == null)
                 {
                    
                 }else{
-                
+                   
                     flag++; 
                 }
                 if(day!=current_day || mnth!=current_month || year!=current_year)
                 {
+                   
                     flag++; 
                 }
         
                 if ( fileNum != 0 )
                 {
-                   flag++; 
+                    
+                    flag++; 
                 }
-        
+          
+                 //alert(flag);
                 if ( flag > 0 ){
                     // ///LOADER HIDE
                     //$(window).scrollTop(0);
@@ -853,22 +857,12 @@
                     
                     if(error == 0)
                     {
-                         document.getElementById("setTaskBtn").disabled = true;
+                        document.getElementById("setTaskBtn").disabled = true;
                         ///LOADER SHOW
                         $(window).scrollTop(0);
                         $("#status_right_content1").css("display", "block");
                         $("#preloader_right_content1").css("display", "block");
-                        /*off all clicks */
-                        //$("#performance_tab").off("click");
-                        //$("#message_tab").off("click");
-                        //$("#back_btn").off("click");
-                        //$("#my_classes").off("click");
-                        //$("#my_timetable").off("click");
-                        //$("#my_inbox").off("click");
-                        //$("#myTask").off("click");
-                        //$("#myTaskInner").off("click");
-                        
-
+  
                         var nothing="";
                         //$('#studentIdsForCreateTask').val(nothing);
                        
@@ -887,7 +881,6 @@
                             //alert($(this).attr('id'));
                             var file_attachment_id = $.trim($(this).attr('id')).replace("file_attachment1", "");
                            
-                          
                             if(($('#individual_file_size1'+file_attachment_id).val()!=0) &&
                                ($('#individual_file_size1'+file_attachment_id).val()!='') &&
                                ($('#individual_file_size1'+file_attachment_id).val()!=undefined) &&
@@ -1092,9 +1085,9 @@
                             $scope.IsUnlocked = response.IsUnlocked;
                             $scope.nostudentList="";
                             $scope.nostudentList1="";
-                                $scope.nostudentList2="";
-                                $scope.nostudentList3="";
-                                $scope.nostudentList4="";
+                            $scope.nostudentList2="";
+                            $scope.nostudentList3="";
+                            $scope.nostudentList4="";
                             $scope.studentListMessage = '';
                             $('#noRecord3').removeClass('noRecord');
                             //$('#noRecord9').removeClass('noRecord');
@@ -1185,18 +1178,18 @@
                                 {
                                     studentIds[i] = $(this).attr("studentIdMessage");  
                                     $("#studentListInMessage"+studentIds[i]).addClass('active');
-                                    var attr = $("#studentListInMessage"+studentIds[i]).attr('checked');
+                                    var attr = $("#studentMessage"+studentIds[i]).attr('checked');
                                     // For some browsers, `attr` is undefined; for others,
                                     // `attr` is false.  Check for both.
                                     if (typeof attr == typeof undefined || attr == false) {
                                       
-                                         $("#studentListInMessage"+studentIds[i]).attr("checked", "true");
-                                         $("#studentListInMessage"+studentIds[i]).prop("checked",true);
+                                         $("#studentMessage"+studentIds[i]).attr("checked", "true");
+                                         $("#studentMessage"+studentIds[i]).prop("checked",true);
                                     }
                                     i++;
                                 }
                             });
-                            $(".studentListInMessageCheckbox").attr("checked", "true");
+                            //$(".studentListInMessageCheckbox").attr("checked", "true");
                             //$(".user_box").addClass("active");
                             //$scope.studentIdsForMessage = studentIds.toString();
                             document.getElementById('studentIdsForMessage').value=studentIds.toString();
@@ -1464,9 +1457,11 @@
                                 console.log('GRAPH RESPONSE');
                                 console.log(response);
                     
-                                    var TargetGradeDateTimeXaxisPlot = [];
-                                    var openTooltips = [];
-                                    //////////  PERFORMANCE GRAPH BEGIN /////////////////   
+                                var TargetGradeDateTimeXaxisPlot = [];
+                                var openTooltips = [];
+                                $('#graph_container').css({'display':'block'});
+                                //////////  PERFORMANCE GRAPH BEGIN /////////////////
+                                $(document).ready(function() {
                                     $('#graph_container').highcharts({
                                         exporting: { enabled: false },
                                         chart: {
@@ -1630,11 +1625,7 @@
                                                         GradeResultsDate[j]  = convertDate(response.GradeResults[j].Date);
                                                         GradeResultsSplit[j] = GradeResultsDate[j].split('-');
                                                         GradeResultsYear[j]  = parseInt(GradeResultsSplit[j][0]);
-                                                        //if (GradeResultsYear[j]==currentAcademicYear1) {
-                                                        //    GradeResultsMnth[j]  = parseInt(GradeResultsSplit[j][1])-1;
-                                                        //}else{
-                                                            GradeResultsMnth[j]  = parseInt(GradeResultsSplit[j][1])-1;
-                                                       // }
+                                                        GradeResultsMnth[j]  = parseInt(GradeResultsSplit[j][1])-1;
                                                         GradeResultsDay[j]   = parseInt(GradeResultsSplit[j][2]);
                                                         GradeResultsGrade[j] = response.GradeResults[j].Grade;
                                                         GradeResultsName[j]  = response.GradeResults[j].Name;
@@ -1657,189 +1648,14 @@
                                             }
                                         ]
                                     });
-                                    
-            //--------------------------------------------------------------------------------------------//                        
-                                    //var openTooltips= [];
-                                    //////////  PERFORMANCE GRAPH BEGIN /////////////////                                 
-                                    //$('#graph_container').highcharts({
-                                    //    
-                                    //    exporting: { enabled: false },
-                                    //    chart: {
-                                    //        type: 'line'
-                                    //    },
-                                    //    title: {
-                                    //        text: '<h2><b>Performance Graph</b></h2>'
-                                    //    },
-                                    //    xAxis: {
-                                    //        type: 'datetime',
-                                    //        //dateTimeLabelFormats: { 
-                                    //        //    month: '%b %Y',
-                                    //        //},
-                                    //        //categories: (function () {                                     
-                                    //        //                for (var m=0; m<response.TargetGrades.length; m++)
-                                    //        //                {
-                                    //        //                    TargetGradeDate[m]          = convertDate(response.TargetGrades[m].Date);
-                                    //        //                    TargetGradeDateSplit[m]     = TargetGradeDate[m].split('-');
-                                    //        //                    TargetGradeDatePlotYear[m]  = parseInt(TargetGradeDateSplit[m][0]);
-                                    //        //                    TargetGradeDatePlotMnth[m]  = parseInt(TargetGradeDateSplit[m][1]);
-                                    //        //                    TargetGradeDatePlotDay[m]   = parseInt(TargetGradeDateSplit[m][2]);
-                                    //        //                    
-                                    //        //                    TargetGradeDateTimeXaxisPlot[m] = monthArr[TargetGradeDatePlotMnth[m]-1]+' '+TargetGradeDatePlotYear[m] ;
-                                    //        //                }
-                                    //        //                return TargetGradeDateTimeXaxisPlot;
-                                    //        //            }()),
-                                    //       
-                                    //        categories: ['Sep '+currentAcademicYear1, 'Oct '+currentAcademicYear1,
-                                    //                     'Nov '+currentAcademicYear1, 'Dec '+currentAcademicYear1,
-                                    //                     'Jan '+currentAcademicYear2, 'Feb '+currentAcademicYear2,
-                                    //                     'Mar '+currentAcademicYear2, 'Apr '+currentAcademicYear2,
-                                    //                     'May '+currentAcademicYear2, 'Jun '+currentAcademicYear2,
-                                    //                     'Jul '+currentAcademicYear2, 'Aug '+currentAcademicYear2],
-                                    //
-                                    //        labels: {
-                                    //            style: {
-                                    //                    fontWeight:'bold'
-                                    //                }
-                                    //        },
-                                    //        title: {
-                                    //            text: 'Month'
-                                    //        },
-                                    //        gridLineWidth: 1,   
-                                    //    },
-                                    //    yAxis: {
-                                    //        min: 0,
-                                    //        tickInterval: 1,
-                                    //        labels: {
-                                    //                formatter: function() {
-                                    //                    if (GradeSetCode[this.value] != undefined ) {
-                                    //                         return '<b>'+GradeSetCode[this.value]+'</b>';
-                                    //                    }
-                                    //                }
-                                    //        },
-                                    //        //categories: GradeSetCode,
-                                    //        title: {
-                                    //           text: 'Grade'
-                                    //        },
-                                    //        //linkedTo: 0,
-                                    //        //from: GradeSetCode[0]
-                                    //    },
-                                    //    plotOptions: {
-                                    //            spline: {
-                                    //                marker: {
-                                    //                    enabled: true,
-                                    //                    radius: 3,
-                                    //                },
-                                    //            },
-                                    //            scatter: {
-                                    //              lineWidth: 2,
-                                    //            }
-                                    //    },
-                                    //    tooltip: {
-                                    //        shared: true,
-                                    //        useHTML: true,
-                                    //        formatter: function() {
-                                    //            var tooltiptxt='';
-                                    //            if(this.series.name == 'Grade') {
-                                    //                //tooltiptxt = '<b>'+GradeResultsName[this.y] +'</b><br> Grade '+GradeSetCode[this.y]+', '+Highcharts.dateFormat('%e %b %Y',new Date(this.x));
-                                    //                
-                                    //                tooltiptxt = '<b>'+GradeResultsName[this.y] +'</b><br> Grade '+GradeSetCode[this.y]+', '+Highcharts.dateFormat('%e %b %Y',new Date(this.x));
-                                    //             
-                                    //                return tooltiptxt;
-                                    //            }else{
-                                    //                tooltiptxt = '<b>'+GradeResultsName[this.y] +'</b><br> Grade '+GradeSetCode[this.y]+', '+Highcharts.dateFormat('%e %b %Y',new Date(this.x));
-                                    //                return tooltiptxt;
-                                    //                //return false;
-                                    //            }
-                                    //        },
-                                    //        shared: false,
-                                    //        backgroundColor: $scope.plotcolor,
-                                    //        style: {
-                                    //            color: 'white'
-                                    //        },
-                                    //    },
-                                    //    legend: {
-                                    //        enabled: false
-                                    //    },
-                                    //   
-                                    //    series: [   
-                                    //        {
-                                    //            name: 'Target',
-                                    //            color: '#48CAE5',
-                                    //            data: (function () {
-                                    //                var data1 = [];
-                                    //                var monthArr = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-                                    //                for (var m=0; m<response.TargetGrades.length; m++)
-                                    //                {
-                                    //                    TargetGradeDate[m]          = convertDate(response.TargetGrades[m].Date);     
-                                    //                    TargetGradeDateSplit[m]     = TargetGradeDate[m].split('-');
-                                    //                    TargetGradeDatePlotYear[m]  = parseInt(TargetGradeDateSplit[m][0]);
-                                    //                    TargetGradeDatePlotMnth[m]  = parseInt(TargetGradeDateSplit[m][1]);
-                                    //                    TargetGradeDatePlotDay[m]   = parseInt(TargetGradeDateSplit[m][2]);
-                                    //                    TargetGradeGradePlot[m]     = response.TargetGrades[m].Grade;
-                                    //     
-                                    //                    data1.push({
-                                    //                        x:monthArr[TargetGradeDatePlotMnth[m]-1]+' '+TargetGradeDatePlotYear[m] ,
-                                    //                        //x:TargetGradeDatePlotMnth[m]+' '+TargetGradeDatePlotYear[m] ,
-                                    //                        y:GradeSetCode.indexOf(TargetGradeGradePlot[m]),           
-                                    //                    });
-                                    //                }
-                                    //                return data1;
-                                    //            }()),
-                                    //            marker: {
-                                    //                enabled: false,
-                                    //                states: {
-                                    //                        hover: {
-                                    //                            enabled: false
-                                    //                        }
-                                    //                    }
-                                    //            },
-                                    //        },
-                                    //        {
-                                    //            name: 'Grade',
-                                    //            color:$scope.plotcolor,
-                                    //            type: "scatter",
-                                    //            data:(function () {
-                                    //                var data = [];
-                                    //                var monthArr = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-                                    //                for (var j=0; j<response.GradeResults.length; j++)
-                                    //                {
-                                    //                    
-                                    //                    GradeResultsDate[j]  = convertDate(response.GradeResults[j].Date);
-                                    //                    GradeResultsSplit[j] = GradeResultsDate[j].split('-');
-                                    //                    GradeResultsYear[j]  = parseInt(GradeResultsSplit[j][0]);
-                                    //                    GradeResultsMnth[j]  = parseInt(GradeResultsSplit[j][1]);
-                                    //                    GradeResultsDay[j]   = parseInt(GradeResultsSplit[j][2]);
-                                    //                    GradeResultsGrade[j] = response.GradeResults[j].Grade;
-                                    //                    GradeResultsName[j]  = response.GradeResults[j].Name;
-                                    //            
-                                    //                    data.push({
-                                    //                       // x:Date.UTC(GradeResultsYear[j],GradeResultsMnth[j],GradeResultsDay[j]),
-                                    //                        x:(GradeResultsDay[j]+','+monthArr[GradeResultsMnth[j]-1]),
-                                    //                        y:GradeSetCode.indexOf(GradeResultsGrade[j]),
-                                    //                    });
-                                    //                }
-                                    //                return data;
-                                    //            }()),
-                                    //            marker: {
-                                    //                    enabled: true,
-                                    //                    radius : 5,
-                                    //                    symbol: 'circle'
-                                    //            },
-                                    //            tooltip: {
-                                    //                pointFormat: '',
-                                    //                //enabled: false                                               
-                                    //            },  
-                                    //        }
-                                    //    ]
-                                    //});           
-                               
+                                });  
                                 ////////  PERFORMANCE GRAPH ENDS /////////////////
                                 $scope.studentPerformanceNoData = "";
                                 $('.showStudentDiv').show();
                                 $('#noRecord12').removeClass('noRecord');
                                 
                                 }else{
-                                    
+                                     $('#graph_container').css({'display':'block'});
                                     $scope.studentPerformance = '';
                                     $scope.studentPerformanceNoData = "No Performance Data Found…<br>Try:</br>1. Reload the webpage.<br>2. If the problem persists, please submit your query to <b>support@involvedtech.co.uk</b> using your school email address.";
                                     $('.showStudentDiv').hide();
@@ -1847,7 +1663,7 @@
                                    
                                 }     
                             }else{//ERROR : 500 in api
-                                
+                                 $('#graph_container').css({'display':'block'});
                                 $scope.studentPerformance = '';
                                 $scope.studentPerformanceNoData = "No Performance Data Found…<br>Try:</br>1. Reload the webpage.<br>2. If the problem persists, please submit your query to <b>support@involvedtech.co.uk</b> using your school email address.";
                                 $('.showStudentDiv').hide();
@@ -2154,7 +1970,7 @@
             //W14: student profile & graph subjectwise
             $scope.studentProfile = function(Id,fname,lname,year,image,IsUnlocked)
             {
-                
+                //alert(Id);
                 $scope.Image = image;
                 $scope.Name =  fname+" "+lname;                                                             
                 $scope.Year = year;
@@ -2168,6 +1984,411 @@
                 $scope.profileperlist="";
                 $scope.NameofSubject="";
                 $('#graph_container_popup').html("");
+                
+                /*LHS : STUDENT PROFILE*/      
+                homeService.studentProfileResponse(access_token,Id, function (response)
+                {
+                    //alert('id = '+Id);
+                    console.log('STUDENT PROFILE'+Id);
+                    console.log(response);
+                    var studentName = fname+" "+lname;
+                    if(response != '')
+                    {  
+                        if(response.status )
+                        {
+                            $scope.profileperlist = response;
+                            $scope.studentprofileMessage = '';
+                            var ClassId = response[0].Id;
+                            var GradeTrend = response[0].GradeTrend;
+                            var NameofSubject = response[0].SubjectName;
+                            //$scope.graphstudentPerformanceSubjectwise(ClassId,GradeTrend,NameofSubject);
+                            /*RHS : GRAPH SUBJECT WISE */
+                                $scope.graphstudentPerformanceSubjectwise = function(ClassId,GradeTrend,NameofSubject)
+                                {
+                                    //alert(GradeTrend);
+                                    if (GradeTrend == true) {
+                                        $scope.plotcolor = "#5BD9A4";
+                                    } else if (GradeTrend == false) {
+                                        $scope.plotcolor = "#FF5958";
+                                    } else if (GradeTrend == null || GradeTrend == "null") {
+                                        $scope.plotcolor = "orange";
+                                    } else {
+                                        $scope.plotcolor = "orange";
+                                    }
+                                    
+                                    $scope.NameofSubject=NameofSubject;
+                                    
+                                    // alert(ClassId);
+                                    homeService.studentPerformanceListResponse(access_token,ClassId,Id,function (response)
+                                    {                           
+                                            console.log('PERFORMANCE STUDENT SUBJECT WISE');
+                                            console.log(response);                           
+                                            if(response.status)
+                                            {      
+                                                if(response != '')
+                                                {
+                                                    
+                                                    $scope.studentPerformanceList = response;
+                                                    $('.prof').css({'background-color':''});
+                                                    $('#prof'+ClassId).css({'background-color':'rgba(157, 224, 242, 0.8)'});
+                                                    //$scope.studentPerformanceListErrMsg = "";
+                                                    //$scope.studentListMessagePopup = '';
+                                                    //$('.noRecordClass').removeClass('noRecord');
+                                                    
+                                                    GradeSetCode = new Array();
+                                                    GradeSetValue = new Array();
+                                                    GradeResultsDate = new Array();
+                                                    GradeResultsGrade = new Array();
+                                                    GradeResultsName = new Array();
+                                                    Grade_and_Date = new Array();
+                                                    GradeResultsDateTime = new Array();
+                                                    GradeResultsSplit=new Array();
+                                                    GradeResultsYear=new Array();
+                                                    GradeResultsMnth=new Array();
+                                                    GradeResultsDay=new Array();
+                                                    GradeResultsGraphDate=new Array();
+                                                    GradeResultsDateTimeYaxis=new Array();
+                                         
+                                                    TargetGradeDate=new Array();
+                                                    TargetGradeDateSplit=new Array();
+                                                    TargetGradeDatePlot=new Array();
+                                                    TargetGradeGradePlot=new Array();
+                                                    TargetGradeDatePlotYear=new Array();
+                                                    TargetGradeDatePlotMnth=new Array();
+                                                    TargetGradeDatePlotDay=new Array();
+                                                    TargetGradeResultsGrade=new Array();
+                                                    
+                                                    XaxisGradesDate=new Array();
+                                                    XaxisGradesDateSplit=new Array();
+                                                    XaxisGradesDatePlotYear=new Array();
+                                                    XaxisGradesDatePlotMnth=new Array();
+                                                    XaxisGradesDatePlotDay=new Array();
+                                                    XaxisGradesGradePlot=new Array();
+                                                    XaxisGradesResultsGrade=new Array();
+                                                    
+                                                    for(var i=0; i<response.GradeSet.length; i++)
+                                                    {
+                                                        GradeSetCode[i]  = response.GradeSet[i].Code;
+                                                        GradeSetValue[i] = response.GradeSet[i].Value;
+                                                    }
+                                                    for(var j=0; j<response.GradeResults.length; j++)
+                                                    {
+                                                        GradeResultsDate[j]  = convertDate(response.GradeResults[j].Date);
+                                                        GradeResultsSplit[j] = GradeResultsDate[j].split('-');
+                                                        GradeResultsYear[j]  = parseInt(GradeResultsSplit[j][0]);
+                                                        GradeResultsMnth[j]  = parseInt(GradeResultsSplit[j][1]);
+                                                        GradeResultsDay[j]   = parseInt(GradeResultsSplit[j][2]);
+                                                        
+                                                        GradeResultsGraphDate[j] = GradeResultsYear[j]+','+GradeResultsMnth[j]+','+GradeResultsDay[j];
+                                                        
+                                                        GradeResultsGrade[j] = response.GradeResults[j].Grade;
+                                                        GradeResultsName[j]  = response.GradeResults[j].Name;
+                              
+                                                        GradeResultsDateTime[j] = Date.UTC(GradeResultsYear[j]+","+GradeResultsMnth[j]+","+GradeResultsDay[j]);
+                                                    }
+                                                    for(var k=0; k<response.TargetGrades.length; k++)
+                                                    {
+                                                        TargetGradeDate[k] = convertDate(response.TargetGrades[k].Date);     
+                                                        TargetGradeDateSplit[k] = TargetGradeDate[k].split('-');
+                                                        TargetGradeDatePlotYear[k]  = parseInt(TargetGradeDateSplit[k][0]);
+                                                        TargetGradeDatePlotMnth[k]  = parseInt(TargetGradeDateSplit[k][1]);
+                                                        TargetGradeDatePlotDay[k]   = parseInt(TargetGradeDateSplit[k][2]);
+                                                        TargetGradeDatePlot[k]  = Date.UTC(TargetGradeDatePlotYear[k],TargetGradeDatePlotMnth[k],TargetGradeDatePlotDay[k]);
+                                                        TargetGradeGradePlot[k] = response.TargetGrades[k].Grade;       
+                                                    }
+                                                   
+                                                    //console.log("GRAPH RESULT");
+                                                    //console.log(response);
+                                                    //console.log(GradeResultsName);
+                                                    //console.log(GradeResultsDateTime);
+                                                    
+                                                    
+                                                    /*calculation of academic year*/    
+                                                    var todayTime = new Date();
+                                                    var monthAcademic = (todayTime .getMonth() + 1);
+                                                    var dayAcademic = (todayTime .getDate());
+                                                    var yearAcademic = (todayTime .getFullYear());
+                                                    var nextYearAcademic = (todayTime .getFullYear() + 1);
+                                                    var academicYearStartDate = yearAcademic+'-'+'09'+'-'+'01';
+                                                    var academicYearEndDate = nextYearAcademic+'-'+'08'+'-'+'31';
+                                                    
+                                                    var current_date = yearAcademic+'-'+monthAcademic+'-'+dayAcademic;
+                                                    
+                                                    if ( (current_date >= academicYearStartDate) ) {
+                                                            var currentAcademicYear1 = yearAcademic;
+                                                            var currentAcademicYear2 = yearAcademic + 1;
+                                                    }else{
+                                                            var currentAcademicYear1 = yearAcademic - 1;
+                                                            var currentAcademicYear2 = yearAcademic;
+                                                    }
+                                                
+                                     
+                                                    
+                                                    ////////  PERFORMANCE GRAPH BEGIN /////////////////
+                                                $(document).ready(function() {
+                                                    $('#graph_container_popup').highcharts({
+                                                        exporting: { enabled: false },
+                                                        chart: {
+                                                            type: 'line'
+                                                        },
+                                                        title: {
+                                                           // text: '<h2><b>Performance Graph</b></h2>'
+                                                           text:''
+                                                        },
+                                                        xAxis: {
+                                                            type: 'datetime',
+                                                            title: {
+                                                                text: 'Month'
+                                                            },
+                                                            //dateTimeLabelFormats: { 
+                                                            //    month: '%b %Y',
+                                                            //    
+                                                            //},
+                                                            //categories: (function () {                                     
+                                                            //                for (var r=0; r<TargetGradeDateTime.length; r++)
+                                                            //                {
+                                                            //                    GradeResultsDateTimeYaxis[r] = TargetGradeDateTime[r];
+                                                            //                    return GradeResultsDateTimeYaxis[r];
+                                                            //                }
+                                                            //            }()),
+                                                            labels: {
+                                                                format: '{value:%b %Y}',
+                                                                style: {
+                                                                        fontWeight:'bold'
+                                                                    }
+                                                            },
+                                                            gridLineWidth: 1,   
+                                                        },
+                                                        yAxis: {
+                                                            min: 0,
+                                                            //tickInterval: 1,
+                                                            labels: {
+                                                                    formatter: function() {
+                                                                        if (GradeSetCode[this.value] != undefined ) {
+                                                                            return '<b>'+GradeSetCode[this.value]+'</b>';
+                                                                        }
+                                                                    }
+                                                            },
+                                                            //categories: GradeSetCode,
+                                                            title: {
+                                                               text: 'Grade'
+                                                            },
+                                                        },
+                                                        plotOptions: {
+                                                                //spline: {
+                                                                //    marker: {
+                                                                //        enabled: true,
+                                                                //        radius: 3,
+                                                                //    },
+                                                                //},
+                                                                scatter: {
+                                                                  lineWidth: 2,
+                                                                },
+                                                                series: {
+                                                                    pointStart: Date.UTC(currentAcademicYear1, 7, 1),
+                                                                    pointInterval: 15*24 * 3600 * 1000// one day
+                                                                }
+                                                        },
+                                                        tooltip: {
+                                                            shared: false,
+                                                            formatter: function() {
+                                                                var tooltiptxt='';
+                                                                if(this.series.name == 'Grade') {
+                                                                     tooltiptxt = '<b>'+GradeResultsName[this.y] +'</b><br> Grade '+GradeSetCode[this.y]+', '+Highcharts.dateFormat('%e %b %Y',new Date(this.x));
+                                                                     return tooltiptxt;
+                                                                }else{
+                                                                     return false ;
+                                                                }   
+                                                            },
+                                                            shared: false,
+                                                            backgroundColor: $scope.plotcolor,
+                                                            style: {
+                                                                        color: 'white'
+                                                            },
+                                                        },
+                                                        legend: {
+                                                            enabled: true
+                                                        },
+                                                        plotOptions: {
+                                                                spline: {
+                                                                    marker: {
+                                                                        enabled: true,
+                                                                        radius: 3,
+                                                                    },
+                                                                },
+                                                                scatter: {
+                                                                  lineWidth: 2,
+                                                                }
+                                                        },
+                                                        series: [
+                                                            {
+                                                                showInLegend: false,
+                                                                name: 'XaxisGrades',
+                                                                color: '#FFF',
+                                                                data: (function () {
+                                                                    var data2 = [];
+                                                                    for (var m=0; m<response.XaxisGrades.length; m++)
+                                                                    {
+                                                                        XaxisGradesDate[m]          = convertDate(response.XaxisGrades[m].Date);     
+                                                                        XaxisGradesDateSplit[m]     = XaxisGradesDate[m].split('-');
+                                                                        XaxisGradesDatePlotYear[m]  = parseInt(XaxisGradesDateSplit[m][0]);
+                                                                        XaxisGradesDatePlotMnth[m]  = parseInt(XaxisGradesDateSplit[m][1]);
+                                                                        XaxisGradesDatePlotDay[m]   = parseInt(XaxisGradesDateSplit[m][2]);
+                                                                        XaxisGradesGradePlot[m]     = response.XaxisGrades[m].Grade;
+                                                                        XaxisGradesResultsGrade[m]  = response.XaxisGrades[m].Grade;
+                                                                        data2.push({
+                                                                            x:Date.UTC(XaxisGradesDatePlotYear[m],(XaxisGradesDatePlotMnth[m]-1),XaxisGradesDatePlotDay[m]),
+                                                                            y:GradeSetCode.indexOf(XaxisGradesGradePlot[m]),
+                                                                        });
+                                                                    }
+                                                                    return data2;
+                                                                }()),
+                                                                marker: {
+                                                                    enabled: false,
+                                                                    states: {
+                                                                            hover: {
+                                                                                enabled: false
+                                                                            }
+                                                                        }
+                                                                },  
+                                                            },
+                                                            {
+                                                                showInLegend: true,
+                                                                name: 'Target',
+                                                                color:'#48CAE5',
+                                                                data:(function () {
+                                                                    var data = [];
+                                                                    //var monthArr = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"];
+                                                                    for (var m=0; m<response.TargetGrades.length; m++)
+                                                                    {
+                                                                        TargetGradeDate[m]          = convertDate(response.TargetGrades[m].Date);     
+                                                                        TargetGradeDateSplit[m]     = TargetGradeDate[m].split('-');
+                                                                        TargetGradeDatePlotYear[m]  = parseInt(TargetGradeDateSplit[m][0]);
+                                                                        TargetGradeDatePlotMnth[m]  = parseInt(TargetGradeDateSplit[m][1]);
+                                                                        TargetGradeDatePlotDay[m]   = parseInt(TargetGradeDateSplit[m][2]);
+                                                                        TargetGradeGradePlot[m]     = response.TargetGrades[m].Grade;
+                                                                        //TargetGradeResultsGrade[m]  = response.TargetGrades[m].Grade;
+                                                                        data.push({
+                                                                            x:Date.UTC(TargetGradeDatePlotYear[m],(TargetGradeDatePlotMnth[m]-1),TargetGradeDatePlotDay[m]),
+                                                                            y:GradeSetCode.indexOf(TargetGradeGradePlot[m]),           
+                                                                        });
+                                                                    }
+                                                                    return data;
+                                                                }()),
+                                                                marker: {
+                                                                        enabled: false,
+                                                                        states: {
+                                                                                    hover: {
+                                                                                        enabled: false
+                                                                                    }
+                                                                                }
+                                                                },
+                                                            },
+                                                            {
+                                                                showInLegend: true,
+                                                                name: 'Grade',
+                                                                color:$scope.plotcolor,
+                                                                type: "scatter",
+                                                                data:(function () {
+                                                                    var data = [];
+                                                                    //var monthArr = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"];
+                                                                    for (var j=0; j<response.GradeResults.length; j++)
+                                                                    {
+                                                                        GradeResultsDate[j]  = convertDate(response.GradeResults[j].Date);
+                                                                        GradeResultsSplit[j] = GradeResultsDate[j].split('-');
+                                                                        GradeResultsYear[j]  = parseInt(GradeResultsSplit[j][0]);
+                                                                        GradeResultsMnth[j]  = parseInt(GradeResultsSplit[j][1])-1;
+                                                                        GradeResultsDay[j]   = parseInt(GradeResultsSplit[j][2]);
+                                                                        GradeResultsGrade[j] = response.GradeResults[j].Grade;
+                                                                        GradeResultsName[j]  = response.GradeResults[j].Name;
+                                                                        data.push({
+                                                                            x:Date.UTC(GradeResultsYear[j],GradeResultsMnth[j],GradeResultsDay[j]),
+                                                                            y:GradeSetCode.indexOf(GradeResultsGrade[j]),
+                                                                        });
+                                                                        
+                                                                       
+                                                                    }
+                                                                    return data;
+                                                                }()),
+                                                                marker: {
+                                                                        enabled: true,
+                                                                        radius : 5,
+                                                                        symbol: 'circle'
+                                                                },
+                                                                tooltip: {
+                                                                    pointFormat: ''
+                                                                }
+                                                            }
+                                                        ]
+                                                    });
+                                                });
+                                                    
+                                                    $scope.studentPerformanceList1 = "";
+                                                    $scope.studentPerformanceList2 = "";
+                                                    $scope.studentPerformanceList3 = "";
+                                                    $scope.studentPerformanceList4 = "";
+                                                    
+                                                    $scope.studentPerformanceData1 = "";
+                                                    $scope.studentPerformanceData2 = "";
+                                                    $scope.studentPerformanceData3 = "";
+                                                    $scope.studentPerformanceData4 = "";
+                                                   
+                                                    $('.showStudentDiv').show();
+                                                    $('#noRecord10').removeClass('noRecord');
+                                                    $('#noRecord11').removeClass('noRecord');
+                                                ////////  PERFORMANCE GRAPH ENDS ///////////////// 
+                                                
+                                                }else{
+                                                    $scope.studentPerformanceList1 = "No Classes Found… ";
+                                                    $scope.studentPerformanceList2 ="Try: ";
+                                                    $scope.studentPerformanceList3 ="1. Reload the webpage.";
+                                                    $scope.studentPerformanceList4 ="2. If the problem persists, please submit your query to <b>support@involvedtech.co.uk</b> using your school email address.";
+                                        
+                                                    //$scope.studentPerformanceList = "No Classes Found…<br>Try:<br>1. Reload the webpage.<br>2. If the problem persists, please submit your query to <b>support@involvedtech.co.uk</b> using your school email address.";
+                                                    
+                                                    $scope.studentPerformanceData1 = "No Performance Data Found… ";
+                                                    $scope.studentPerformanceData2 ="Try: ";
+                                                    $scope.studentPerformanceData3 ="1. Reload the webpage.";
+                                                    $scope.studentPerformanceData4 ="2. If the problem persists, please submit your query to <b>support@involvedtech.co.uk</b> using your school email address.";
+                                                    
+                                                    //$scope.studentPerformanceData = "No Performance Data Found…<br>Try:<br>1. Reload the webpage.<br>2. If the problem persists, please submit your query to <b>support@involvedtech.co.uk</b> using your school email address.";
+                                                    $('.showStudentDiv').hide();
+                                                    $('#noRecord10').addClass('noRecord');
+                                                    $('#noRecord11').addClass('noRecord');
+                                                }     
+                                            }else{//ERROR : 500 in api
+                                               
+                                                $scope.studentPerformanceList1 = "No Classes Found… ";
+                                                $scope.studentPerformanceList2 ="Try: ";
+                                                $scope.studentPerformanceList3 ="1. Reload the webpage.";
+                                                $scope.studentPerformanceList4 ="2. If the problem persists, please submit your query to <b>support@involvedtech.co.uk</b> using your school email address.";
+                                    
+                                                //$scope.studentPerformanceList = "No Classes Found…<br>Try:<br>1. Reload the webpage.<br>2. If the problem persists, please submit your query to <b>support@involvedtech.co.uk</b> using your school email address.";
+                                                
+                                                $scope.studentPerformanceData1 = "No Performance Data Found… ";
+                                                $scope.studentPerformanceData2 ="Try: ";
+                                                $scope.studentPerformanceData3 ="1. Reload the webpage.";
+                                                $scope.studentPerformanceData4 ="2. If the problem persists, please submit your query to <b>support@involvedtech.co.uk</b> using your school email address.";
+                                                
+                                                //$scope.studentPerformanceData = "No Performance Data Found…<br>Try:<br>1. Reload the webpage.<br>2. If the problem persists, please submit your query to <b>support@involvedtech.co.uk</b> using your school email address.";
+                                                $('.showStudentDiv').hide();
+                                                $('#noRecord10').addClass('noRecord');
+                                                $('#noRecord11').addClass('noRecord');
+                                            } 
+                                        });
+                                };
+                                $scope.graphstudentPerformanceSubjectwise(ClassId,GradeTrend,NameofSubject);
+                          
+                        }else{  
+                            $scope.profileperlist = '';
+                            $scope.studentprofileMessage = 'No classes found for '+studentName;
+                        }     
+                    }else{//ERROR : 500 in api
+                       $scope.profileperlist = '';
+                       $scope.studentprofileMessage = 'No classes found for '+studentName;
+                    }
+                });
+             
                 
                 /*RHS : GRAPH SUBJECT WISE */
                 $scope.graphstudentPerformanceSubjectwise = function(ClassId,GradeTrend,nameofsubject)
@@ -2291,7 +2512,8 @@
                                 
                      
                                     
-                                    ////////  PERFORMANCE GRAPH BEGIN /////////////////                                 
+                                    ////////  PERFORMANCE GRAPH BEGIN /////////////////
+                                $(document).ready(function() {
                                     $('#graph_container_popup').highcharts({
                                         exporting: { enabled: false },
                                         chart: {
@@ -2487,6 +2709,7 @@
                                             }
                                         ]
                                     });
+                                });
                                     
                                     $scope.studentPerformanceList1 = "";
                                     $scope.studentPerformanceList2 = "";
@@ -2542,37 +2765,9 @@
                             } 
                         });
                 };
-                
-
-                /*LHS : STUDENT PROFILE*/
-                homeService.studentProfileResponse(access_token,Id, function (response)
-                {
-                    console.log('STUDENT PROFILE'+Id);
-                    console.log(response);
-                    var studentName = fname+" "+lname;
-                    if(response.status)
-                    {  
-                        if(response != '')
-                        {
-                            $scope.profileperlist = response;
-                            $scope.studentprofileMessage = '';
-                            
-                            var ClassId = response[0].Id;
-                            var GradeTrend = response[0].GradeTrend;
-                            var NameofSubject = response[0].SubjectName;
-                            $scope.graphstudentPerformanceSubjectwise(ClassId,GradeTrend,NameofSubject);
-                          
-                        }else{  
-                            $scope.profileperlist = '';
-                            $scope.studentprofileMessage = 'No classes found for '+studentName;
-                        }     
-                    }else{//ERROR : 500 in api
-                       $scope.profileperlist = '';
-                       $scope.studentprofileMessage = 'No classes found for '+studentName;
-                    }
-                });
-    
             }
+            
+            
             $scope.changeStyle=function()
             {
                
@@ -2742,10 +2937,10 @@
     };
     $scope.myTask = function (check_date)
     {
-        ///LOADER HIDE
+        /////LOADER SHOW
         $(window).scrollTop(0);
-        $("#status_right_content").fadeOut();
-        $("#preloader_right_content").delay(200).fadeOut("fast");
+        $("#status_right_content4").css("display", "block");
+        $("#preloader_right_content4").css("display", "block");
         
         setOnlyCookie("tab", "myTask", 60 * 60 * 60);
         var displayStartDate = getOnlyCookie("weekStartDate");
@@ -2756,6 +2951,32 @@
         var curdateISOstrdate = curdateIST.split('T');
         var curdateFinal = curdateISOstrdate[0]+'T00:00:00';
         $scope.finalCur = curdateFinal;
+        
+        /*reset fields after setting task redirects to my task*/
+         /*Reset all prefilled fields in MY CLASSES section*/
+            /*create task section*/
+            //alert('create task sec');
+            $("#taskCreateReset").click();
+            $("#tasktype1").val('Task Type');
+            $("#tasktype1").change();
+            $("#day1").change();
+            $("#mnth1").change();
+            $("#year1").change();
+
+            $scope.tasktypeErr = "";
+            $("#title1").attr("placeholder","Title").removeClass('red_place');
+            $("#description1").attr("placeholder","Description").removeClass('red_place');  
+            $scope.dateErr = "";
+            $scope.countSelectStudentsTask = 0;
+            $("#studentIdsForCreateTask").val('');
+            $scope.countSelectStudentsMessage = 0;
+            $("#studentIdsForMessage").val('');
+            /*clear the attachment div*/
+            $('#adddiv').html('');
+            /*reset file upload fields*/
+            $('#fileNum').val(0);
+            $('#file_size1').val(0);
+            /**************************/
            
            //alert(displayStartDate  +'###'+  displayEndDate);
            
@@ -2787,6 +3008,11 @@
                 
                             homeService.myTaskCalenderResponse(access_token,startdate,enddate,function (response)
                             {
+                                ///LOADER HIDE
+                                $(window).scrollTop(0);
+                                $("#status_right_content4").fadeOut();
+                                $("#preloader_right_content4").delay(200).fadeOut("fast");
+                                
                                 console.log('CAL DATA');
                                 console.log(response);
                                 $scope.myTaskListCalendar = response;
@@ -2898,6 +3124,11 @@
                             
                             homeService.myTaskCalenderResponse(access_token,startdate,enddate,function (response)
                             {
+                                ///LOADER HIDE
+                                $(window).scrollTop(0);
+                                $("#status_right_content4").fadeOut();
+                                $("#preloader_right_content4").delay(200).fadeOut("fast");
+                                
                                 console.log('CAL DATA');
                                 console.log(response);
                                 $scope.myTaskListCalendar = response;
@@ -3008,6 +3239,11 @@
                          
                         homeService.myTaskCalenderResponse(access_token,startdate,enddate,function (response)
                         {
+                            ///LOADER HIDE
+                            $(window).scrollTop(0);
+                            $("#status_right_content4").fadeOut();
+                            $("#preloader_right_content4").delay(200).fadeOut("fast");
+                            
                             $scope.myTaskListCalendar = response;
                             var response_length = response.length;
                             var firstWeekRangeStartDate = response[0]['StartDate'];
@@ -4607,6 +4843,7 @@
                         document.getElementById('fileUploadErrMsg').innerHTML = "A maximum of 4 attachments is permitted";
                         $("#fileErr").click();
                     }
+                    
                     if (fileNum == 1){
                         $('#attach_pic3').css("display", "none");
                         $('#add_more3').css("display", "block");
@@ -4749,11 +4986,12 @@
                     
                     if(error == 0)
                     {
+                        document.getElementById("editPopupClose").disabled = true;
                         ///LOADER SHOW
                         $(window).scrollTop(0);
                         $("#status_right_content2").css("display", "block");
                         $("#preloader_right_content2").css("display", "block");
-                        document.getElementById("editPopupClose").disabled = true;
+                        
                         //return false;
                         
                         var attachmentId=new Array();
@@ -4971,6 +5209,7 @@
                     $scope.tasktitleErr3 = "";
                     $scope.taskdescErr3 = "";
                     $scope.dateErr3 = "";
+                    $('#adddiv3').html('');
                     $('.post_row').css("background-color", "");
                     $('#editPopupClose').click();
                     $('.modal-backdrop').hide(); // for black background

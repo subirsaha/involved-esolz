@@ -2,6 +2,9 @@
 <div id="preloader">
 	<div id="status"></div>
 </div>
+<div id="preloader_right_content1" style="display:none">
+	<div id="status_right_content1"></div>
+</div>
 	
 	
 <div class="outter_wrap">
@@ -15,18 +18,20 @@
                 <button id="srch"><i class="fa fa-search" aria-hidden="true" ></i></button>
 				<!--<div id="search_cross" class="search-cross"><img src="images/search-cross.png" alt="search-cross" /></div>-->
                 <div class="search_reasult">
-					<div class="user_box clearfix" id="errordiv" style="text-align: center;padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;">
-					</div>
-                	<div class="user_box clearfix stdprof move" ng-repeat="res in searchResList">
-						<a data-target="#student_pop" data-toggle="modal" href="javascript:void(0);" class="active" ng-click="studentProfile(res.Id,res.Firstname,res.Lastname,res.YearGroup,res.Image,res.IsUnlocked)" >
-							<div ng-class="res.IsUnlocked == true ? 'outr_border' :''" class="user_pic"><img data-ng-src="data:image/png;base64,{{res.Image}}" alt="performance-pic"></div>
-							<div class="user_details">
-								<h3>{{res.Firstname}} {{res.Lastname}}</h3>
-								<span>{{res.YearGroup}}</span>
-							</div>
-						</a>
-					</div>
-					<div class="user_box clearfix" id="closediv" style="text-align: center;cursor: pointer;color: white;background-color: gray; padding-top:5px;padding-right: 5px;padding-bottom: 5px;padding-left: 5px;"><b>Clear search</b></div>
+			<div class="user_box clearfix" id="errordiv" style="text-align: center;padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;">
+			</div>
+			<div class="srch_data">
+				<div class="user_box clearfix stdprof move" ng-repeat="res in searchResList">
+					<a data-target="#student_pop" data-toggle="modal" href="javascript:void(0);" class="active" ng-click="studentProfile(res.Id,res.Firstname,res.Lastname,res.YearGroup,res.Image,res.IsUnlocked)" >
+						<div ng-class="res.IsUnlocked == true ? 'outr_border' :''" class="user_pic"><img data-ng-src="data:image/png;base64,{{res.Image}}" alt="performance-pic"></div>
+						<div class="user_details">
+							<h3>{{res.Firstname}} {{res.Lastname}}</h3>
+							<span>{{res.YearGroup}}</span>
+						</div>
+					</a>
+				</div>
+			</div>
+			<div class="user_box clearfix" id="closediv" style="text-align: center;cursor: pointer;color: white;background-color: gray; padding-top:5px;padding-right: 5px;padding-bottom: 5px;padding-left: 5px;"><b>Clear search</b></div>
                 </div>
 		
             </div>
@@ -77,9 +82,10 @@
 				<div id="preloader_right_content">
 					<div id="status_right_content"></div>
 				</div>
-				<div id="preloader_right_content1" style="display:none">
-					<div id="status_right_content1"></div>
+				<div id="preloader_right_content4">
+					<div id="status_right_content4"></div>
 				</div>
+				
 				<!--MY CLASSES SECTION start-->
                 <div id="sectionA" class="tab-pane fade in active tabcustomheight">
                     <div class="sky_head clearfix">
@@ -112,7 +118,7 @@
                                             <img src="images/pic2.png" alt="">Create Task 
                                         </a>
                                         <a data-toggle="tab" data-target="#sectionE" ng-click="clickTab('message');sendMessage(x.Id,x.Name,x.SubjectName);" href='javascript:void(0);'>
-                                            <img src="images/pic3.png" alt="">Send Message
+                                            <img src="images/pic3.png" alt="">Message Parent
                                         </a>
                                     </div>
                                 </div>
@@ -464,7 +470,7 @@
                                         <div class="user_pic active"><img alt="" src="images/prof_pic1.png" class="mCS_img_loaded"></div>
                                         <div class="user_details">
                                             <h3>Jhon Smith</h3>
-                                            <span>Mr. Smith &amp; Mrs. Smith</span>
+                                            <span>7MA - SC (Maths)</span>
                                         </div>
                                     </label> 
                                 </div>
@@ -484,8 +490,8 @@
                                 </ul>
                             </div>
                             <div class="other-teacher">
-                                <a href="">Other Teachers: Miss Bunnet</a>
-                                <a href="">Guardian: Mr. Smith & Mrs. Smith</a>
+                                <!--<a href="">Other Teachers: Miss Bunnet</a>-->
+                                <a href="">Parent: Mr. Smith & Mrs. Smith</a>
                             </div>
                             <div class="chat-box content">
                                 <h3>Miss Bunnet</h3>
@@ -523,12 +529,12 @@
                             <div class="text-box">
                                 <div class="text-box-l">
                                    <textarea name="" class="content" placeholder="Type a message here ..."  cols="" rows=""></textarea>
-                                    <div class="input-attach">
+                                    <!--<div class="input-attach">
                                         <div class="fileUpload clearfix">
                                             <span><img src="images/attach_pic.png" alt="" class="mCS_img_loaded"></span>
                                             <input type="file" class="upload">
                                          </div>
-                                    </div>
+                                    </div>-->
                                 </div>
                                <div class="text-box-r">
                                     <a href="javascript:void(0)"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
@@ -720,7 +726,7 @@
 													<span><img src="images/msg_hvr.png" alt=""></span>
 													<img src="images/msg.png" alt="">
 												</i>
-												Send Message
+												Message Parent
 											</a>
 										</li>
 									</ul>
@@ -963,11 +969,11 @@
 							<div class="user_box clearfix" ng-repeat="x in studentListmsg" id="studentListInMessage{{x.Id}}" >
 								<input class="checkbox1 studentListInMessageCheckbox" type="checkbox"
 										ng-if="x.IsUnlocked == true"
-									   name="studentListInMessageCheckbox[]"
-									   studentIdMessage="{{x.Id}}"
-									   id="studentMessage{{x.Id}}"
-									   ng-checked="isChecked(x.Id)!=-1"
-									   ng-click="eachMessageClick(x.Id);">
+										name="studentListInMessageCheckbox[]"
+										studentIdMessage="{{x.Id}}"
+										id="studentMessage{{x.Id}}"
+										ng-checked="isChecked(x.Id)!=-1"
+										ng-click="eachMessageClick(x.Id);">
 								<label for="studentMessage{{x.Id}}">
 									<div ng-class="x.IsUnlocked == true ? 'outr_border' :''" class="user_pic"><img alt="" data-ng-src="data:image/png;base64,{{x.Image}}"></div>
 									<div class="user_details">
@@ -985,7 +991,7 @@
 				<!--<div id="noRecord9" class="noRecordClass">{{studentListMessage}}</div>-->
 				<form id="messageForm">
 					<div class="textarea-wrapper">
-						<textarea  class="type_msg" placeholder="Type Message" id="message1"></textarea>
+						<textarea  class="type_msg" placeholder="Type Message here" id="message1" spellcheck="true"></textarea>
 						<div class="textarea-clone"></div>
 					</div>
 					<div class="fileUpload clearfix pick_photo">
@@ -1002,7 +1008,7 @@
 					<input type="reset" id="messageReset" style="display:none">
 					<input type="hidden" id="studentIdsForMessage" >
 					<div class="set_task">
-						<button id="setTaskBtnMsg" ng-click="setTaskMsg();">Set Task</button>
+						<button id="setTaskBtnMsg" ng-click="setTaskMsg();">Send Message</button>
 					</div>
 				</form>
 				</div>
@@ -1194,11 +1200,9 @@
 					<div id="status_right_content3"></div>
 			</div>
             <div class="modal-header">
-				<span id="createTaskPopupClose" ng-click="cancelClickPop();" >
-					<button type="button" class="close">
-						<span aria-hidden="true"><img src="images/popup-cross.png" alt="popup-cross" /></span>
-					</button>
-				</span>
+				<button type="button" class="close" id="createTaskPopupClose" ng-click="cancelClickPop();" >
+					<span aria-hidden="true"><img src="images/popup-cross.png" alt="popup-cross" /></span>
+				</button>
 				<input type="hidden" id="createTaskPopUpClose" class="close" data-dismiss="modal" aria-label="Close" >
                 <h3>Create New Task</h3>
             </div>
@@ -1456,11 +1460,16 @@
 							<!--<div id="taskdescErr3" style="color: red;">{{taskdescErr3}}</div>-->
                         </div>
 						
-                        <div class="fileUpload clearfix" style="cursor: pointer;"  ng-click="attach3()">
+                        <div class="fileUpload clearfix" style="cursor: pointer;" ng-click="attach3()">
                             <div class="file_name" style="cursor: pointer;">Attach file</div>
+							<span style="cursor: pointer;">
 							<img id="attach_pic3" src="images/attach_pic.png" alt="">
 							<img id="add_more3" class="add_more" src="images/add_more.png" style="display: none;" alt=""></span>
                         </div>
+				
+					
+					
+					
                         <div class="title_outr clearfix">
 							<!-----FOR OLD UPLOADED FILES------->
                             <div class="pdf_pic clearfix attachmentEdit w3attachedit"  name="attachmentEdit[]" id="attachmentDivOld{{x.Id}}" attachmentId="{{x.Id}}" attachmentName="{{x.Name}}" noOfAttachments="{{Attachments.length}}" ng-repeat="x in Attachments">
@@ -1483,7 +1492,7 @@
 							</div>
 							<!---------------------------------->
                         </div>
-							<!--<input type="hidden" name="totFileSizeOld" id="totFileSizeOld" value="{{totFileSize}}">-->
+							<input type="hidden" name="totFileSizeOld" id="totFileSizeOld" value="{{totFileSize}}">
 							<input type="hidden" name="file_size3" id="file_size3" value="0" style="display:none">
 							<input type="hidden" name="fileNum3" id="fileNum3" value="0" style="display:none">
 							<input type="hidden" id="noOfOldFiles" class="AttachmentCount" value="{{AttachmentCount}}" style="display:none">
@@ -1871,7 +1880,7 @@
 					<!----PERFORMANCE GRAPH-------------->
                     <div class="grade_pic">
 						<div id="noRecord12" class="noRecordClass">{{studentPerformanceNoData}}</div>
-						<div id="graph_container" class="showStudentDiv" style="padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;"></div>
+						<div id="graph_container" class="showStudentDiv" style="padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;display:none"></div>
 					</div>
                </div>
             </div>

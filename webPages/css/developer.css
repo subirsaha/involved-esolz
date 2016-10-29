@@ -662,4 +662,7 @@ img.remove_btn_class:hover {
 .pdf_left span:hover{
     color: red;
 }
-
+.srch_data{
+    max-height:300px;
+    overflow: auto;
+}
