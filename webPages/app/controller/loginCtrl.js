@@ -135,7 +135,7 @@
                         }else if(response.message == "Server failed to respond!") {
                             $("#confy1").click();
                             $scope.msg = 'Server failed to respond!';
-                            $scope.msg1='Please check your internet connection.';
+                            $scope.msg1='Check your internet connection';
                         }
                       
                     }                  
@@ -177,38 +177,34 @@
             }else{      //otherwise submit data
                 $("#femail").attr("placeholder","Email").removeClass('red_place');
             }
+            $('.loader').addClass('loaderSpin');
+            $('.loader').html('');
             $('.loader').css({'display':'block'});
             $('.loader').css({'color':'red'})
-            $('.loader').html('A new temporary password has been sent to '+email+'.');
+           
             if(error == 0)
             {
                 $('#resset_pass').prop('disabled', true);
                 
                 loginService.forgetPasswordResponse(email,clientid,function(response) {
+                    console.log(response);
                    // $('.loader').css({'display':'none'});
                     if(response==true){ //USER SUCCESFULLY LOGGED IN
-                        console.log('FORGET PWD RESPONSE');
+                        console.log('FORGET PWD RESPONSE 1');
                         console.log(response);
-                        //$("#resetpass").click();
-                        //$scope.msg = "New temporary password will be sent to email address.";
-                        
+                        $('.loader').removeClass('loaderSpin');
+                        $('.loader').html('A new temporary password has been sent to '+email+'.');
                         $('#femail').val('');
-                       // var URL = base_url+'home';
-                        //window.location = URL;
-
-                    }
-                    else{//ERROR LOGIN
-                        //$scope.tempPasswordMsg = "";
-                        //if (response.message == "Wrong Email!") {
-                        //    $scope.passwordErr = "Wrong Email!";
-                        //}else if(response.message == "Server failed to respond!") {
-                        //    $("#confy1").click();
-                        //    $scope.msg = 'Server failed to respond!';
-                        //    $scope.msg1='Please check your internet connection.';
-                        //}
-                        console.log('else');
-                         $('.loader').html('Email address entered is not registered with InvolvEd.');
-                       
+                    }else if (response.Message=="ERROR_INCOMPATIBLE_CLIENT") {
+                        console.log('FORGET PWD RESPONSE 2');
+                        console.log(response);
+                        $('.loader').removeClass('loaderSpin');
+                        $('.loader').html('Please enter valid teacher login email to reset password.');
+                    }else{//ERROR LOGIN
+                        console.log('FORGET PWD RESPONSE 3');
+                        console.log(response.message);
+                        $('.loader').removeClass('loaderSpin');
+                        $('.loader').html('Email address entered is not registered with InvolvEd.');
                     }
                     
                     $('#resset_pass').prop('disabled', false);

@@ -34,7 +34,7 @@ width: 265px;
 	padding-left:37px;
 }
 .task_inr_label .performance-table-th:nth-child(2){
-	padding-left:0;
+	  padding-left: 8px;
 }
 
 #logout_modal .modal-body span {
@@ -434,7 +434,7 @@ div#createTaskMessage p {
 }
 .backcolor_class{
      float: right;
-     margin-right: -2.6em;
+     margin-right: -2.3em;
 }
 
 .trGrd{
@@ -500,7 +500,7 @@ i.fa.fa-caret-down{
 }
 
 .task_inr_label .performance-table-th:nth-child(3){
-    padding-left: 13px;
+    padding-left: 23px;
 }
 /*.prof{
     background-color: rgba(84, 201, 232,0.8);
@@ -560,7 +560,7 @@ img#add_more3 {
     overflow: hidden;
 }
 
-/*.loader{
+.loaderSpin{
     background-image:url(../images/spinningwheel.gif);
     background-position: center center;
     background-repeat: no-repeat;
@@ -575,7 +575,7 @@ img#add_more3 {
 	-os-transform:translate(-50%,-50%);
     position: absolute;
 }
-*/
+
 #loader_settask{
     background-image:url(../images/spinningwheel.gif);
     background-position: center center;
@@ -665,4 +665,7 @@ img.remove_btn_class:hover {
 .srch_data{
     max-height:300px;
     overflow: auto;
+}
+.result_hover{
+    background-color: rgba(84, 201, 232, 0.2);
 }

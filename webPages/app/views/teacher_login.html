@@ -21,8 +21,8 @@
 			<div class="user_box clearfix" id="errordiv" style="text-align: center;padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;">
 			</div>
 			<div class="srch_data">
-				<div class="user_box clearfix stdprof move" ng-repeat="res in searchResList">
-					<a data-target="#student_pop" data-toggle="modal" href="javascript:void(0);" class="active" ng-click="studentProfile(res.Id,res.Firstname,res.Lastname,res.YearGroup,res.Image,res.IsUnlocked)" >
+				<div class="user_box clearfix stdprof move" ng-repeat="res in searchResList" id="search_div{{$index}}">
+					<a data-target="#student_pop" data-toggle="modal" href="javascript:void(0);" class="active" ng-click="studentProfile(res.Id,res.Firstname,res.Lastname,res.YearGroup,res.Image,res.IsUnlocked)" id="search_div_anchor{{$index}}">
 						<div ng-class="res.IsUnlocked == true ? 'outr_border' :''" class="user_pic"><img data-ng-src="data:image/png;base64,{{res.Image}}" alt="performance-pic"></div>
 						<div class="user_details">
 							<h3>{{res.Firstname}} {{res.Lastname}}</h3>
@@ -31,6 +31,7 @@
 					</a>
 				</div>
 			</div>
+			<input type="hidden" id="hover_div">
 			<div class="user_box clearfix" id="closediv" style="text-align: center;cursor: pointer;color: white;background-color: gray; padding-top:5px;padding-right: 5px;padding-bottom: 5px;padding-left: 5px;"><b>Clear search</b></div>
                 </div>
 		
@@ -56,7 +57,7 @@
             <div class="class_nav">
                 <ul>
                     <li class="active" id="myClasses" ng-click="">
-						<a data-toggle="{{toggle_status_my_classes}}" data-target="#sectionA" id="my_classes" ng-click="cancelClickTab('my_classes',$event);" href='javascript:void(0);'>My Classes</a>
+						<a data-toggle="{{toggle_status_my_classes}}" data-target="#sectionA" id="my_classes" ng-click="cancelClickTab('my_classes',$event);myClassesResponse();" href='javascript:void(0);'>My Classes</a>
 					</li>
                     <li id="myTimetable">
 						<a data-toggle="{{toggle_status_my_timetable}}" data-target="#sectionB" id="my_timetable" ng-click="cancelClickTab('my_timetable');myTimetable();" href='javascript:void(0);'>My Timetable
@@ -71,19 +72,20 @@
                     <li data-toggle="{{toggle_status_my_task}}" data-target="#sectionD" id="myTask" ng-click="myTask(1);" class="">
 						<a ng-click="removeWeekRangeCookie();cancelClickTab('my_task');" id="myTaskInner" href='javascript:void(0);'>My Tasks</a>
 					</li>
-					<!--<li>
-						<a data-toggle="{{toggle_status}}" data-target="#sectionD" id="myTask" ng-click="removeWeekRangeCookie();myTask(1);cancelClickTab('my_task');" href='javascript:void(0);'>My Tasks</a>
-					</li>-->
+				
                 </ul>
             </div>
         </div>
         <div class="table_outter">
             <div class="right_content tab-content">
-				<div id="preloader_right_content">
+				<div id="preloader_right_content" style="display:none">
 					<div id="status_right_content"></div>
 				</div>
-				<div id="preloader_right_content4">
+				<div id="preloader_right_content4" style="display:none">
 					<div id="status_right_content4"></div>
+				</div>
+				<div id="preloader_right_content5" style="display:none">
+					<div id="status_right_content5"></div>
 				</div>
 				
 				<!--MY CLASSES SECTION start-->
@@ -321,7 +323,7 @@
 				<!--MY INBOX SECTION start-->
                 <div id="sectionC" class="tab-pane tabcustomheight fade">
                     <div class="sky_head clearfix">
-                        <div class="panel_left">Messages</div>
+                        <div class="panel_left">Parent Messaging</div>
                     </div>
                     <div class="search-user scrl_inr clearfix">
                         <div class="search-user-side">
@@ -477,7 +479,7 @@
                                 <ul class="side-list">
                                     <li>
                                         <h3>Attendance</h3>
-                                        <span>75% <img src="images/side-arrw.png" alt="" /></span>
+                                        <span class="inbox_arrow">75%</span>
                                     </li>
                                     <li>
                                         <h3> Target</h3>
@@ -485,7 +487,7 @@
                                     </li>
                                     <li>
                                         <h3>Grade</h3>
-                                        <span>6A <img src="images/side-arrw.png" alt="" /></span>
+                                        <span class="inbox_arrow">6A </span>
                                     </li>
                                 </ul>
                             </div>
@@ -536,7 +538,7 @@
                                          </div>
                                     </div>-->
                                 </div>
-                               <div class="text-box-r">
+                               <div class="text-box-r inbox_send_btn">
                                     <a href="javascript:void(0)"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
                                 </div>
                             </div>
@@ -683,7 +685,7 @@
 						<div class="right_content">
 						   <div class="inr_task">
 								<div class="back_class">
-									<a href="javascript:void(0);" data-toggle="{{toggle_status_back_btn}}" data-target="#sectionA" id="back_btn" ng-click="cancelClickTab('back_btn');">
+									<a href="javascript:void(0);" data-toggle="{{toggle_status_back_btn}}" data-target="#sectionA" id="back_btn" ng-click="cancelClickTab('back_btn');myClassesResponse();">
 										<i class="fa fa-angle-left" aria-hidden="true"></i>
 										Back to My Classes
 									</a>
@@ -762,8 +764,8 @@
 						</div>
 						<a href="javascript:void(0)" data-target="#student_performance" data-toggle="modal" class="performance-table-tr performance-active performance_class2" ng-repeat="per in performanceList" id="studentPerformance{{per.Id}}" ng-click="studentPerformance(per.Id,per.Firstname,per.Lastname,per.Image,per.Attendance,per.TargetGrade,per.LastGrade,per.AttendanceTrend,per.GradeTrend,per.IsUnlocked);">
 							<div class="performance-table-td">
-								<div ng-class="per.IsUnlocked == true ? 'outr_border' :''" class="performance-pic">
-									<img data-ng-src="data:image/png;base64,{{per.Image}}" alt="performance-pic" />
+								<div ng-class="per.IsUnlocked == true ? 'outr_border' :''" class="user_pic">
+									<img data-ng-src="data:image/png;base64,{{per.Image}}" alt="" />
 								</div>
 								<span class="performance-name"><div>{{per.Firstname}} {{per.Lastname}}</div></span>
 							</div>
@@ -1224,23 +1226,25 @@
 								</select>
                         	</div>
                         </div>
-						<div id="noRecord7" class="noRecordClass" style="display:none"><div><b>{{nostudentList}}</b></div>
-													<div>{{nostudentList1}}</div>
-													<div>{{nostudentList2}} </div>
-													<div>{{nostudentList3}} <a href="#">{{nostudentlist4}}</a></div>
-													</div>
+						<div id="noRecord7" class="noRecordClass" style="display:none">
+							<div><b>{{nostudentList}}</b></div>
+							<div>{{nostudentList1}}</div>
+							<div>{{nostudentList2}} </div>
+							<div>{{nostudentList3}} <a href="#">{{nostudentlist4}}</a></div>
+						</div>
 						<div id="createTaskMessage" style="display:none">
 							<p><span class="task_instruction" >&nbsp;<b>1</b>&nbsp;</span>&nbsp;<span class="t_inst">Select a Class.</span></p>
 							<p><span class="task_instruction" >&nbsp;<b>2</b>&nbsp;</span>&nbsp;<span class="t_inst">Enter Task Details.</span></p>
 						</div>
-						<form class="showStudentDivPopup poplist" style="display:none">  
+						
+						<form class="showStudentDivPopup poplist" style="display:none">
 							<div id="preloader_create_task_modal" style="display:none">
-								<div id="status_create_task_modal"  style="display:none"></div>
+								<div id="status_create_task_modal"></div>
 							</div>
 							<div class="select_hd clearfix showStudentDivPopup" style="display:none">
 								<div class="student_left">Students ({{countSelectStudentsTaskPopup}} Selected) </div>
 								<div class="student_right">
-									<input type="checkbox" id="remember4"  ng-click="allTaskPopupClick();" >
+									<input type="checkbox" id="remember4" ng-click="allTaskPopupClick();" >
 									<label for="remember4">Select All</label>
 								</div>
 							</div>
@@ -1838,49 +1842,21 @@
 										<!---SVG IMAGE ends--------------------->
 									</div>
 									
-								   
-									<!--<div class="performance-table-td" id="Attendance_circle">
-										<div class="c100 p{{Attendance}} small backcolor_class">
-											<span ng-if="AttendanceTrend == true" class="p-green"><i class="fa fa-caret-up pop-col" aria-hidden="true"></i> {{Attendance}}%</span>
-											<span ng-if="AttendanceTrend == false" class="p-red">{{Attendance}}% <i class="fa fa-caret-down" aria-hidden="true"></i></span>
-											<span ng-if="AttendanceTrend == null" class="orange_text">{{Attendance}}%</span>
-											<div class="slice">
-												<div class="bar"></div>
-												<div class="fill"></div>
-											</div>
-										</div>										  
-                                    </div>
-									-<div class="performance-table-td" id="TargetGrade_circle">
-										<div class="c100 p100 small">
-											<span>{{TargetGrade}}</span>
-											<div class="slice">
-												<div class="bar sky"></div>
-												<div class="fill sky"></div>
-											</div>
-										</div>
-									</div>
-									<div class="performance-table-td" id="LastGrade_circle">
-										<div class="c100 p100 small" id="LastGrade">
-											<span ng-if="GradeTrend == true" class="p-green"><i class="fa fa-caret-up pop-col" aria-hidden="true"></i> {{LastGrade}}</span>
-											<span ng-if="GradeTrend == false" class="p-red">{{LastGrade}} <i class="fa fa-caret-down" aria-hidden="true"></i></span>
-											<span ng-if="GradeTrend == null" class="orange_text">{{LastGrade}}</span>
-											
-											<div class="slice">
-												<div ng-class="(GradeTrend == true ? 'bar greenp' : (GradeTrend == false ? 'bar redp' : 'bar orangep'))"></div>
-												<div ng-class="(GradeTrend == true ? 'fill greenp' : (GradeTrend == false ? 'fill redp' : 'fill orangep'))"></div>
-											</div>
-										</div>
-									</div>-->
-									
-									
-									
                                </div>
                     	</div>	
                     </div>
 					<!----PERFORMANCE GRAPH-------------->
                     <div class="grade_pic">
+					
 						<div id="noRecord12" class="noRecordClass">{{studentPerformanceNoData}}</div>
-						<div id="graph_container" class="showStudentDiv" style="padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;display:none"></div>
+						<div id="graph_container" class="showStudentDiv" style="padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;display:none">
+						<div id="preloader_right_content7" style="display:none;height: 400px;">
+							<div id="status_right_content7"></div>
+						</div>	
+							
+							
+							
+						</div>
 					</div>
                </div>
             </div>
@@ -1893,8 +1869,11 @@
 <div class="modal fade attach_photo" id="student_pop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
+			<div id="preloader_right_content6" style="display:none">
+				<div id="status_right_content6"></div>
+			</div>
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><img src="images/popup-cross.png" alt="popup-cross" /></span></button>
+                <button type="button" class="close" ng-click="performance_graph_close();" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><img src="images/popup-cross.png" alt="popup-cross" /></span></button>
                 <div class="student_pic {{IsUnlocked}}"><img data-ng-src="data:image/png;base64,{{Image}}" alt="student-pic"></div>
                 <div class="student_title_area">
                 	<h2>{{Name}}</h2>

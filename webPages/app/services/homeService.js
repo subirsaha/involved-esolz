@@ -324,8 +324,9 @@
             $http({
                     method: 'GET',
                     url: api_base_url+'api/students/'+Id+'/performance',
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded','Authorization':'Bearer '+access_token},    
+                    headers: {'Authorization':'Bearer '+access_token},    
                 }).success(function(data, status, headers, config){
+              
                     data.status=true;
                     callback(data);
                 }).error(function (data, status, headers, config) {

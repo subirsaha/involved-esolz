@@ -15,89 +15,93 @@
 
         /*IF USER NOT LOGGED IN , HE CANNOT ACCESS HOME PAGE*/
         $scope.init = function ()
-        {       //$scope.isDisabled=false;  
+        {     
                 if(userid == undefined)
                 {
                     var URL = base_url + 'login';
                     window.location = URL;
                 }else{
+                    ///LOADER SHOW
+                    $(window).scrollTop(0);
+                    $("#status_right_content4").css("display", "block");
+                    $("#preloader_right_content4").css("display", "block");
                         /*FETCH TEACHER DETAILS ON PAGE LOAD*/
-                        homeService.teacherDetailsResponse(access_token, userid, function (response) {
+                        homeService.teacherDetailsResponse(access_token, userid, function (response)
+                        {
                             console.log("TEACHER DETAILS");
                             console.log(response);
-                            
-                            $scope.Id = response.Id;
-                            $scope.TeacherTitle = response.Title;
-                            $scope.Email = response.Email;
+                            $scope.Id               = response.Id;
+                            $scope.TeacherTitle     = response.Title;
+                            $scope.Email            = response.Email;
                             $scope.TeacherFirstname = response.Firstname;
-                            $scope.TeacherLastname = response.Lastname;
-                            $scope.Gender = response.Gender;
+                            $scope.TeacherLastname  = response.Lastname;
+                            $scope.Gender           = response.Gender;
                             $scope.TeacherSchoolName = response.SchoolName;
                             $scope.UnreadInboxCount = response.UnreadInboxCount;
-                            $scope.TeacherImage = response.Image;
-                            
-                            setOnlyCookie("teacherId", response.Id, 60 * 60 * 60); 
-
+                            $scope.TeacherImage     = response.Image;
+                            setOnlyCookie("teacherId",response.Id, 60 * 60 * 60); 
                             /*FETCH MY CLASSES*/
                             var teacherId = getOnlyCookie("teacherId");
-                            //alert(teacherId);
-                      
                             setOnlyCookie("tab", "myClasses", 60 * 60 * 60);
-                            homeService.myClassesResponse(access_token, teacherId, function (response)
+                            $scope.myClassesResponse=function()
                             {
-                                //alert('teacherId = ' + teacherId);
-                                console.log("MY CLASSES");
-                                console.log(response);
-                                ///LOADER HIDE
-                                $(window).scrollTop(0);
-                                $("#status_right_content").css("display", "none");
-                                $("#preloader_right_content").css("display", "none");
-                                if(response.status){                         
+                                homeService.myClassesResponse(access_token, teacherId, function (response)
+                                {
+                                    
+                                    //alert('my classes');
+                                    ///LOADER SHOW
+                                    $(window).scrollTop(0);
+                                    $("#status_right_content4").css("display", "block");
+                                    $("#preloader_right_content4").css("display", "block");
+                            
+                                    console.log("MY CLASSES");
+                                    console.log(response);
+                                    if(response.status)
+                                    {
+                                        ///LOADER HIDE
+                                        $(window).scrollTop(0);
+                                        $("#status_right_content4").css("display", "none");
+                                        $("#preloader_right_content4").css("display", "none");
                                         if(response != '')
                                         {
-                                        //$scope.loader_right_content_hide();
                                             $scope.myClasses = response;
-                                            
                                             $scope.classListMessage1 = '';
-                                            //$scope.classListMessage = "No Students Found… ";
                                             $scope.classListMessage2 = "";
                                             $scope.classListMessage3 = "";
                                             $scope.classListMessage4 = "";
-                                     
                                             $('.showStudentDiv').show();
                                             $('#noRecord4').removeClass('noRecord');
                                             $scope.defaultClassId = response[0].Id;
-                                           
                                         }else{
                                             $scope.myClasses = '';
-                                            
                                             $scope.classListMessage = 'No Classes Found…';
                                             $scope.classListMessage1 = "Try:";
                                             $scope.classListMessage2 = "1. Reload the webpage.";
                                             $scope.classListMessage3 = "2. If the problem persists, please submit your query";
                                             $scope.classListMessage4="here.";
-                                        
-                                            //$scope.classListMessage = "No Classes Found…Try: 1. Reload the webpage. 2. If the problem persists, please submit your query to support@involvedtech.co.uk using your school email address.";
                                             $('.showStudentDiv').hide();
                                             $('#noRecord4').addClass('noRecord');
                                             $scope.defaultClassId="";
                                         }     
                                     }else{//ERROR : 500 in api
+                                        ///LOADER HIDE
+                                        $(window).scrollTop(0);
+                                        $("#status_right_content4").css("display", "none");
+                                        $("#preloader_right_content4").css("display", "none");
                                         $scope.myClasses = '';
-                                        
-                                            $scope.classListMessage = 'No Classes Found…';
-                                            $scope.classListMessage1 = "Try:";
-                                            $scope.classListMessage2 = "1. Reload the webpage.";
-                                            $scope.classListMessage3 = "2. If the problem persists, please submit your query";
-                                            $scope.classListMessage4="here.";
-                                        
-                                        //$scope.classListMessage = "No Classes Found…Try: 1. Reload the webpage. 2. If the problem persists, please submit your query to support@involvedtech.co.uk using your school email address.";
+                                        $scope.classListMessage = 'No Classes Found…';
+                                        $scope.classListMessage1 = "Try:";
+                                        $scope.classListMessage2 = "1. Reload the webpage.";
+                                        $scope.classListMessage3 = "2. If the problem persists, please submit your query";
+                                        $scope.classListMessage4="here.";
                                         $('.showStudentDiv').hide();
                                         $('#noRecord4').addClass('noRecord');
                                         $scope.defaultClassId="";
                                     } 
                                     $(".right_srl ").mCustomScrollbar("update");
-                            });
+                                });
+                            };
+                        $scope.myClassesResponse();
                      });
                 }    
         }
@@ -1324,6 +1328,7 @@
                 /* STUDENT GRAPH POP UP */
                 $scope.studentPerformance = function(studentId,Firstname,Lastname,Image,Attendance,TargetGrade,LastGrade,AttendanceTrend,GradeTrend,IsUnlocked)
                 {
+                    
                     //alert('studentPerformance   '+GradeTrend);
                     //code form svg image
                         setTimeout(function () {
@@ -1335,7 +1340,7 @@
                             }else{
                               $('#carbs-input').val('');
                             }
-                       },500);
+                        },500);
   
                         //alert(studentId +' ######## '+ ClassId +' ######## '+ClassName+' ######## '+SubjectName);
                         $scope.ClassName = ClassName;
@@ -1362,13 +1367,23 @@
                             $scope.plotcolor = "orange";
                         }
                         
+                        /////LOADER SHOW
+                        $(window).scrollTop(0);
+                        $("#status_right_content7").css("display", "block");
+                        $("#preloader_right_content7").css("display", "block");
+                        
                         homeService.studentPerformanceListResponse(access_token,ClassId,studentId, function (response)
                         {                           
                             console.log('PERFORMANCE STUDENT');
                             console.log(response);
-                            
-                            if(response.status){
-                                if(response != ''){
+                            if(response.status)
+                            {
+                                /////LOADER HIDE
+                                $(window).scrollTop(0);
+                                $("#status_right_content7").css("display", "none");
+                                $("#preloader_right_content7").css("display", "none");
+                                if(response != '')
+                                {
                                     $scope.studentPerformanceList = response;
                                     //$scope.studentListMessagePopup = '';
                                     //$('.noRecordClass').removeClass('noRecord');
@@ -1663,7 +1678,11 @@
                                    
                                 }     
                             }else{//ERROR : 500 in api
-                                 $('#graph_container').css({'display':'block'});
+                                /////LOADER HIDE
+                                $(window).scrollTop(0);
+                                $("#status_right_content7").css("display", "none");
+                                $("#preloader_right_content7").css("display", "none");
+                                $('#graph_container').css({'display':'block'});
                                 $scope.studentPerformance = '';
                                 $scope.studentPerformanceNoData = "No Performance Data Found…<br>Try:</br>1. Reload the webpage.<br>2. If the problem persists, please submit your query to <b>support@involvedtech.co.uk</b> using your school email address.";
                                 $('.showStudentDiv').hide();
@@ -1697,7 +1716,9 @@
             
     /*********************************  **** **** SEARCH **** **** ****************************************************
     *******************************************************************************************************************/
-
+            $scope.performance_graph_close=function(){
+                $("#hover_div").val('');
+            };
             ////student search on keyup
             $(document).mouseup(function (e)
             {
@@ -1723,7 +1744,6 @@
             {
                 $('#errordiv').html('');
                 var searchtext = $.trim($("#searchterm").val()).replace(/  +/g, ' ');
-                console.log(searchtext);
                 var searchtext_with_space = $.trim($("#searchterm").val()).replace(/\s/g,'');
                 var srcLen=searchtext_with_space.length;
                 if (srcLen>2)
@@ -1750,32 +1770,67 @@
             
             $('#searchdiv').keyup(function(e)
             {
-                /*code for div scroll in search*/
-                $(".move").hover(
-                    function () {
-                      $(this).addClass("result_hover");
-                    },
-                    function () {
-                      $(this).removeClass("result_hover");
-                    }
-                );
-                
+                /* UP & DOWN KEY */
                 var key = e.which || e.keyCode;
-       
-                if (key == 38) {
+                var no_of_search_result = 0;
+                $(".move").each(function(){
+                    no_of_search_result = no_of_search_result + 1;
+                });
+                var search_count = no_of_search_result - 1;
+                if (key == 38) { // up arrow key
+         
                     $('#errordiv').remove();
-                    $(".result_hover:focus").prev().focus();
-                }else if (key == 40) {
+                    var div_id = $(".result_hover").attr('id').replace('search_div','');
+                    var prev_div_id = parseInt(div_id)-1;
+                    if(prev_div_id >= 0){
+                        $('.move').removeClass("result_hover");
+                        $('#search_div'+prev_div_id).addClass("result_hover");
+                        $('#search_div'+prev_div_id).focus();
+                        $('#hover_div').val(prev_div_id);
+                       
+                    }else{
+                        prev_div_id = search_count;
+                        $('.move').removeClass("result_hover");
+                        $('#search_div'+prev_div_id).addClass("result_hover");
+                        $('#search_div'+prev_div_id).focus();
+                        $('#hover_div').val(prev_div_id);
+                    
+                    }
+                    
+                }else if (key == 40) { // down arrow key
+          
                     $('#errordiv').remove();
-                    $(".result_hover:focus").next().focus();
-                }else{
+                    if($(".result_hover").attr('id') == undefined)
+                    {
+                        $('.move').removeClass("result_hover");
+                        $('#search_div0').addClass("result_hover");
+                        $("#search_div0").hover();
+                        $('#hover_div').val(0);
+                   
+                    }else{
+                        var div_id = $(".result_hover").attr('id').replace('search_div','');
+                        var next_div_id = parseInt(div_id)+1;
+                        if(next_div_id <= search_count){
+                            $('.move').removeClass("result_hover");
+                            $('#search_div'+next_div_id).addClass("result_hover");
+                            $('#search_div'+next_div_id).focus();
+                            $('#hover_div').val(next_div_id);
+                        }else{
+                            next_div_id = 0;
+                            $('.move').removeClass("result_hover");
+                            $('#search_div'+next_div_id).addClass("result_hover");
+                            $('#search_div'+next_div_id).focus();
+                            $('#hover_div').val(next_div_id);
+                        }
+                    }
+                    
+                }else if(key != 13){
                     $('.stdprof').remove();
                 }
             /***********************************/
                 //$('.stdprof').remove();
                 var searchtext = $.trim($("#searchterm").val()).replace(/  +/g, ' ');
                 var searchtext_with_space = $.trim($("#searchterm").val()).replace(/\s/g,'');
-                console.log(searchtext);
                 var srcLen=searchtext_with_space.length;
                 
                 if (srcLen>2)
@@ -1793,73 +1848,78 @@
                     var key = e.which || e.keyCode;
                     if(key == 13)
                     {
-                        $scope.successMsg = "";
-                        $scope.searchResList ="";
-                        $scope.noOfres = 0;
-                        var searchterm = $.trim($("#searchterm").val()).replace(/  +/g, ' ');
-                        console.log(searchterm);
-                        var values = searchterm.split(' ').filter(function(v){return v!==''});
-                        if (values.length > 2)
-                        {
-                            //two or more words
-                            $('.search_reasult').css({'display':'block'});
-                            //$('#srch').fadeOut();
-                            //$('#search_cross').fadeIn();
-                            $('#errordiv').css({'display':'block'});
-                            $('#errordiv').html("Search is limited to Student's<br>First Name and Last Name only");
-                            $scope.successMsg = "";
-                            $scope.searchResList = 'No students found<br>Please refine your search';
-                            $scope.noOfres = 0;
-                            $('#closediv').css({'display':'block'});
+                        var hover_div = $("#hover_div").val();
+                        //alert(hover_div);
+                        if(hover_div != ""){
+                            $('#search_div_anchor'+hover_div).click();
                         }else{
-                            homeService.studentSearchResponse(access_token, searchterm, function (response)
+                            $scope.successMsg = "";
+                            $scope.searchResList ="";
+                            $scope.noOfres = 0;
+                            var searchterm = $.trim($("#searchterm").val()).replace(/  +/g, ' ');
+                            var values = searchterm.split(' ').filter(function(v){return v!==''});
+                            if (values.length > 2)
                             {
-                                console.log('SERCH');
-                                console.log(response);
-                                if(response.status)
-                                { 
-                                    if(response.Count != 0)
-                                    {
-                                        if(response.Count > 20)
+                                //two or more words
+                                $('.search_reasult').css({'display':'block'});
+                                //$('#srch').fadeOut();
+                                //$('#search_cross').fadeIn();
+                                $('#errordiv').css({'display':'block'});
+                                $('#errordiv').html("Search is limited to Student's<br>First Name and Last Name only");
+                                $scope.successMsg = "";
+                                $scope.searchResList = 'No students found<br>Please refine your search';
+                                $scope.noOfres = 0;
+                                $('#closediv').css({'display':'block'});
+                            }else{
+                                homeService.studentSearchResponse(access_token, searchterm, function (response)
+                                {
+                                    console.log('SERCH');
+                                    console.log(response);
+                                    if(response.status)
+                                    { 
+                                        if(response.Count != 0)
                                         {
+                                            if(response.Count > 20)
+                                            {
+                                                $('.search_reasult').css({'display':'block'});
+                                                //$('#srch').fadeOut();
+                                                //$('#search_cross').fadeIn();
+                                                $('#errordiv').css({'display':'block'});
+                                                $('#errordiv').html('More than 20 students found<br>Please refine your search');
+                                                $scope.successMsg = ""
+                                                $scope.searchResList = 'The search text should be make more specific as it matches more than 20 records';
+                                                $('#closediv').css({'display':'block'});
+                                            }else{
+                                                $('.search_reasult').css({'display':'block'});
+                                                //$('#srch').fadeOut();
+                                                //$('#search_cross').fadeIn();
+                                                $('#errordiv').css({'display':'none'});
+                                                $scope.searchResList = response.Data;
+                                                $scope.noOfres = response.Count;
+                                                $('#closediv').css({'display':'block'});
+                                            }
+                                        }else{                                
                                             $('.search_reasult').css({'display':'block'});
                                             //$('#srch').fadeOut();
                                             //$('#search_cross').fadeIn();
                                             $('#errordiv').css({'display':'block'});
-                                            $('#errordiv').html('More than 20 students found<br>Please refine your search');
-                                            $scope.successMsg = ""
-                                            $scope.searchResList = 'The search text should be make more specific as it matches more than 20 records';
+                                            $('#errordiv').html('No students found<br>Please refine your search');
+                                            $scope.successMsg = "";
+                                            $scope.searchResList = 'No students found<br>Please refine your search';
+                                            $scope.noOfres = 0;
                                             $('#closediv').css({'display':'block'});
-                                        }else{
-                                            $('.search_reasult').css({'display':'block'});
-                                            //$('#srch').fadeOut();
-                                            //$('#search_cross').fadeIn();
-                                            $('#errordiv').css({'display':'none'});
-                                            $scope.searchResList = response.Data;
-                                            $scope.noOfres = response.Count;
-                                            $('#closediv').css({'display':'block'});
-                                        }
-                                    }else{                                
+                                        }     
+                                    }else{//ERROR : 500 in api`
                                         $('.search_reasult').css({'display':'block'});
                                         //$('#srch').fadeOut();
                                         //$('#search_cross').fadeIn();
-                                        $('#errordiv').css({'display':'block'});
-                                        $('#errordiv').html('No students found<br>Please refine your search');
                                         $scope.successMsg = "";
-                                        $scope.searchResList = 'No students found<br>Please refine your search';
+                                        $scope.searchResList = response.Message;
                                         $scope.noOfres = 0;
                                         $('#closediv').css({'display':'block'});
-                                    }     
-                                }else{//ERROR : 500 in api`
-                                    $('.search_reasult').css({'display':'block'});
-                                    //$('#srch').fadeOut();
-                                    //$('#search_cross').fadeIn();
-                                    $scope.successMsg = "";
-                                    $scope.searchResList = response.Message;
-                                    $scope.noOfres = 0;
-                                    $('#closediv').css({'display':'block'});
-                                } 
-                            });
+                                    } 
+                                });
+                            }
                         }
                     }                       
                 }else{
@@ -1878,7 +1938,6 @@
                 $('.stdprof').remove();
                 var searchtext = $.trim($("#searchterm").val()).replace(/  +/g, ' ');
                 var searchtext_with_space = $.trim($("#searchterm").val()).replace(/\s/g,'');
-                console.log(searchtext);
                 var srcLen=searchtext_with_space.length;
                 
                 if (srcLen>2)
@@ -1970,6 +2029,11 @@
             //W14: student profile & graph subjectwise
             $scope.studentProfile = function(Id,fname,lname,year,image,IsUnlocked)
             {
+                /////LOADER SHOW
+                $(window).scrollTop(0);
+                $("#status_right_content6").css("display", "block");
+                $("#preloader_right_content6").css("display", "block");
+                
                 //alert(Id);
                 $scope.Image = image;
                 $scope.Name =  fname+" "+lname;                                                             
@@ -1984,7 +2048,7 @@
                 $scope.profileperlist="";
                 $scope.NameofSubject="";
                 $('#graph_container_popup').html("");
-                
+            
                 /*LHS : STUDENT PROFILE*/      
                 homeService.studentProfileResponse(access_token,Id, function (response)
                 {
@@ -1993,7 +2057,11 @@
                     console.log(response);
                     var studentName = fname+" "+lname;
                     if(response != '')
-                    {  
+                    {
+                        /////LOADER HIDE
+                        $(window).scrollTop(0);
+                        $("#status_right_content6").css("display", "none");
+                        $("#preloader_right_content6").css("display", "none");
                         if(response.status )
                         {
                             $scope.profileperlist = response;
@@ -2384,8 +2452,12 @@
                             $scope.studentprofileMessage = 'No classes found for '+studentName;
                         }     
                     }else{//ERROR : 500 in api
-                       $scope.profileperlist = '';
-                       $scope.studentprofileMessage = 'No classes found for '+studentName;
+                            /////LOADER HIDE
+                        $(window).scrollTop(0);
+                        $("#status_right_content6").css("display", "none");
+                        $("#preloader_right_content6").css("display", "none");
+                        $scope.profileperlist = '';
+                        $scope.studentprofileMessage = 'No classes found for '+studentName;
                     }
                 });
              
@@ -2770,14 +2842,20 @@
             
             $scope.changeStyle=function()
             {
-               
+                //alert('changeStyle');
                 $('.select_outter_new').removeClass('blink_me');
             }
             
             /*FETCH STUDENT LIST WHEN CLASS IS SELECTED FROM DROPDOWN IN CREATE NEW TASK MODAL*/
-            $scope.studentListResponseDropdown = function (classId){
+            $scope.studentListResponseDropdown = function (classId)
+            {
+                //alert(classId);
+                ///LOADER SHOW
+                $(window).scrollTop(0);
+                $("#status_create_task_modal").css("display", "block");
+                $("#preloader_create_task_modal").css("display", "block");
                 
-                 if (classId==0) {
+                if (classId==0) {
                     $('.select_outter_new').css({'border':'2px solid #54c9e8'});
                     $('.select_outter_new').addClass('blink_me');
                 }else{
@@ -2786,12 +2864,9 @@
                 } 
                 //var classId = $scope.classIdModel;
                 setOnlyCookie("classId", classId, 60 * 60 * 60);
-                ///LOADER SHOW
-                $(window).scrollTop(0);
-                $("#status_create_task_modal").css("display", "block");
-                $("#preloader_create_task_modal").css("display", "block");
-                 
-                homeService.studentListResponse(access_token, classId, function (response) {
+                
+                homeService.studentListResponse(access_token, classId, function (response)
+                {
                     if(response.status){
                         ///LOADER HIDE
                         $(window).scrollTop(0);
@@ -2805,9 +2880,9 @@
                             $scope.noOfStudents = response.length;
                             $scope.nostudentList="";
                             $scope.nostudentList1="";
-                                    $scope.nostudentList2="";
-                                    $scope.nostudentList3="";
-                                    $scope.nostudentlist4="";
+                            $scope.nostudentList2="";
+                            $scope.nostudentList3="";
+                            $scope.nostudentlist4="";
                             //$scope.studentListMessagePopup = '';
                             //$('#noRecord5').removeClass('noRecord');
                             $('#noRecord7').removeClass('noRecord');
@@ -2939,8 +3014,8 @@
     {
         /////LOADER SHOW
         $(window).scrollTop(0);
-        $("#status_right_content4").css("display", "block");
-        $("#preloader_right_content4").css("display", "block");
+        $("#status_right_content5").css("display", "block");
+        $("#preloader_right_content5").css("display", "block");
         
         setOnlyCookie("tab", "myTask", 60 * 60 * 60);
         var displayStartDate = getOnlyCookie("weekStartDate");
@@ -3010,8 +3085,8 @@
                             {
                                 ///LOADER HIDE
                                 $(window).scrollTop(0);
-                                $("#status_right_content4").fadeOut();
-                                $("#preloader_right_content4").delay(200).fadeOut("fast");
+                                $("#status_right_content5").css("display", "none");
+                                $("#preloader_right_content5").css("display", "none");
                                 
                                 console.log('CAL DATA');
                                 console.log(response);
@@ -3126,8 +3201,8 @@
                             {
                                 ///LOADER HIDE
                                 $(window).scrollTop(0);
-                                $("#status_right_content4").fadeOut();
-                                $("#preloader_right_content4").delay(200).fadeOut("fast");
+                                $("#status_right_content5").css("display", "none");
+                                $("#preloader_right_content5").css("display", "none");
                                 
                                 console.log('CAL DATA');
                                 console.log(response);
@@ -3241,8 +3316,8 @@
                         {
                             ///LOADER HIDE
                             $(window).scrollTop(0);
-                            $("#status_right_content4").fadeOut();
-                            $("#preloader_right_content4").delay(200).fadeOut("fast");
+                            $("#status_right_content5").css("display", "none");
+                            $("#preloader_right_content5").css("display", "none");
                             
                             $scope.myTaskListCalendar = response;
                             var response_length = response.length;
@@ -3351,6 +3426,10 @@
             var fromDate = new Date();
             $scope.currentWeek = function(fromDate)
             {
+                /////LOADER SHOW
+                $(window).scrollTop(0);
+                $("#status_right_content5").css("display", "block");
+                $("#preloader_right_content5").css("display", "block");
                 //alert(displayStartDate +'###'+ displayEndDate);
                 fromDate = (typeof fromDate != 'undefined' && fromDate != '')?new Date(fromDate):new Date();
                 fromDateTime = fromDate.getTime();
@@ -3420,7 +3499,11 @@
                     homeService.myTaskResponse(access_token,weekStartDate,weekEndDate,function (response) {
                         //console.log("###"+response);
                         if(response.status)
-                        { 
+                        {
+                            /////LOADER SHOW
+                            $(window).scrollTop(0);
+                            $("#status_right_content5").css("display", "none");
+                            $("#preloader_right_content5").css("display", "none");
                             if(response != ''){
                                 $('#noRecord6').removeClass('noRecord');
                                 $scope.weeklyTaskMessage = "";
@@ -3437,7 +3520,11 @@
                                 $scope.weeklyTaskMessage3="to set a task for the students.";
                                 $scope.myTaskList = '';
                             }
-                        }else{//ERROR : 500 in api  
+                        }else{//ERROR : 500 in api
+                            /////LOADER SHOW
+                            $(window).scrollTop(0);
+                            $("#status_right_content5").css("display", "none");
+                            $("#preloader_right_content5").css("display", "none");
                             $('#noRecord6').addClass('noRecord');
                            // $scope.weeklyTaskMessage = "No Tasks Due this week.Click on Create Task to set a task for the students.";
                             $scope.weeklyTaskMessage = "No Tasks Due this week.";
@@ -3469,32 +3556,40 @@
             
             $scope.selectWeek = function (startDate,endDate)
             {
-                    $scope.currentWeekStartDate = startDate;
-                    $scope.currentWeekEndDate = endDate;
-                    
-                    var startDate = $scope.ISOdateConvertion( startDate );
-                    var endDate = $scope.ISOdateConvertion( endDate );
-                  
-                    setOnlyCookie("weekStartDate", startDate, 60 * 60 * 60);
-                    setOnlyCookie("weekEndDate", endDate, 60 * 60 * 60);
-                    
-                    var time3 = new Date(startDate);
-                    var startdateIST = time3.setDate(time3.getDate()-21);
-                    var startdateISO = new Date(startdateIST);
-                    var startdateISOstr = startdateISO.toISOString()
-                    var startdateISOstrdate = new Date(startdateISOstr);
-                    var startDateRange = startdateISOstrdate.getFullYear()+'-' + (startdateISOstrdate.getMonth()+1) + '-'+startdateISOstrdate.getDate();
-                 
-                    var time4 = new Date(endDate);
-                    var enddateIST = time4.setDate(time4.getDate()+21);
-                    var enddateISO = new Date(enddateIST);
-                    var enddateISOstr = enddateISO.toISOString();
-                    var enddateISOstrdate = new Date(enddateISOstr);
-                    var endDateRange = enddateISOstrdate.getFullYear()+'-' + (enddateISOstrdate.getMonth()+1) + '-'+enddateISOstrdate.getDate();
-                   
+                /////LOADER SHOW
+                $(window).scrollTop(0);
+                $("#status_right_content5").css("display", "block");
+                $("#preloader_right_content5").css("display", "block");
+                $scope.currentWeekStartDate = startDate;
+                $scope.currentWeekEndDate = endDate;
+                
+                var startDate = $scope.ISOdateConvertion( startDate );
+                var endDate = $scope.ISOdateConvertion( endDate );
+              
+                setOnlyCookie("weekStartDate", startDate, 60 * 60 * 60);
+                setOnlyCookie("weekEndDate", endDate, 60 * 60 * 60);
+                
+                var time3 = new Date(startDate);
+                var startdateIST = time3.setDate(time3.getDate()-21);
+                var startdateISO = new Date(startdateIST);
+                var startdateISOstr = startdateISO.toISOString()
+                var startdateISOstrdate = new Date(startdateISOstr);
+                var startDateRange = startdateISOstrdate.getFullYear()+'-' + (startdateISOstrdate.getMonth()+1) + '-'+startdateISOstrdate.getDate();
+             
+                var time4 = new Date(endDate);
+                var enddateIST = time4.setDate(time4.getDate()+21);
+                var enddateISO = new Date(enddateIST);
+                var enddateISOstr = enddateISO.toISOString();
+                var enddateISOstrdate = new Date(enddateISOstr);
+                var endDateRange = enddateISOstrdate.getFullYear()+'-' + (enddateISOstrdate.getMonth()+1) + '-'+enddateISOstrdate.getDate();
+               
                     /*ON SELECT WEEK TASK LIST OF SELECTED WEEK WILL DISPLAY*/   
                     homeService.myTaskResponse(access_token,startDate,endDate,function (response) {
-                        if(response.status){ 
+                        if(response.status){
+                            /////LOADER SHOW
+                            $(window).scrollTop(0);
+                            $("#status_right_content5").css("display", "none");
+                            $("#preloader_right_content5").css("display", "none");
                             if(response != ''){
                                 $('#noRecord6').removeClass('noRecord');
                                 $scope.myTaskList = response;
@@ -3512,6 +3607,10 @@
                                 $scope.weeklyTaskMessage3="to set a task for the students.";
                             }
                         }else{//ERROR : 500 in api
+                            /////LOADER SHOW
+                            $(window).scrollTop(0);
+                            $("#status_right_content5").css("display", "none");
+                            $("#preloader_right_content5").css("display", "none");
                             $('#noRecord6').addClass('noRecord');
                             $scope.myTaskList = '';
                             //$scope.weeklyTaskMessage = "No Tasks Due this week.Click on Create Task to set a task for the students.";
@@ -3534,50 +3633,59 @@
             /***ONLOAD CALENDAR NEXT BUTTON CLICK*/
             $scope.nextWeekClick = function ()
             {
-                    var displayStartDate = getOnlyCookie("weekStartDate");
-                    var displayEndDate = getOnlyCookie("weekEndDate");
-                    
-                    var time5 = new Date(displayStartDate);
-                    var startdateIST1 = time5.setDate(time5.getDate()+7);
-                    var startdateISO1 = new Date(startdateIST1);
-                    var startdateISOstr1 = startdateISO1.toISOString();
-                    var startdateISOstrdate1 = new Date(startdateISOstr1);
-                    var startDateRange = startdateISOstrdate1.getFullYear()+'-' + (startdateISOstrdate1.getMonth()+1) + '-'+startdateISOstrdate1.getDate();
-            
-                    var time6 = new Date(displayEndDate);
-                    var enddateIST2 = time6.setDate(time6.getDate()+7);
-                    var enddateISO2 = new Date(enddateIST2);
-                    var enddateISOstr2 = enddateISO2.toISOString();
-                    var enddateISOstrdate2 = new Date(enddateISOstr2);
-                    var endDateRange = enddateISOstrdate2.getFullYear()+'-' + (enddateISOstrdate2.getMonth()+1) + '-'+enddateISOstrdate2.getDate();
-              
-                    /*FOR DROPDOWN*/
-                    var time7 = new Date(displayStartDate);
-                    var startdateIST3 = time7.setDate(time7.getDate()-14);
-                    var startdateISO3 = new Date(startdateIST3);
-                    var startdateISOstr3 = startdateISO3.toISOString()
-                    var startdateISOstrdate3 = new Date(startdateISOstr3);
-                    var startDateRangeDropdown = startdateISOstrdate3.getFullYear()+'-' + (startdateISOstrdate3.getMonth()+1) + '-'+startdateISOstrdate3.getDate();
-            
-                    var time8 = new Date(displayEndDate);
-                    var enddateIST4 = time8.setDate(time8.getDate()+27);
-                    var enddateISO4 = new Date(enddateIST4);
-                    var enddateISOstr4 = enddateISO4.toISOString();
-                    var enddateISOstrdate4 = new Date(enddateISOstr4);
-                    var endDateRangeDropdown = enddateISOstrdate4.getFullYear()+'-' + (enddateISOstrdate4.getMonth()+1) + '-'+enddateISOstrdate4.getDate();
-      
-                    $scope.currentWeekStartDate = startdateIST1;
-                    $scope.currentWeekEndDate = enddateIST2;
-                    
-                    var startDate = $scope.ISOdateConvertion( startDateRange );
-                    var endDate = $scope.ISOdateConvertion( endDateRange );
-                    
-                    //var startDate = setOnlyCookie("startDate");
-                    setOnlyCookie("weekStartDate", startDate, 60 * 60 * 60);
-                    setOnlyCookie("weekEndDate", endDate, 60 * 60 * 60);
+                /////LOADER SHOW
+                $(window).scrollTop(0);
+                $("#status_right_content5").css("display", "block");
+                $("#preloader_right_content5").css("display", "block");
+                
+                var displayStartDate = getOnlyCookie("weekStartDate");
+                var displayEndDate = getOnlyCookie("weekEndDate");
+                
+                var time5 = new Date(displayStartDate);
+                var startdateIST1 = time5.setDate(time5.getDate()+7);
+                var startdateISO1 = new Date(startdateIST1);
+                var startdateISOstr1 = startdateISO1.toISOString();
+                var startdateISOstrdate1 = new Date(startdateISOstr1);
+                var startDateRange = startdateISOstrdate1.getFullYear()+'-' + (startdateISOstrdate1.getMonth()+1) + '-'+startdateISOstrdate1.getDate();
+        
+                var time6 = new Date(displayEndDate);
+                var enddateIST2 = time6.setDate(time6.getDate()+7);
+                var enddateISO2 = new Date(enddateIST2);
+                var enddateISOstr2 = enddateISO2.toISOString();
+                var enddateISOstrdate2 = new Date(enddateISOstr2);
+                var endDateRange = enddateISOstrdate2.getFullYear()+'-' + (enddateISOstrdate2.getMonth()+1) + '-'+enddateISOstrdate2.getDate();
+          
+                /*FOR DROPDOWN*/
+                var time7 = new Date(displayStartDate);
+                var startdateIST3 = time7.setDate(time7.getDate()-14);
+                var startdateISO3 = new Date(startdateIST3);
+                var startdateISOstr3 = startdateISO3.toISOString()
+                var startdateISOstrdate3 = new Date(startdateISOstr3);
+                var startDateRangeDropdown = startdateISOstrdate3.getFullYear()+'-' + (startdateISOstrdate3.getMonth()+1) + '-'+startdateISOstrdate3.getDate();
+        
+                var time8 = new Date(displayEndDate);
+                var enddateIST4 = time8.setDate(time8.getDate()+27);
+                var enddateISO4 = new Date(enddateIST4);
+                var enddateISOstr4 = enddateISO4.toISOString();
+                var enddateISOstrdate4 = new Date(enddateISOstr4);
+                var endDateRangeDropdown = enddateISOstrdate4.getFullYear()+'-' + (enddateISOstrdate4.getMonth()+1) + '-'+enddateISOstrdate4.getDate();
+  
+                $scope.currentWeekStartDate = startdateIST1;
+                $scope.currentWeekEndDate = enddateIST2;
+                
+                var startDate = $scope.ISOdateConvertion( startDateRange );
+                var endDate = $scope.ISOdateConvertion( endDateRange );
+                
+                //var startDate = setOnlyCookie("startDate");
+                setOnlyCookie("weekStartDate", startDate, 60 * 60 * 60);
+                setOnlyCookie("weekEndDate", endDate, 60 * 60 * 60);
                     
                     homeService.myTaskResponse(access_token,startDate,endDate,function (response2) {    
-                        if(response2.status){ 
+                        if(response2.status){
+                            /////LOADER SHOW
+                            $(window).scrollTop(0);
+                            $("#status_right_content5").css("display", "none");
+                            $("#preloader_right_content5").css("display", "none");
                             if(response2 != ''){
                                 $('#noRecord6').removeClass('noRecord');
                                 $scope.weeklyTaskMessage = "";
@@ -3595,6 +3703,10 @@
                                 $scope.myTaskList = '';
                             }
                         }else{//ERROR : 500 in api
+                            /////LOADER SHOW
+                            $(window).scrollTop(0);
+                            $("#status_right_content5").css("display", "none");
+                            $("#preloader_right_content5").css("display", "none");
                             $('#noRecord6').addClass('noRecord');
                             //$scope.weeklyTaskMessage = "No Tasks Due this week.Click on Create Task to set a task for the students.";
                             $scope.weeklyTaskMessage = "No Tasks Due this week.";
@@ -3606,8 +3718,16 @@
                     });
 
                     /*CALENDER DROPDOWN ONSELECT will show 21 days after & before */
-                    $scope.myTaskCalendar = function () {        
+                    $scope.myTaskCalendar = function () {
+                        /////LOADER SHOW
+                        $(window).scrollTop(0);
+                        $("#status_right_content5").css("display", "block");
+                        $("#preloader_right_content5").css("display", "block");
                         homeService.myTaskCalenderResponse(access_token,startDateRangeDropdown,endDateRangeDropdown,function (response4) {
+                            /////LOADER SHOW
+                            $(window).scrollTop(0);
+                            $("#status_right_content5").css("display", "none");
+                            $("#preloader_right_content5").css("display", "none");
                             $scope.myTaskListCalendar = response4;
                             /*selected date is set in cookie for load more functionality*/
                             var response_length = response4.length;
@@ -3628,50 +3748,58 @@
             /***ONLOAD CALENDAR PREVIOUS BUTTON CLICK*/
             $scope.previousWeekClick = function ()
             {
-                    
-                    var displayStartDate = getOnlyCookie("weekStartDate");
-                    var displayEndDate = getOnlyCookie("weekEndDate");
+                /////LOADER SHOW
+                $(window).scrollTop(0);
+                $("#status_right_content5").css("display", "block");
+                $("#preloader_right_content5").css("display", "block");
+                
+                var displayStartDate = getOnlyCookie("weekStartDate");
+                var displayEndDate = getOnlyCookie("weekEndDate");
 
-                    var time9 = new Date(displayStartDate);
-                    var startdateIST1 = time9.setDate(time9.getDate()-7);
-                    var startdateISO1 = new Date(startdateIST1);
-                    var startdateISOstr1 = startdateISO1.toISOString()
-                    var startdateISOstrdate1 = new Date(startdateISOstr1);
-                    var startDateRange = startdateISOstrdate1.getFullYear()+'-' + (startdateISOstrdate1.getMonth()+1) + '-'+startdateISOstrdate1.getDate();
-            
-                    var time10 = new Date(displayEndDate);
-                    var enddateIST2 = time10.setDate(time10.getDate()-7);
-                    var enddateISO2 = new Date(enddateIST2);
-                    var enddateISOstr2 = enddateISO2.toISOString();
-                    var enddateISOstrdate2 = new Date(enddateISOstr2);
-                    var endDateRange = enddateISOstrdate2.getFullYear()+'-' + (enddateISOstrdate2.getMonth()+1) + '-'+enddateISOstrdate2.getDate();
-                    
-                    /*FOR DROPDOWN*/
-                    var time11 = new Date(displayStartDate);
-                    var startdateIST3 = time11.setDate(time11.getDate()-27);
-                    var startdateISO3 = new Date(startdateIST3);
-                    var startdateISOstr3 = startdateISO3.toISOString()
-                    var startdateISOstrdate3 = new Date(startdateISOstr3);
-                    var startDateRangeDropdown = startdateISOstrdate3.getFullYear()+'-' + (startdateISOstrdate3.getMonth()+1) + '-'+startdateISOstrdate3.getDate();
-            
-                    var time12 = new Date(displayEndDate);
-                    var enddateIST4 = time12.setDate(time12.getDate()+14);
-                    var enddateISO4 = new Date(enddateIST4);
-                    var enddateISOstr4 = enddateISO4.toISOString();
-                    var enddateISOstrdate4 = new Date(enddateISOstr4);
-                    var endDateRangeDropdown = enddateISOstrdate4.getFullYear()+'-' + (enddateISOstrdate4.getMonth()+1) + '-'+enddateISOstrdate4.getDate();
-    
-                    $scope.currentWeekStartDate = startdateIST1;
-                    $scope.currentWeekEndDate = enddateIST2;
-                    
-                    var startDate = $scope.ISOdateConvertion( startDateRange );
-                    var endDate = $scope.ISOdateConvertion( endDateRange );
-                    
-                    setOnlyCookie("weekStartDate", startDate, 60 * 60 * 60);
-                    setOnlyCookie("weekEndDate", endDate, 60 * 60 * 60);
+                var time9 = new Date(displayStartDate);
+                var startdateIST1 = time9.setDate(time9.getDate()-7);
+                var startdateISO1 = new Date(startdateIST1);
+                var startdateISOstr1 = startdateISO1.toISOString()
+                var startdateISOstrdate1 = new Date(startdateISOstr1);
+                var startDateRange = startdateISOstrdate1.getFullYear()+'-' + (startdateISOstrdate1.getMonth()+1) + '-'+startdateISOstrdate1.getDate();
+        
+                var time10 = new Date(displayEndDate);
+                var enddateIST2 = time10.setDate(time10.getDate()-7);
+                var enddateISO2 = new Date(enddateIST2);
+                var enddateISOstr2 = enddateISO2.toISOString();
+                var enddateISOstrdate2 = new Date(enddateISOstr2);
+                var endDateRange = enddateISOstrdate2.getFullYear()+'-' + (enddateISOstrdate2.getMonth()+1) + '-'+enddateISOstrdate2.getDate();
+                
+                /*FOR DROPDOWN*/
+                var time11 = new Date(displayStartDate);
+                var startdateIST3 = time11.setDate(time11.getDate()-27);
+                var startdateISO3 = new Date(startdateIST3);
+                var startdateISOstr3 = startdateISO3.toISOString()
+                var startdateISOstrdate3 = new Date(startdateISOstr3);
+                var startDateRangeDropdown = startdateISOstrdate3.getFullYear()+'-' + (startdateISOstrdate3.getMonth()+1) + '-'+startdateISOstrdate3.getDate();
+        
+                var time12 = new Date(displayEndDate);
+                var enddateIST4 = time12.setDate(time12.getDate()+14);
+                var enddateISO4 = new Date(enddateIST4);
+                var enddateISOstr4 = enddateISO4.toISOString();
+                var enddateISOstrdate4 = new Date(enddateISOstr4);
+                var endDateRangeDropdown = enddateISOstrdate4.getFullYear()+'-' + (enddateISOstrdate4.getMonth()+1) + '-'+enddateISOstrdate4.getDate();
+
+                $scope.currentWeekStartDate = startdateIST1;
+                $scope.currentWeekEndDate = enddateIST2;
+                
+                var startDate = $scope.ISOdateConvertion( startDateRange );
+                var endDate = $scope.ISOdateConvertion( endDateRange );
+                
+                setOnlyCookie("weekStartDate", startDate, 60 * 60 * 60);
+                setOnlyCookie("weekEndDate", endDate, 60 * 60 * 60);
                     
                     homeService.myTaskResponse(access_token,startDate,endDate,function (response2) {
-                        if(response2.status){ 
+                        if(response2.status){
+                            /////LOADER SHOW
+                            $(window).scrollTop(0);
+                            $("#status_right_content5").css("display", "none");
+                            $("#preloader_right_content5").css("display", "none");
                             if(response2 != ''){
                                 $('#noRecord6').removeClass('noRecord');
                                 $scope.weeklyTaskMessage ="";
@@ -3689,6 +3817,10 @@
                                 $scope.myTaskList = '';     
                             }
                         }else{//ERROR : 500 in api
+                            /////LOADER SHOW
+                            $(window).scrollTop(0);
+                            $("#status_right_content5").css("display", "none");
+                            $("#preloader_right_content5").css("display", "none");
                             $('#noRecord6').addClass('noRecord');
                             //$scope.weeklyTaskMessage = "No Tasks Due this week.Click on Create Task to set a task for the students.";
                             $scope.weeklyTaskMessage = "No Tasks Due this week.";
@@ -3700,9 +3832,17 @@
                     });
                     
                     /*CALENDER DROPDOWN ONSELECT will show 28 days after & before */
-                    $scope.myTaskCalendar = function () {        
-                        homeService.myTaskCalenderResponse(access_token,startDateRangeDropdown,endDateRangeDropdown,function (response4) {
-                 
+                    $scope.myTaskCalendar = function () {
+                        /////LOADER SHOW
+                        $(window).scrollTop(0);
+                        $("#status_right_content5").css("display", "block");
+                        $("#preloader_right_content5").css("display", "block");
+                        homeService.myTaskCalenderResponse(access_token,startDateRangeDropdown,endDateRangeDropdown,function (response4)
+                        {
+                            /////LOADER SHOW
+                            $(window).scrollTop(0);
+                            $("#status_right_content5").css("display", "none");
+                            $("#preloader_right_content5").css("display", "none");
                             $scope.myTaskListCalendar = response4;
                             /*selected date is set in cookie for load more functionality*/
                             var response_length = response4.length;
@@ -3719,19 +3859,7 @@
                     $scope.myTaskCalendar();
             }; 
             
-            
-            //*** CALENDAR IN SCROLL UP & DOWN ***//                         
-
-            
-            //console.log(firstWeekRangeStartDate1+'  START  '+firstWeekRangeEndDate1);
-            //console.log(lastWeekRangeStartDate1+'  END  '+lastWeekRangeEndDate1);
-
-            //$timeout(function() {
-            //   // alert('call');
-            //  $('#myTask').addClass('active');
-            //},1000);
-
-          
+   
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /************************   ***** CREATE NEW TASK POP UP SECTION *****  ****************************************
     ****************************************************************************************************************/
@@ -3742,6 +3870,13 @@
                 $scope.name = '';
                 $scope.files = [];
                 var nothing="";
+                    setTimeout(function () {
+                                $('select[id=selectClassDdp]').val(0);
+                                $("#selectClassDdp").change();
+                                $('.selectpicker').selectpicker('refresh');
+                                $('#studentIdsForTaskPopUp').val(nothing);
+                                $scope.studentList = '';
+                            },200);
                     //$('.selectClassDdp').refresh();
                     setTimeout(function () {
                     //$('select[name=selValue]').val(0);
@@ -4305,7 +4440,8 @@
                             $('.showStudentDivPopup').css({'display':'none'});
                             var nothing="";
                             setTimeout(function () {
-                                $('select[name=selValue]').val(0);
+                                $('select[id=selectClassDdp]').val(0);
+                                $("#selectClassDdp").change();
                                 $('.selectpicker').selectpicker('refresh');
                                 $('#studentIdsForTaskPopUp').val(nothing);
                                 $scope.studentList = '';
@@ -4329,12 +4465,13 @@
                             /**************************/
                         }
                         
-                        $scope.yesBtnClick=function(){
-                            
+                        $scope.yesBtnClick=function()
+                        {
                             $('.showStudentDivPopup').css({'display':'none'});
                             var nothing="";
                             setTimeout(function () {
-                                $('select[name=selValue]').val(0);
+                                $('select[id=selectClassDdp]').val(0);
+                                $("#selectClassDdp").change();
                                 $('.selectpicker').selectpicker('refresh');
                                 $('#studentIdsForTaskPopUp').val(nothing);
                                 $scope.studentList = '';
@@ -5574,34 +5711,6 @@ function file_upload3(dynamicId)
 }
 function printDiv(divName)
 {
-//    var printContents = document.getElementById(divName).innerHTML;
-//    //console.log(printContents);
-//    var mywindow = window.open();
-//    mywindow.document.write('<html><head><title></title>');
-//    mywindow.document.write('<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700" type="text/css" media="print" />');
-//    mywindow.document.write('<link rel="stylesheet" href="http://esolz.co.in/lab3/involved/css/font-awesome.min.css" type="text/css" media="print" />');
-//    mywindow.document.write('<link rel="stylesheet" href="http://esolz.co.in/lab3/involved/css/bootstrap.css" type="text/css" media="print" />');
-//    mywindow.document.write('<link rel="stylesheet" href="http://esolz.co.in/lab3/involved/css/bootstrap-select.css" type="text/css" media="print" />');
-//    mywindow.document.write('<link rel="stylesheet" href="http://esolz.co.in/lab3/involved/css/jquery-ui.css" type="text/css" media="print" />');
-//    mywindow.document.write('<link rel="stylesheet" href="http://esolz.co.in/lab3/involved/css/circle.css" type="text/css" media="print" />');
-//    mywindow.document.write('<link rel="stylesheet" href="http://esolz.co.in/lab3/involved/css/custom.css" type="text/css" media="print" />');
-//    mywindow.document.write('<link rel="stylesheet" href="http://esolz.co.in/lab3/involved/css/developer.css" type="text/css" media="print" />');
-//    mywindow.document.write('<link rel="stylesheet" href="http://esolz.co.in/lab3/involved/css/jquery.mCustomScrollbar.css" type="text/css" media="print" />');
-//    mywindow.document.write('<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,900italic,900,700italic,700,500,500italic,400italic" type="text/css" media="print" />');
-//    mywindow.document.write('</head><body>');
-//    mywindow.document.write(printContents);
-//    mywindow.document.write('</body></html>');
-//    
-//    mywindow.print();
-//    mywindow.close();
-//    
-//    
-//    
-////var printContents = document.getElementById(divName).innerHTML;
-////w=window.open();
-////w.document.write(printContents);
-////w.print();
-////w.close();
         var contents = $("#"+divName).html();
         var frame1 = $('<iframe />');
         frame1[0].name = "frame1";
@@ -5630,40 +5739,27 @@ function printDiv(divName)
             window.frames["frame1"].print();
             frame1.remove();
         }, 500);
+        
+        
+        
+        //var dataUrl = document.getElementById(divName).toDataURL(); //attempt to save base64 string to server using this var
+        //console.log(dataUrl);
+        //var windowContent = '<!DOCTYPE html>';
+        //windowContent += '<html>'
+        //windowContent += '<head><title>Print canvas</title></head>';
+        //windowContent += '<body>'
+        //windowContent += '<img src="' + dataUrl + '">';
+        //windowContent += '</body>';
+        //windowContent += '</html>';
+        //var printWin = window.open();
+        //printWin.document.open();
+        //printWin.document.write(windowContent);
+        //printWin.document.close();
+        //printWin.focus();
+        //printWin.print();
+        //printWin.close();
+        //    
+        
 
 }
 
-
-
-//function printDiv(elem)
-//{
-//    Popup($('<div/>').append($(elem).clone()).html());
-//}
-
-//function printDiv(elem) 
-//{
-//    //console.log(data);
-//    var data = $('<div/>').append($(elem).clone()).html()
-//    var mywindow = window.open();
-//    
-//    mywindow.document.write('<html><head><title>my div</title>');
-//    //mywindow.document.write('<link rel="stylesheet" href="http://www.dynamicdrive.com/ddincludes/mainstyle.css" type="text/css" />');
-//    mywindow.document.write('<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700" type="text/css"/>');
-//    mywindow.document.write('<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />');
-//    mywindow.document.write('<link rel="stylesheet" href="css/bootstrap.css" type="text/css" />');
-//    mywindow.document.write('<link rel="stylesheet" href="css/bootstrap-select.css" type="text/css" />');
-//    mywindow.document.write('<link rel="stylesheet" href="css/jquery-ui.css" type="text/css" />');
-//    mywindow.document.write('<link rel="stylesheet" href="css/circle.css" type="text/css" />');
-//    mywindow.document.write('<link rel="stylesheet" href="css/custom.css" type="text/css" />');
-//    mywindow.document.write('<link rel="stylesheet" href="css/developer.css" type="text/css" />');
-//    mywindow.document.write('<link rel="stylesheet" href="css/jquery.mCustomScrollbar.css" type="text/css" />');
-//    mywindow.document.write('<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,900italic,900,700italic,700,500,500italic,400italic" type="text/css" />');
-//    mywindow.document.write('</head><body>');
-//    mywindow.document.write(data);
-//    mywindow.document.write('</body></html>');
-//
-//    mywindow.print();
-//    mywindow.close();
-//
-//    //return true;
-//}
