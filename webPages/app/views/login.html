@@ -1,0 +1,61 @@
+
+<body>
+<div id="particles-js"></div>
+<!--login panel-->
+<div class="login_outter">
+	<div class="login_box">
+    	<h2><img src="images/logo.png" alt=""></h2>
+        <h3>Welcome</h3> 
+        <div class="frm_inr">
+        	<h4>Sign in</h4>
+			<form>
+				<div ng-if ="email != '' || email != undefined">
+					<input type="text" placeholder="Email" id="email" value="{{email}}" ng-keyup="clear()">
+					<!--<div id="emailErr" style="color: red;">{{emailErr}}</div>-->
+					
+					<input type="password" placeholder="Password" id="password" value="{{password}}" ng-keyup="clear()">
+					<div id="passwordErr" style="color: red;">{{passwordErr}}</div>
+					
+					<input type="hidden" id="grant_type" value="password">
+					
+					<div class="remember">
+						<input type="checkbox" id="remember" >
+						<label for="remember">Remember me</label>
+					</div>
+					
+					<div class="btn_outr clearfix">
+						<button class="pull-left login-submit-btn" ng-click="loginSubmit()">Sign in</button>
+						<a href="javascript:void(0)" ng-click="forget_password();">Forgot Password</a>
+					</div>
+				</div>
+			</form>
+        </div>
+        <div class="trm_row">
+        	<a href="#">Privacy Policy</a> <span>and</span> <a href="#">Terms and Conditions</a>
+        </div>
+    </div>
+</div>
+<!--login panel-->
+
+<input id="confy1" type="button" data-toggle="modal" data-target="#settaskconfirm_modal_login" style="display:none">
+<!--settaskconfirm pop up-->
+<div class="modal fade attach_photo" id="settaskconfirm_modal_login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog loginMod" role="document">
+        <div class="modal-content">
+            <div class="modal-body clearfix">
+               <span>{{msg}}</span>
+	       <span>{{msg1}}</span>
+               <div class="delete_btn">  	
+                    <a href="javascript:void(0)" class="yes_bg"  aria-label="Close" data-dismiss="modal" aria-label="Close">OK</a>
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--settaskconfirm pop end-->
+
+<!--footer start-->
+<div class="footer">Copyright &copy; 2016 InvolvEdTech. All Rights Reserved.</div>
+<!--footer end-->
+
+</body>
