@@ -1,9 +1,25 @@
-    postApp.controller('homeCtrl', function ($scope, $http,$compile, $location,$timeout,loginService, homeService) {
+    postApp.controller('homeCtrl', function ($scope, $filter, $http,$compile, $location,$timeout,loginService, homeService) {
 
         var access_token = getOnlyCookie("access_token");
         var userid = getOnlyCookie("userid");
         var weekDayArr = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
         var monthArr = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"];
+        
+        /*initializing scrollers*/
+        $timeout(function() {
+        $("#chat_box").mCustomScrollbar({
+                         axis: "y",
+                         theme: "3d",
+                         scrollInertia: 550,
+                         scrollbarPosition: "outside"
+                 });
+         $(".right_srl").mCustomScrollbar({
+                     axis:"x",
+                     theme:"3d",
+                     scrollInertia:550,
+                     scrollbarPosition:"outside"
+                 });
+        },1000);
        
         /*loader*/
         $scope.loader_hide = function(){
@@ -16,97 +32,115 @@
         /*IF USER NOT LOGGED IN , HE CANNOT ACCESS HOME PAGE*/
         $scope.init = function ()
         {     
-                if(userid == undefined)
+            if(userid == undefined)
+            {
+                var URL = base_url + 'login';
+                window.location = URL;
+            }else{
+                ///LOADER SHOW
+                $(window).scrollTop(0);
+                $("#status_right_content4").css("display", "block");
+                $("#preloader_right_content4").css("display", "block");
+                    /*FETCH TEACHER DETAILS ON PAGE LOAD*/
+                homeService.teacherDetailsResponse(access_token, userid, function (response)
                 {
-                    var URL = base_url + 'login';
-                    window.location = URL;
-                }else{
-                    ///LOADER SHOW
-                    $(window).scrollTop(0);
-                    $("#status_right_content4").css("display", "block");
-                    $("#preloader_right_content4").css("display", "block");
-                        /*FETCH TEACHER DETAILS ON PAGE LOAD*/
-                        homeService.teacherDetailsResponse(access_token, userid, function (response)
+                    console.log("TEACHER DETAILS");
+                    console.log(response);
+                    $scope.Id               = response.Id;
+                    $scope.TeacherTitle     = response.Title;
+                    $scope.Email            = response.Email;
+                    $scope.TeacherFirstname = response.Firstname;
+                    $scope.TeacherLastname  = response.Lastname;
+                    $scope.Gender           = response.Gender;
+                    $scope.TeacherSchoolName = response.SchoolName;
+                    $scope.UnreadInboxCount = response.UnreadInboxCount;
+                    $scope.TeacherImage     = response.Image;
+                    setOnlyCookie("teacherId",response.Id, 60 * 60 * 60); 
+                    /*FETCH MY CLASSES*/
+                    var teacherId = getOnlyCookie("teacherId");
+                    setOnlyCookie("tab", "myClasses", 60 * 60 * 60);
+                    $scope.myClassesResponse=function()
+                    {
+                        homeService.myClassesResponse(access_token, teacherId, function (response)
                         {
-                            console.log("TEACHER DETAILS");
-                            console.log(response);
-                            $scope.Id               = response.Id;
-                            $scope.TeacherTitle     = response.Title;
-                            $scope.Email            = response.Email;
-                            $scope.TeacherFirstname = response.Firstname;
-                            $scope.TeacherLastname  = response.Lastname;
-                            $scope.Gender           = response.Gender;
-                            $scope.TeacherSchoolName = response.SchoolName;
-                            $scope.UnreadInboxCount = response.UnreadInboxCount;
-                            $scope.TeacherImage     = response.Image;
-                            setOnlyCookie("teacherId",response.Id, 60 * 60 * 60); 
-                            /*FETCH MY CLASSES*/
-                            var teacherId = getOnlyCookie("teacherId");
-                            setOnlyCookie("tab", "myClasses", 60 * 60 * 60);
-                            $scope.myClassesResponse=function()
-                            {
-                                homeService.myClassesResponse(access_token, teacherId, function (response)
-                                {
-                                    
-                                    //alert('my classes');
-                                    ///LOADER SHOW
-                                    $(window).scrollTop(0);
-                                    $("#status_right_content4").css("display", "block");
-                                    $("#preloader_right_content4").css("display", "block");
                             
-                                    console.log("MY CLASSES");
-                                    console.log(response);
-                                    if(response.status)
-                                    {
-                                        ///LOADER HIDE
-                                        $(window).scrollTop(0);
-                                        $("#status_right_content4").css("display", "none");
-                                        $("#preloader_right_content4").css("display", "none");
-                                        if(response != '')
-                                        {
-                                            $scope.myClasses = response;
-                                            $scope.classListMessage1 = '';
-                                            $scope.classListMessage2 = "";
-                                            $scope.classListMessage3 = "";
-                                            $scope.classListMessage4 = "";
-                                            $('.showStudentDiv').show();
-                                            $('#noRecord4').removeClass('noRecord');
-                                            $scope.defaultClassId = response[0].Id;
-                                        }else{
-                                            $scope.myClasses = '';
-                                            $scope.classListMessage = 'No Classes Found…';
-                                            $scope.classListMessage1 = "Try:";
-                                            $scope.classListMessage2 = "1. Reload the webpage.";
-                                            $scope.classListMessage3 = "2. If the problem persists, please submit your query";
-                                            $scope.classListMessage4="here.";
-                                            $('.showStudentDiv').hide();
-                                            $('#noRecord4').addClass('noRecord');
-                                            $scope.defaultClassId="";
-                                        }     
-                                    }else{//ERROR : 500 in api
-                                        ///LOADER HIDE
-                                        $(window).scrollTop(0);
-                                        $("#status_right_content4").css("display", "none");
-                                        $("#preloader_right_content4").css("display", "none");
-                                        $scope.myClasses = '';
-                                        $scope.classListMessage = 'No Classes Found…';
-                                        $scope.classListMessage1 = "Try:";
-                                        $scope.classListMessage2 = "1. Reload the webpage.";
-                                        $scope.classListMessage3 = "2. If the problem persists, please submit your query";
-                                        $scope.classListMessage4="here.";
-                                        $('.showStudentDiv').hide();
-                                        $('#noRecord4').addClass('noRecord');
-                                        $scope.defaultClassId="";
-                                    } 
-                                    $(".right_srl ").mCustomScrollbar("update");
-                                });
-                            };
-                        $scope.myClassesResponse();
-                     });
-                }    
+                            //alert('my classes');
+                            ///LOADER SHOW
+                            $(window).scrollTop(0);
+                            $("#status_right_content4").css("display", "block");
+                            $("#preloader_right_content4").css("display", "block");
+                    
+                            console.log("MY CLASSES");
+                            console.log(response);
+                            if(response.status)
+                            {
+                                ///LOADER HIDE
+                                $(window).scrollTop(0);
+                                $("#status_right_content4").css("display", "none");
+                                $("#preloader_right_content4").css("display", "none");
+                                if(response != '')
+                                {
+                                    $scope.myClasses = response;
+                                    $scope.classListMessage = "";
+                                    $scope.classListMessage1 = "";
+                                    $scope.classListMessage2 = "";
+                                    $scope.classListMessage3 = "";
+                                    $scope.classListMessage4 = "";
+                                    $('.showStudentDiv').show();
+                                    $('#noRecord4').removeClass('noRecord');
+                                    $scope.defaultClassId = response[0].Id;
+                                }else{
+                                    $scope.myClasses = '';
+                                    $scope.classListMessage = 'No Classes Found…';
+                                    $scope.classListMessage1 = "Try:";
+                                    $scope.classListMessage2 = "1. Reload the webpage.";
+                                    $scope.classListMessage3 = "2. If the problem persists, please submit your query";
+                                    $scope.classListMessage4="here.";
+                                    $('.showStudentDiv').hide();
+                                    $('#noRecord4').addClass('noRecord');
+                                    $scope.defaultClassId="";
+                                }     
+                            } else if(response.msg == "ERR_INTERNET_DISCONNECTED"){ //ERROR : no internet connection
+                                // alert('no internet');
+                                //LOADER HIDE
+                                $(window).scrollTop(0);
+                                $("#status_right_content4").css("display", "none");
+                                $("#preloader_right_content4").css("display", "none");
+                                $("#confy1").click();
+                                $scope.msg = 'Server failed to respond';
+                                $scope.myClasses = '';
+                                $scope.classListMessage = 'No Classes Found…';
+                                $scope.classListMessage1 = "Try:";
+                                $scope.classListMessage2 = "1. Reload the webpage.";
+                                $scope.classListMessage3 = "2. If the problem persists, please submit your query";
+                                $scope.classListMessage4="here.";
+                                $('.showStudentDiv').hide();
+                                $('#noRecord4').addClass('noRecord');
+                                $scope.defaultClassId="";
+                            } else {  //ERROR : 500 in api
+                                 ///LOADER HIDE
+                                $(window).scrollTop(0);
+                                $("#status_right_content4").css("display", "none");
+                                $("#preloader_right_content4").css("display", "none");
+                                $scope.myClasses = '';
+                                $scope.classListMessage = 'No Classes Found…';
+                                $scope.classListMessage1 = "Try:";
+                                $scope.classListMessage2 = "1. Reload the webpage.";
+                                $scope.classListMessage3 = "2. If the problem persists, please submit your query";
+                                $scope.classListMessage4="here.";
+                                $('.showStudentDiv').hide();
+                                $('#noRecord4').addClass('noRecord');
+                                $scope.defaultClassId="";
+                            } 
+                            $(".right_srl ").mCustomScrollbar("update");
+                        });
+                    };
+                    $scope.myClassesResponse();
+                });
+            }    
         }
         $scope.init();
-        
+        var teacherId = getOnlyCookie("teacherId");
         //$scope.toggle_status='tab';
         $scope.toggle_status_performance='';
         $scope.toggle_status_message='';
@@ -259,6 +293,7 @@
             /*for toggle in 3-tabs in MY CLASSES*/
             $scope.cancelClickTab=function(val,$event)
             {
+
                 /*todays date*/
                 var todayTime     = new Date();
                 var current_month = (todayTime .getMonth() + 1);
@@ -277,8 +312,8 @@
                  
                 var flag = 0;
                 
-                if (StudentIds != ''){
-                  
+                if (StudentIds != '')
+                {
                     flag++;
                 }
                 if(tasktype == '' || tasktype == null || tasktype == 'null')
@@ -337,11 +372,14 @@
                     $scope.toggle_status_performance='tab';
                     ///LOADER SHOW
                     $(window).scrollTop(0);
+                    $('.showStudentDiv').css('display','none');
+                    $scope.performanceList="";
                     $("#status_right_content").css("display", "block");
                     $("#preloader_right_content").css("display", "block");
                 } else if ( flag==0 && val=="message" ){
                    
                     $scope.toggle_status_message='tab';
+                    $('#message1').val('');
                     ///LOADER SHOW
                     $(window).scrollTop(0);
                     $("#status_right_content").css("display", "block");
@@ -373,7 +411,11 @@
                 } else if ( flag==0 && val=="my_inbox" ){
           
                     $scope.toggle_status_my_inbox='tab';
-                    //$("#performance_print_span").css("display", "none");
+                    //LOADER SHOW
+                    $(window).scrollTop(0);
+                    $("#status_right_content8").css("display", "block");
+                    $("#preloader_right_content8").css("display", "block");
+                    
                 } else if ( flag==0 && val=="my_task" ){
                     
                     $scope.toggle_status_my_task='tab';
@@ -422,11 +464,14 @@
                     } else if (val=="my_timetable") {
                         $scope.toggle_status_my_timetable='tab';
                         $('#my_timetable').click();
-                        //$("#performance_print_span").css("display", "none");
+                        
                     } else if (val=="my_inbox") {
                         $scope.toggle_status_my_inbox='tab';
                         $('#my_inbox').click();
-                        //$("#performance_print_span").css("display", "none");
+                        //LOADER SHOW
+                        $(window).scrollTop(0);
+                        $("#status_right_content8").css("display", "block");
+                        $("#preloader_right_content8").css("display", "block");
                     } else if (val=="my_task") {
                         $scope.toggle_status_my_task='tab';
                         $('#myTask').click();
@@ -458,8 +503,8 @@
                     $('#fileNum').val(0);
                     $('#file_size1').val(0);
                     /**************************/
-                  
-
+                    $('#message1').val('');
+                    
                     /*create message section*/
                     $("#messageReset").click();
                     $('.studentListInMessageCheckbox').attr('checked', "false");
@@ -478,6 +523,7 @@
             /************************   ***** CREATE TASK SECTION *****  *************************/  
             $scope.createTask = function(ClassId,ClassName,SubjectName)
             {
+                
                 ///LOADER HIDE
                 $(window).scrollTop(0);
                 $("#status_right_content").fadeOut();
@@ -516,7 +562,6 @@
                             $scope.nostudentlist4="";
                             $scope.studentListMessage = '';
                             $('#noRecord2').removeClass('noRecord');
-                            //$('#noRecord8').removeClass('noRecord');
                             $('#remember_1').removeAttr('checked');
                         }else{
                             $('.showStudentDiv').hide();
@@ -529,27 +574,33 @@
                             $scope.nostudentList2="1. Reload the webpage.";
                             $scope.nostudentList3="2. If the problem persists, please submit your query";
                             $scope.nostudentlist4="here.";
-                           //$scope.trusted_html_variable = $sce.trustAsHtml(someHtmlVar);
-                            //$scope.studentListMessage = "You have currently placed an error message on RHS 'Oops…..' - this appears when LHS returns no student data.Change to be made - RHS should always be present - it should not depend on Left hand side student list. Please remove the current error message - there should never be a no data scenario on RHS.";
                             $('#noRecord2').addClass('noRecord');
-                            //$('#noRecord8').addClass('noRecord');
                         }      
-                    }else{//ERROR : 500 in api
+                    } else if(response.msg == "ERR_INTERNET_DISCONNECTED") {//ERROR : 500 in api
+                        $("#confy1").click();
+                        $scope.msg = 'Server failed to respond';
                         $('.showStudentDiv').hide();
                         $scope.studentList = "";
                         $scope.noOfStudents = 0;
                         $scope.IsUnlocked = '';
-                        //$scope.nostudentList = "<div><b>No Students Found… </b><div>Try: 1. Reload the webpage. </div><div>2. If the problem persists, please submit your query to support@involvedtech.co.uk using your school email address.</div>";
                         $scope.nostudentList = "No Students Found… ";
                         $scope.nostudentList1="Try: ";
                         $scope.nostudentList2="1. Reload the webpage.";
                         $scope.nostudentList3="2. If the problem persists, please submit your query";
                         $scope.nostudentlist4="here.";
-                        //$scope.studentListMessage = "You have currently placed an error message on RHS 'Oops…..' - this appears when LHS returns no student data.<br>Change to be made - RHS should always be present - it should not depend on Left hand side student list. Please remove the current error message - there should never be a no data scenario on RHS.";
                         $('#noRecord2').addClass('noRecord');
-                        //$('#noRecord8').addClass('noRecord');
-                         //$('.noRecordClass').css({display: block});
-                    } 
+                    } else {
+                        $('.showStudentDiv').hide();
+                        $scope.studentList = "";
+                        $scope.noOfStudents = 0;
+                        $scope.IsUnlocked = '';
+                        $scope.nostudentList = "No Students Found… ";
+                        $scope.nostudentList1="Try: ";
+                        $scope.nostudentList2="1. Reload the webpage.";
+                        $scope.nostudentList3="2. If the problem persists, please submit your query";
+                        $scope.nostudentlist4="here.";
+                        $('#noRecord2').addClass('noRecord');
+                    }
                 });
       
                 /*COUNT SELECT STUDENT CHECKBOX IN TASK SECTION*/
@@ -1062,9 +1113,8 @@
             {
                 ///LOADER HIDE
                 $(window).scrollTop(0);
-                $("#status_right_content").fadeOut();
-                $("#preloader_right_content").delay(200).fadeOut("fast");
-                
+                $("#status_right_content").show();
+                $("#preloader_right_content").show();
                 $("#performance_print_span").css("display", "none");
                 /*fetch student list*/
                 $scope.classId = ClassId;
@@ -1079,11 +1129,12 @@
                     if(response.status){ 
                         ///LOADER HIDE
                         $(window).scrollTop(0);
-                        $("#status_right_content").fadeOut();
-                        $("#preloader_right_content").delay(200).fadeOut("slow");
+                        $("#status_right_content").hide();
+                        $("#preloader_right_content").hide();
                         
                         if(response != ''){
                             $('.showStudentDiv').show();
+                            $('#noRecord3').removeClass('noRecord');
                             $scope.studentListmsg = response;
                             $scope.noOfStudents = response.length;
                             $scope.IsUnlocked = response.IsUnlocked;
@@ -1093,41 +1144,81 @@
                             $scope.nostudentList3="";
                             $scope.nostudentList4="";
                             $scope.studentListMessage = '';
-                            $('#noRecord3').removeClass('noRecord');
-                            //$('#noRecord9').removeClass('noRecord');
                             $('#remember').removeAttr('checked');
                         }else{
                             $('.showStudentDiv').hide();
+                            $('#noRecord3').addClass('noRecord');
                             $scope.studentListmsg = "";
                             $scope.noOfStudents = 0;
                             $scope.IsUnlocked = '';
-                           // $scope.nostudentList = "No Students Found… Try: 1. Reload the webpage. 2. If the problem persists, please submit your query to support@involvedtech.co.uk using your school email address.";
-                                $scope.nostudentList = "No Students Found… ";
-                                $scope.nostudentList1="Try: ";
-                                $scope.nostudentList2="1. Reload the webpage.";
-                                $scope.nostudentList3="2. If the problem persists, please submit your query";
-                                $scope.nostudentList4="here.";
-                            //$scope.studentListMessage =  "You have currently placed an error message on RHS 'Oops…..' - this appears when LHS returns no student data.<br>Change to be made - RHS should always be present - it should not depend on Left hand side student list. Please remove the current error message - there should never be a no data scenario on RHS.";
-                            //$('#noRecord9').addClass('noRecord');
-                            $('#noRecord3').addClass('noRecord');
-                            
+                            $scope.nostudentList = "No Students Found… ";
+                            $scope.nostudentList1="Try: ";
+                            $scope.nostudentList2="1. Reload the webpage.";
+                            $scope.nostudentList3="2. If the problem persists, please submit your query";
+                            $scope.nostudentList4="here.";
                         }      
-                    }else{//ERROR : 500 in api
+                    } else if(response.msg == "ERR_INTERNET_DISCONNECTED") {//ERROR : 500 in api
+                        ///LOADER HIDE
+                        $(window).scrollTop(0);
+                        $("#status_right_content").hide();
+                        $("#preloader_right_content").hide();
+                        $("#confy1").click();
+                        $scope.msg = 'Server failed to respond';
+                        
                         $('.showStudentDiv').hide();
+                        $('#noRecord3').addClass('noRecord');
                         $scope.studentListmsg = "";
                         $scope.noOfStudents = 0;
                         $scope.IsUnlocked = '';
-                        //$scope.nostudentList = "No Students Found… Try: 1. Reload the webpage. 2. If the problem persists, please submit your query to support@involvedtech.co.uk using your school email address.";
                         $scope.nostudentList = "No Students Found… ";
                         $scope.nostudentList1="Try: ";
                         $scope.nostudentList2="1. Reload the webpage.";
                         $scope.nostudentList3="2. If the problem persists, please submit your query";
                         $scope.nostudentList4="here.";
-                        //$scope.studentListMessage =  "You have currently placed an error message on RHS 'Oops…..' - this appears when LHS returns no student data.<br>Change to be made - RHS should always be present - it should not depend on Left hand side student list. Please remove the current error message - there should never be a no data scenario on RHS.";
-                        //$('#noRecord9').addClass('noRecord');
-                        $('#noRecord3').addClass('noRecord');
                         
-                    } 
+                    } else {
+                        ///LOADER HIDE
+                        $(window).scrollTop(0);
+                        $("#status_right_content").hide();
+                        $("#preloader_right_content").hide();
+                        
+                        $('.showStudentDiv').hide();
+                        $('#noRecord3').addClass('noRecord');
+                        $scope.studentListmsg = "";
+                        $scope.noOfStudents = 0;
+                        $scope.IsUnlocked = '';
+                        $scope.nostudentList = "No Students Found… ";
+                        $scope.nostudentList1="Try: ";
+                        $scope.nostudentList2="1. Reload the webpage.";
+                        $scope.nostudentList3="2. If the problem persists, please submit your query";
+                        $scope.nostudentList4="here.";
+                        
+                    }
+                });
+                
+                homeService.predefinedMessagesResponse(access_token, teacherId, function (response)
+                {
+                    console.log('PREDEFINED MESSAGES LIST');
+                    console.log(response);
+                    if(response.status){ 
+                        if(response != ''){
+                            $('#pre_msg').show();
+                            $scope.predefinedMessages = response;
+                            $scope.errorMsg = "";
+                        }else{
+                            $('#pre_msg').hide();
+                            $scope.predefinedMessages = "";
+                            $scope.errorMsg = "No predefined messages found.";
+                        }      
+                    } else if(response.msg == "ERR_INTERNET_DISCONNECTED") {//ERROR : 500 in api
+                        $('#pre_msg').hide();
+                        $scope.predefinedMessages = "";
+                        $scope.errorMsg = "No predefined messages found.";
+                    } else {
+                        $('#pre_msg').hide();
+                        $scope.predefinedMessages = "";
+                        $scope.errorMsg = "No predefined messages found.";
+                    }
                 });
                        
                 $scope.countSelectStudentsMessage = 0;
@@ -1221,6 +1312,98 @@
                         $scope.countSelectStudentsMessage = numberOfChecked;
                
                 };
+              
+                $scope.predefinedMessageDisplay = function(msg)
+                {
+        
+                    //$('#message1').val('');
+                    //$('#message1').val(msg);
+                    
+                    $('#message1').append(msg);
+                    
+                    //var div = document.getElementById('message1');
+                    //console.log(msg);
+                    //console.log(div);
+                    //div.innerHTML = div.innerHTML + msg;
+                    
+                    
+                    
+                };
+                /*ONCLICK SEND MESSAGE BUTTON*/
+                $scope.sendMessageBtnClick = function()
+                {
+                    var message = $('#message1').val();
+                    var StudentIds = $('#studentIdsForMessage').val();
+              
+                    var error = 0;
+                    if(StudentIds == '')
+                    {
+                        $("#confy").click();
+                        $scope.message="Please select students";
+                        error++;
+                        return false;
+                    }
+                    if( $('#message1').val().toString().trim() == '' )
+                    {              
+                        $('#message1').val('');                               
+                        $("#message1").attr("placeholder","Please enter message").addClass('red_place');
+                        error++;
+                        return false;
+                    }else{
+                        $("#message1").attr("placeholder","Type Message Here").removeClass('red_place');  
+                    }
+                    if(message.length > 500)
+                    {
+                        $("#message1").attr("placeholder","Message must not be more than 500 characters").addClass('red_place');
+                        error++;
+                        return false;
+                    }else{
+                        $("#message1").attr("placeholder","Type Message Here").removeClass('red_place');  
+                    }
+                    //alert(error);
+                    if(error == 0)
+                    {
+                        document.getElementById("sendMessageBtn").disabled = true;
+                        /////LOADER SHOW
+                        //$(window).scrollTop(0);
+                        //$("#status_right_content1").css("display", "block");
+                        //$("#preloader_right_content1").css("display", "block");
+
+                        homeService.studentParentMessageSend(access_token,StudentIds,ClassId,message,function (response)
+                        {
+                            console.log("sendMessageResponse");
+                            console.log(response);
+                            document.getElementById("sendMessageBtn").disabled = false;
+                            
+                            if(response == true)
+                            {
+                                ///LOADER HIDE
+                                //$(window).scrollTop(0);
+                                //$("#status_right_content1").fadeOut();
+                                //$("#preloader_right_content1").delay(200).fadeOut("slow");
+                             
+                                $scope.successMsg1 = 'Message successfully send';
+                                $('#successMsg1').click();
+                                $("#messageReset").click();
+                        
+                            }else{
+                                ///LOADER HIDE
+                                //$(window).scrollTop(0);
+                                //$("#status_right_content1").fadeOut();
+                                //$("#preloader_right_content1").delay(200).fadeOut("slow");
+                         
+                                $scope.successMsg1 = 'Message not send';
+                                $('#successMsg1').click();
+                                $("#messageReset").click();
+                            }
+                            setTimeout(function () {
+                                $('.modal-backdrop').hide(); // for black background
+                                $('body').removeClass('modal-open'); // For scroll run
+                                $('#successMsg_modal1').modal('hide');                                     
+                            }, 1500); 
+                        });
+                    }  
+                };
             };
             
             //removing the validation error of task type dropdown field of create task on mouse click
@@ -1310,7 +1493,20 @@
                                 $scope.studentListMessagePerformance4="here.";
                                 $('#noRecord1').addClass('noRecord');
                             }     
-                        }else{//ERROR : 500 in api
+                        } else if(response.msg == "ERR_INTERNET_DISCONNECTED") {//ERROR : 500 in api
+                            $('.showStudentDiv').hide();
+                            $("#confy1").click();
+                            $scope.msg = 'Server failed to respond';
+                            $scope.performanceList = '';
+                            $scope.noOfStudents = 0;
+                            //$scope.studentListMessagePerformance = "No Performance Data Found…… Try: 1. Reload the webpage. 2. If the problem persists, please submit your query to support@involvedtech.co.uk using your school email address.";
+                            $scope.studentListMessagePerformance = "No Students Found… ";
+                            $scope.studentListMessagePerformance1="Try: ";
+                            $scope.studentListMessagePerformance2="1. Reload the webpage.";
+                            $scope.studentListMessagePerformance3="2. If the problem persists, please submit your query";
+                            $scope.studentListMessagePerformance4="here.";
+                            $('#noRecord1').addClass('noRecord');
+                        } else {
                             $('.showStudentDiv').hide();
                             $scope.performanceList = '';
                             $scope.noOfStudents = 0;
@@ -1321,7 +1517,7 @@
                             $scope.studentListMessagePerformance3="2. If the problem persists, please submit your query";
                             $scope.studentListMessagePerformance4="here.";
                             $('#noRecord1').addClass('noRecord');
-                        } 
+                        }
                     });
                 },200);
     
@@ -1716,8 +1912,9 @@
             
     /*********************************  **** **** SEARCH **** **** ****************************************************
     *******************************************************************************************************************/
+    
             $scope.performance_graph_close=function(){
-                $("#hover_div").val('');
+                $("#hover_div").val('-1');
             };
             ////student search on keyup
             $(document).mouseup(function (e)
@@ -1733,7 +1930,7 @@
             $('#closediv').click(function(e)
             {
                 e.stopPropagation();
-                document.getElementById('searchterm').value="";                                    
+                document.getElementById('searchterm').value="";
                 $('#errordiv').css({'display':'none'});
                 $('#errordiv').html('');
                 $('.stdprof').remove();
@@ -1742,6 +1939,7 @@
             });
             $('#searchdiv').click(function(e)
             {
+                var key = e.which || e.keyCode;
                 $('#errordiv').html('');
                 var searchtext = $.trim($("#searchterm").val()).replace(/  +/g, ' ');
                 var searchtext_with_space = $.trim($("#searchterm").val()).replace(/\s/g,'');
@@ -1749,18 +1947,17 @@
                 if (srcLen>2)
                 {
                     if (!$(".stdprof"))
-                    {
-                        $('.search_reasult').css({'display':'block'});
-                        //$('#srch').fadeOut();
-                        //$('#search_cross').fadeIn();
-                        $('#errordiv').css({'display':'block'});
-                        $('#errordiv').html('Press Enter to search');
-                        $('#closediv').css({'display':'block'});
+                    { 
+                        if (key != 40 || key !=38)
+                        {
+                            $('.search_reasult').css({'display':'block'});
+                            $('#errordiv').css({'display':'block'});
+                            $('#errordiv').html('Press Enter to search');
+                            $('#closediv').css({'display':'block'});
+                        }
                     }   
                 }else{
                     $('.search_reasult').css({'display':'block'});
-                    //$('#srch').fadeOut();
-                    //$('#search_cross').fadeIn();
                     $('#errordiv').css({'display':'block'});
                     $('#errordiv').html('Enter a minimum of 3 characters');
                     $('#closediv').css({'display':'block'});
@@ -1772,14 +1969,17 @@
             {
                 /* UP & DOWN KEY */
                 var key = e.which || e.keyCode;
+                if (key != 13) {
+                $("#hover_div").val('-1');
+                }
+                
                 var no_of_search_result = 0;
                 $(".move").each(function(){
                     no_of_search_result = no_of_search_result + 1;
                 });
                 var search_count = no_of_search_result - 1;
                 if (key == 38) { // up arrow key
-         
-                    $('#errordiv').remove();
+                    $('#errordiv').css({'display':'none'});
                     var div_id = $(".result_hover").attr('id').replace('search_div','');
                     var prev_div_id = parseInt(div_id)-1;
                     if(prev_div_id >= 0){
@@ -1787,26 +1987,21 @@
                         $('#search_div'+prev_div_id).addClass("result_hover");
                         $('#search_div'+prev_div_id).focus();
                         $('#hover_div').val(prev_div_id);
-                       
                     }else{
                         prev_div_id = search_count;
                         $('.move').removeClass("result_hover");
                         $('#search_div'+prev_div_id).addClass("result_hover");
                         $('#search_div'+prev_div_id).focus();
                         $('#hover_div').val(prev_div_id);
-                    
                     }
-                    
                 }else if (key == 40) { // down arrow key
-          
-                    $('#errordiv').remove();
+                    $('#errordiv').css({'display':'none'});
                     if($(".result_hover").attr('id') == undefined)
                     {
                         $('.move').removeClass("result_hover");
                         $('#search_div0').addClass("result_hover");
                         $("#search_div0").hover();
-                        $('#hover_div').val(0);
-                   
+                        $('#hover_div').val('0');
                     }else{
                         var div_id = $(".result_hover").attr('id').replace('search_div','');
                         var next_div_id = parseInt(div_id)+1;
@@ -1823,11 +2018,10 @@
                             $('#hover_div').val(next_div_id);
                         }
                     }
-                    
                 }else if(key != 13){
                     $('.stdprof').remove();
                 }
-            /***********************************/
+                
                 //$('.stdprof').remove();
                 var searchtext = $.trim($("#searchterm").val()).replace(/  +/g, ' ');
                 var searchtext_with_space = $.trim($("#searchterm").val()).replace(/\s/g,'');
@@ -1835,111 +2029,138 @@
                 
                 if (srcLen>2)
                 {
-                    // alert('key2');
-                    //if (!$(".stdprof"))
+                    if (key != 40 && key !=38)
                     {
                         $('.search_reasult').css({'display':'block'});
-                        //$('#srch').fadeOut();
-                        //$('#search_cross').fadeIn();
                         $('#errordiv').css({'display':'block'});
                         $('#errordiv').html('Press Enter to search');
                         $('#closediv').css({'display':'block'});
                     }
-                    var key = e.which || e.keyCode;
                     if(key == 13)
                     {
+   
+                        $scope.successMsg = "";
+                        $scope.searchResList ="";
+                        $scope.noOfres = 0;
+                        //var searchterm = $.trim($("#searchterm").val()).replace(/  +/g, ' ');
+                        //var values = searchterm.split(' ').filter(function(v){return v!==''});
+                        
                         var hover_div = $("#hover_div").val();
-                        //alert(hover_div);
-                        if(hover_div != ""){
+                       
+                        if(hover_div != "-1")
+                        {
+                            //alert('1');
                             $('#search_div_anchor'+hover_div).click();
-                        }else{
+                        }
+                        else
+                        {
                             $scope.successMsg = "";
                             $scope.searchResList ="";
                             $scope.noOfres = 0;
                             var searchterm = $.trim($("#searchterm").val()).replace(/  +/g, ' ');
                             var values = searchterm.split(' ').filter(function(v){return v!==''});
+                            //alert('2 = '+values.length );
+                            
                             if (values.length > 2)
                             {
+                            
                                 //two or more words
-                                $('.search_reasult').css({'display':'block'});
-                                //$('#srch').fadeOut();
-                                //$('#search_cross').fadeIn();
-                                $('#errordiv').css({'display':'block'});
-                                $('#errordiv').html("Search is limited to Student's<br>First Name and Last Name only");
-                                $scope.successMsg = "";
-                                $scope.searchResList = 'No students found<br>Please refine your search';
-                                $scope.noOfres = 0;
-                                $('#closediv').css({'display':'block'});
+                                if (key != 40 && key !=38)
+                                {
+                                
+                                    $('.search_reasult').css({'display':'block'});
+                                    $('#errordiv').css({'display':'block'});
+                                    $('#errordiv').html("Search is limited to Student's<br>First Name and Last Name only");
+                                    $scope.successMsg = "";
+                                    //$scope.searchResListErr = 'No students found<br>Please refine your search';
+                                    $scope.searchResList = "";
+                                    $scope.noOfres = 0;
+                                    $('#closediv').css({'display':'block'});
+                                }
                             }else{
                                 homeService.studentSearchResponse(access_token, searchterm, function (response)
                                 {
+                                 
                                     console.log('SERCH');
                                     console.log(response);
                                     if(response.status)
                                     { 
                                         if(response.Count != 0)
-                                        {
+                                        { 
                                             if(response.Count > 20)
-                                            {
-                                                $('.search_reasult').css({'display':'block'});
-                                                //$('#srch').fadeOut();
-                                                //$('#search_cross').fadeIn();
-                                                $('#errordiv').css({'display':'block'});
-                                                $('#errordiv').html('More than 20 students found<br>Please refine your search');
-                                                $scope.successMsg = ""
-                                                $scope.searchResList = 'The search text should be make more specific as it matches more than 20 records';
-                                                $('#closediv').css({'display':'block'});
+                                            { 
+                                                if (key != 40 && key !=38)
+                                                { 
+                                                    $('.search_reasult').css({'display':'block'});
+                                                    $('#errordiv').css({'display':'block'});
+                                                    $('#errordiv').html('More than 20 students found<br>Please refine your search<br>The search text should be make more specific as it matches more than 20 records');
+                                                    $scope.successMsg = ""
+                                                    //$scope.searchResListErr = 'The search text should be make more specific as it matches more than 20 records';
+                                                    $scope.searchResList = "";
+                                                    $('#closediv').css({'display':'block'});
+                                                }
                                             }else{
+                                               
+                                                if (key != 40 && key !=38)
+                                                {
+                                                   
+                                                    $('.search_reasult').css({'display':'block'});
+                                                    $('#errordiv').css({'display':'none'});
+                                                    //$scope.searchResListErr = "";
+                                                    $scope.searchResList = response.Data;
+                                                    $scope.noOfres = response.Count;
+                                                    $('#closediv').css({'display':'block'});
+                                                }
+                                            }
+                                        }else{
+                                            if (key != 40 && key !=38)
+                                            {
+                                               
                                                 $('.search_reasult').css({'display':'block'});
-                                                //$('#srch').fadeOut();
-                                                //$('#search_cross').fadeIn();
-                                                $('#errordiv').css({'display':'none'});
-                                                $scope.searchResList = response.Data;
-                                                $scope.noOfres = response.Count;
+                                                $('#errordiv').css({'display':'block'});
+                                                $('#errordiv').html('No students found<br>Please refine your search');
+                                                $scope.successMsg = "";
+                                                //$scope.searchResListErr = 'No students found<br>Please refine your search';
+                                                $scope.searchResList = "";
+                                                $scope.noOfres = 0;
                                                 $('#closediv').css({'display':'block'});
                                             }
-                                        }else{                                
-                                            $('.search_reasult').css({'display':'block'});
-                                            //$('#srch').fadeOut();
-                                            //$('#search_cross').fadeIn();
-                                            $('#errordiv').css({'display':'block'});
-                                            $('#errordiv').html('No students found<br>Please refine your search');
-                                            $scope.successMsg = "";
-                                            $scope.searchResList = 'No students found<br>Please refine your search';
-                                            $scope.noOfres = 0;
-                                            $('#closediv').css({'display':'block'});
                                         }     
                                     }else{//ERROR : 500 in api`
-                                        $('.search_reasult').css({'display':'block'});
-                                        //$('#srch').fadeOut();
-                                        //$('#search_cross').fadeIn();
-                                        $scope.successMsg = "";
-                                        $scope.searchResList = response.Message;
-                                        $scope.noOfres = 0;
-                                        $('#closediv').css({'display':'block'});
+                                        if (key != 40 && key !=38)
+                                        {
+                                            
+                                            $('.search_reasult').css({'display':'block'});
+                                            $scope.successMsg = "";
+                                            //$scope.searchResListErr = "";
+                                            $scope.searchResList = response.Message;
+                                            $scope.noOfres = 0;
+                                            $('#closediv').css({'display':'block'});
+                                        }
                                     } 
                                 });
                             }
                         }
                     }                       
                 }else{
-                    $('.search_reasult').css({'display':'block'});
-                    //$('#srch').fadeOut();
-                    //$('#search_cross').fadeIn();
-                    $('#errordiv').css({'display':'block'});
-                    $('#errordiv').html('Enter a minimum of 3 characters.');
-                    $('#closediv').css({'display':'block'});
+                    if (key != 40 && key !=38)
+                    {
+                       
+                        $('.search_reasult').css({'display':'block'});
+                        $('#errordiv').css({'display':'block'});
+                        $('#errordiv').html('Enter a minimum of 3 characters.');
+                        $('#closediv').css({'display':'block'});
+                    }
                 }
-                
             });
             
-            $("#srch").click(function()
+            $("#srch").click(function(e)
             {
+                var key = e.which || e.keyCode;
                 $('.stdprof').remove();
                 var searchtext = $.trim($("#searchterm").val()).replace(/  +/g, ' ');
                 var searchtext_with_space = $.trim($("#searchterm").val()).replace(/\s/g,'');
                 var srcLen=searchtext_with_space.length;
-                
                 if (srcLen>2)
                 {
                     $scope.successMsg = "";
@@ -1948,15 +2169,17 @@
                     var searchterm = $.trim($("#searchterm").val()).replace(/  +/g, ' ');
                     var values = searchterm.split(' ').filter(function(v){return v!==''});
                     if (values.length > 2) {
-                        $('.search_reasult').css({'display':'block'});
-                        //$('#srch').fadeOut();
-                        //$('#search_cross').fadeIn();
-                        $('#errordiv').css({'display':'block'});
-                        $('#errordiv').html("Search is limited to Student's<br>First Name and Last Name only");
-                        $scope.successMsg = "";
-                        $scope.searchResList = 'No results found. Please refine your search';
-                        $scope.noOfres = 0;
-                        $('#closediv').css({'display':'block'});                    
+                        if (key != 40 && key !=38)
+                        {
+                            $('.search_reasult').css({'display':'block'});
+                            $('#errordiv').css({'display':'block'});
+                            $('#errordiv').html("Search is limited to Student's<br>First Name and Last Name only.");
+                            $scope.successMsg = "";
+                            //$scope.searchResList = 'No results found. Please refine your search';
+                            $scope.searchResList ="";
+                            $scope.noOfres = 0;
+                            $('#closediv').css({'display':'block'});
+                        }
                     } else {
                         homeService.studentSearchResponse(access_token, searchterm, function (response)
                         {     
@@ -1966,64 +2189,423 @@
                                 {
                                      if (response.Count > 20)
                                      {
+                                        if (key != 40 && key !=38)
+                                        {
                                            $('.search_reasult').css({'display':'block'});
-                                           //$('#srch').fadeOut();
-                                           //$('#search_cross').fadeIn();
                                            $('#errordiv').css({'display':'block'});
-                                           $('#errordiv').html('More than 20 students found<br>Please refine your search');
+                                           $('#errordiv').html('More than 20 students found<br>Please refine your search.<br>The search text should be make more specific as it matches more than 20 records.');
                                            $scope.successMsg = ""
-                                           $scope.searchResList = 'The search text should be make more specific as it matches more than 20 records';
+                                           //$scope.searchResList = 'The search text should be make more specific as it matches more than 20 records';
+                                           $scope.searchResList ="";
                                            $('#closediv').css({'display':'block'});
+                                        }
                                      }else{
+                                        if (key != 40 && key !=38)
+                                        {
                                            $('.search_reasult').css({'display':'block'});
-                                           //$('#srch').fadeOut();
-                                           //$('#search_cross').fadeIn();
                                            $('#errordiv').css({'display':'none'});
                                            $scope.searchResList = response.Data;
                                            $scope.noOfres = response.Count;
                                            $('#closediv').css({'display':'block'});
+                                        }
                                      }
                                 }else{
+                                    if (key != 40 && key !=38)
+                                    {
+                                        $('.search_reasult').css({'display':'block'});
+                                        $('#errordiv').css({'display':'block'});
+                                        $('#errordiv').html('No students found<br>Please refine your search');
+                                        $scope.successMsg = "";
+                                        //$scope.searchResList = 'No students found<br>Please refine your search';
+                                        $scope.searchResList ="";
+                                        $scope.noOfres = 0;
+                                        $('#closediv').css({'display':'block'});
+                                    }
+                                }     
+                            }else{//ERROR : 500 in api
+                                if (key != 40 && key !=38)
+                                {
                                     $('.search_reasult').css({'display':'block'});
-                                    //$('#srch').fadeOut();
-                                    //$('#search_cross').fadeIn();
-                                    $('#errordiv').css({'display':'block'});
-                                    $('#errordiv').html('No students found<br>Please refine your search');
                                     $scope.successMsg = "";
-                                    $scope.searchResList = 'No students found<br>Please refine your search';
+                                    $scope.searchResList = response.Message;
                                     $scope.noOfres = 0;
                                     $('#closediv').css({'display':'block'});
-                                }     
-                            }else{//ERROR : 500 in api`
-                                $('.search_reasult').css({'display':'block'});
-                                //$('#srch').fadeOut();
-                                //$('#search_cross').fadeIn();
-                                $scope.successMsg = "";
-                                $scope.searchResList = response.Message;
-                                $scope.noOfres = 0;
-                                $('#closediv').css({'display':'block'});
+                                }
                             } 
                         });
                     }
                 }else{
-                    $('.search_reasult').css({'display':'block'});
-                    //$('#srch').fadeOut();
-                    //$('#search_cross').fadeIn();
-                    $('#errordiv').css({'display':'block'});
-                    $('#errordiv').html('Enter a minimum of 3 characters.');
-                    $('#closediv').css({'display':'block'});
+                    if (key != 40 && key !=38)
+                    {
+                        $('.search_reasult').css({'display':'block'});
+                        $('#errordiv').css({'display':'block'});
+                        $('#errordiv').html('Enter a minimum of 3 characters.');
+                        $('#closediv').css({'display':'block'});
+                    }
                 }
             });
-  
-            //$(document).on('click','#search_cross',function(){
-            //    $('#srch').fadeIn();
-            //    $('.search_reasult').css({'display':'none'});
-            //    document.getElementById('searchterm').value="";
-            //        
-            //});
+        /************************************************************************************************/
+        
+        /****************************  **** **** SEARCH (MY INBOX) **** **** ***********************************/
+        
+                   
+            //$scope.performance_graph_close=function(){
+            //    $("#hover_div").val('-1');
+            //};
+            ////student search on keyup
+            $(document).mouseup(function (e)
+            {
+                //alert('mouse up');
+                var container = $(".search_reasult1");       
+                if (!container.is(e.target) // if the target of the click isn't the container...
+                    && container.has(e.target).length === 0) // ... nor a descendant of the container
+                {
+                    container.hide();
+                }
+            });
+            $('#closediv1').click(function(e)
+            {
+                e.stopPropagation();
+                document.getElementById('searchterm1').value="";
+                $('#errordiv1').css({'display':'none'});
+                $('#errordiv1').html('');
+                $('.stdprof1').remove();
+                //$('.inner_content').click();
+                $('#closediv1').css({'display':'none'});
+            });
+            $('#searchdiv1').click(function(e)
+            {
+                var key = e.which || e.keyCode;
+                $('#errordiv1').html('');
+                var searchtext = $.trim($("#searchterm1").val()).replace(/  +/g, ' ');
+                var searchtext_with_space = $.trim($("#searchterm1").val()).replace(/\s/g,'');
+                var srcLen=searchtext_with_space.length;
+                if (srcLen>2)
+                {
+                    if (!$(".stdprof1"))
+                    { 
+                        if (key != 40 || key !=38)
+                        {
+                            $('.search_reasult1').css({'display':'block'});
+                            $('#errordiv1').css({'display':'block'});
+                            $('#errordiv1').html('Press Enter to search');
+                            $('#closediv1').css({'display':'block'});
+                        }
+                    }   
+                }else{
+                    $('.search_reasult1').css({'display':'block'});
+                    $('#errordiv1').css({'display':'block'});
+                    $('#errordiv1').html('Enter a minimum of 3 characters');
+                    $('#closediv1').css({'display':'block'});
+                }
+            });
+           
             
-     
+            $('#searchdiv1').keyup(function(e)
+            {
+                /* UP & DOWN KEY */
+                var key = e.which || e.keyCode;
+                var no_of_search_result = 0;
+                $(".move1").each(function(){
+                    no_of_search_result = no_of_search_result + 1;
+                });
+                var search_count = no_of_search_result - 1;
+                if (key == 38) { // up arrow key
+                    $('#errordiv1').css({'display':'none'});
+                    var div_id = $(".result_hover").attr('id').replace('search_div1','');
+                    var prev_div_id = parseInt(div_id)-1;
+                    if(prev_div_id >= 0){
+                        $('.move1').removeClass("result_hover");
+                        $('#search_div1'+prev_div_id).addClass("result_hover");
+                        $('#search_div1'+prev_div_id).focus();
+                        $('#hover_div1').val(prev_div_id);
+                    }else{
+                        prev_div_id = search_count;
+                        $('.move1').removeClass("result_hover");
+                        $('#search_div1'+prev_div_id).addClass("result_hover");
+                        $('#search_div1'+prev_div_id).focus();
+                        $('#hover_div1').val(prev_div_id);
+                    }
+                }else if (key == 40) { // down arrow key
+                    $('#errordiv1').css({'display':'none'});
+                    if($(".result_hover").attr('id') == undefined)
+                    {
+                        $('.move1').removeClass("result_hover");
+                        $('#search_div10').addClass("result_hover");
+                        $("#search_div10").hover();
+                        $('#hover_div1').val('0');
+                    }else{
+                        var div_id = $(".result_hover").attr('id').replace('search_div1','');
+                        var next_div_id = parseInt(div_id)+1;
+                        if(next_div_id <= search_count){
+                            $('.move1').removeClass("result_hover");
+                            $('#search_div1'+next_div_id).addClass("result_hover");
+                            $('#search_div1'+next_div_id).focus();
+                            $('#hover_div1').val(next_div_id);
+                        }else{
+                            next_div_id = 0;
+                            $('.move1').removeClass("result_hover");
+                            $('#search_div1'+next_div_id).addClass("result_hover");
+                            $('#search_div1'+next_div_id).focus();
+                            $('#hover_div1').val(next_div_id);
+                        }
+                    }
+                }else if(key != 13){
+                    $('.stdprof1').remove();
+                }
+                
+                //$('.stdprof').remove();
+                var searchtext = $.trim($("#searchterm1").val()).replace(/  +/g, ' ');
+                var searchtext_with_space = $.trim($("#searchterm1").val()).replace(/\s/g,'');
+                var srcLen = searchtext_with_space.length;
+                
+                if (srcLen>2)
+                {
+                    if (key != 40 && key !=38)
+                    {
+                        $('.search_reasult1').css({'display':'block'});
+                        $('#errordiv1').css({'display':'block'});
+                        $('#errordiv1').html('Press Enter to search');
+                        $('#closediv1').css({'display':'block'});
+                    }
+                    if(key == 13)
+                    {
+                        $scope.successMsg = "";
+                        $scope.searchResList1 ="";
+                        $scope.noOfres = 0;
+                        var searchterm = $.trim($("#searchterm1").val()).replace(/  +/g, ' ');
+                        var values = searchterm.split(' ').filter(function(v){return v!==''});
+                        
+                        var hover_div = $("#hover_div1").val();
+                        //alert(hover_div);
+                        if(hover_div != "-1"){
+                            $('#search_div_anchor1'+hover_div).click();
+                        }
+                        else
+                        {
+                            if (values.length > 2)
+                            {
+                              
+                                //two or more words
+                                if (key != 40 && key !=38)
+                                {
+                                    $('.search_reasult1').css({'display':'block'});
+                                    $('#errordiv1').css({'display':'block'});
+                                    $('#errordiv1').html("Search is limited to Student's<br>First Name and Last Name only");
+                                    $scope.successMsg = "";
+                                    //$scope.searchResListErr = 'No students found<br>Please refine your search';
+                                    $scope.searchResList1 = "";
+                                    $scope.noOfres = 0;
+                                    $('#closediv1').css({'display':'block'});
+                                }
+                            }else{
+                           
+                                homeService.studentSearchInboxResponse(access_token,teacherId,searchterm, function (response)
+                                {
+                                    console.log('SERCH');
+                                    console.log(response);
+                                    if(response.status)
+                                    { 
+                                        if(response.Count != 0)
+                                        {
+                                            //if(response.Count > 20)
+                                            //{
+                                            //    if (key != 40 && key !=38)
+                                            //    {
+                                            //        $('.search_reasult1').css({'display':'block'});
+                                            //        $('#errordiv1').css({'display':'block'});
+                                            //        $('#errordiv1').html('More than 20 students found<br>Please refine your search<br>The search text should be make more specific as it matches more than 20 records');
+                                            //        $scope.successMsg = ""
+                                            //        //$scope.searchResListErr = 'The search text should be make more specific as it matches more than 20 records';
+                                            //        $scope.searchResList1 = "";
+                                            //        $('#closediv1').css({'display':'block'});
+                                            //    }
+                                            //}else{
+                                            //    if (key != 40 && key !=38)
+                                            //    {
+                                            //        $('.search_reasult1').css({'display':'block'});
+                                            //        $('#errordiv1').css({'display':'none'});
+                                            //        //$scope.searchResListErr = "";
+                                            //        $scope.searchResList1 = response.Data;
+                                            //        $scope.noOfres = response.Count;
+                                            //        $('#closediv1').css({'display':'block'});
+                                            //    }
+                                            //}
+                                            if (key != 40 && key !=38)
+                                            {
+                                                $('.search_reasult1').css({'display':'block'});
+                                                $('#errordiv1').css({'display':'none'});
+                                                //$scope.searchResListErr = "";
+                                                $scope.searchResList1 = response.Data;
+                                                $scope.noOfres = response.Count;
+                                                $('#closediv1').css({'display':'block'});
+                                            }
+                                        }else{
+                                            if (key != 40 && key !=38)
+                                            {
+                                                $('.search_reasult1').css({'display':'block'});
+                                                $('#errordiv1').css({'display':'block'});
+                                                $('#errordiv1').html('No students found<br>Please refine your search');
+                                                $scope.successMsg = "";
+                                                //$scope.searchResListErr = 'No students found<br>Please refine your search';
+                                                $scope.searchResList1 = "";
+                                                $scope.noOfres = 0;
+                                                $('#closediv1').css({'display':'block'});
+                                            }
+                                        }     
+                                    }else{//ERROR : 500 in api`
+                                        if (key != 40 && key !=38)
+                                        {
+                                            $('.search_reasult1').css({'display':'block'});
+                                            $scope.successMsg = "";
+                                            //$scope.searchResListErr = "";
+                                            $scope.searchResList1 = response.Message;
+                                            $scope.noOfres = 0;
+                                            $('#closediv1').css({'display':'block'});
+                                        }
+                                    } 
+                                });
+                            }
+                        }
+                    }                       
+                }else{
+                    if (key != 40 && key !=38)
+                    {
+                        $('.search_reasult1').css({'display':'block'});
+                        $('#errordiv1').css({'display':'block'});
+                        $('#errordiv1').html('Enter a minimum of 3 characters.');
+                        $('#closediv1').css({'display':'block'});
+                    }
+                }
+            });
             
+            $("#srch1").click(function(e)
+            {
+            
+                var key = e.which || e.keyCode;
+                $('.stdprof1').remove();
+                var searchtext = $.trim($("#searchterm1").val()).replace(/  +/g, ' ');
+                var searchtext_with_space = $.trim($("#searchterm1").val()).replace(/\s/g,'');
+                var srcLen=searchtext_with_space.length;
+                if (srcLen>2)
+                {
+                    //alert('1');
+                    $scope.successMsg = "";
+                    $scope.searchResList1 ="";
+                    $scope.noOfres = 0;
+                    var searchterm = $.trim($("#searchterm1").val()).replace(/  +/g, ' ');
+                    var values = searchterm.split(' ').filter(function(v){return v!==''});
+                    if (values.length > 2) {
+                        //alert('2');
+                        if (key != 40 && key !=38)
+                        {   //alert('22');
+                            $('.search_reasult1').css({'display':'block'});
+                            $('#errordiv1').css({'display':'block'});
+                            $('#errordiv1').html("Search is limited to Student's<br>First Name and Last Name only.");
+                            $scope.successMsg = "";
+                            //$scope.searchResList = 'No results found. Please refine your search'; 
+                            $scope.searchResList1 ="";
+                            $scope.noOfres = 0;
+                            $('#closediv1').css({'display':'block'});
+                        }
+                    } else {
+                        //alert('3');
+                        homeService.studentSearchInboxResponse(access_token,teacherId,searchterm, function (response)
+                        {     //alert('4');
+                            if(response.status)
+                            {   //alert('5');   
+                                if(response.Count != 0)
+                                { //alert('6');
+                                    //if (response.Count > 20)
+                                    //{ //alert('7');
+                                    //    if (key != 40 && key !=38)
+                                    //    { //alert('8');
+                                    //       $('.search_reasult1').css({'display':'block'});
+                                    //       $('#errordiv1').css({'display':'block'});
+                                    //       $('#errordiv1').html('More than 20 students found<br>Please refine your search.<br>The search text should be make more specific as it matches more than 20 records.');
+                                    //       $scope.successMsg = "";
+                                    //       //$scope.searchResList = 'The search text should be make more specific as it matches more than 20 records';
+                                    //       $scope.searchResList1 ="";
+                                    //       $('#closediv1').css({'display':'block'});
+                                    //    }
+                                    //}else{
+                                    //    //alert('8');
+                                    //    if (key != 40 && key !=38)
+                                    //    { //alert('9');
+                                    //       $('.search_reasult1').css({'display':'block'});
+                                    //       $('#errordiv1').css({'display':'none'});
+                                    //       $scope.searchResList1 = response.Data;
+                                    //       $scope.noOfres = response.Count;
+                                    //       $('#closediv1').css({'display':'block'});
+                                    //    }
+                                    //}
+                                    if (key != 40 && key !=38)
+                                        { //alert('9');
+                                           $('.search_reasult1').css({'display':'block'});
+                                           $('#errordiv1').css({'display':'none'});
+                                           $scope.searchResList1 = response.Data;
+                                           $scope.noOfres = response.Count;
+                                           $('#closediv1').css({'display':'block'});
+                                        }
+                                }else{
+                                    //alert('10');
+                                    if (key != 40 && key !=38)
+                                    {
+                                        //alert('11');
+                                        $('.search_reasult1').css({'display':'block'});
+                                        $('#errordiv1').css({'display':'block'});
+                                        $('#errordiv1').html('No students found<br>Please refine your search');
+                                        $scope.successMsg = "";
+                                        //$scope.searchResList = 'No students found<br>Please refine your search';
+                                        $scope.searchResList1 ="";
+                                        $scope.noOfres = 0;
+                                        $('#closediv1').css({'display':'block'});
+                                    }
+                                }     
+                            }else{//ERROR : 500 in api
+                                //alert('12');
+                                if (key != 40 && key !=38)
+                                {   //alert('13');
+                                    $('.search_reasult1').css({'display':'block'});
+                                    $scope.successMsg = "";
+                                    $scope.searchResList1 = response.Message;
+                                    $scope.noOfres = 0;
+                                    $('#closediv1').css({'display':'block'});
+                                }
+                            } 
+                        });
+                    }
+                }else{
+                    //alert('14');
+                    if (key != 40 && key !=38)
+                    {   //alert('15');
+                        $('.search_reasult1').css({'display':'block'});
+                        $('#errordiv1').css({'display':'block'});
+                        $('#errordiv1').html('Enter a minimum of 3 characters.');
+                        $('#closediv1').css({'display':'block'});
+                    }
+                }
+            });
+            /*ONCLICK ON SEARCH RESULT*/
+            $scope.searchStudentSelected = function(Id,Firstname,Lastname,ParentsName,SubjectName,YearGroup,Image,IsUnlocked,ClassId,ClassName)
+            {
+           
+                if (IsUnlocked == true) {
+                    var style_class = 'outr_border';
+                }else{
+                    var style_class = '';
+                }
+              
+                $('.stdprof1').remove();
+           
+                $('#append_search_div').prepend('<div class="user_box top_border_user_box clearfix" id="msgstud'+Id+'" ng-click="studentInboxPerformanceResponse('+Id+','+ClassId+','+Firstname+','+Lastname+','+ParentsName+','+Image+','+ClassName+','+IsUnlocked+');"><label><div  class="user_pic '+style_class+'"><img alt="" src="data:image/png;base64,'+Image+'"></div><div class="user_details"><h3>'+Firstname+' '+Lastname+' ('+ClassName+')</h3><span>'+ClassName+'</span></div></label></div>');
+                $scope.studentInboxPerformanceResponse(Id,ClassId,Firstname,Lastname,ParentsName,Image,ClassName,IsUnlocked);
+                
+                
+              
+            };
+        /******************************************************************************************************/
+
             
             
             //W14: student profile & graph subjectwise
@@ -2907,45 +3489,49 @@
                                 $("#noRecord7").css("display", "none");
                                 $('#noRecord7').removeClass('noRecord');
                             }else{
-                                // $("#createTaskMessage").css("display", "none");
-                                 //$('#noRecord5').css('display','block');
-                                 $('.showStudentDivPopup').hide();
-                                 $(".setTaskPopBtn").attr('disabled');
-                                 $scope.studentList = '';
-                                 $scope.noOfStudents = 0;
-                                // $scope.nostudentList = "No Students Found… Try: 1. Reload the webpage. 2. If the problem persists, please submit your query to support@involvedtech.co.uk using your school email address.";
-                                 $scope.nostudentList = "No Students Found… ";
-                                         $scope.nostudentList1="Try: ";
-                                         $scope.nostudentList2="1. Reload the webpage.";
-                                         $scope.nostudentList3="2. If the problem persists, please submit your query";
-                                         $scope.nostudentlist4="here.";
-                                 //$scope.studentListMessagePopup = "You have currently placed an error message on RHS 'Oops…..' - this appears when LHS returns no student data.<br>Change to be made - RHS should always be present - it should not depend on Left hand side student list. Please remove the current error message - there should never be a no data scenario on RHS.";
-                                 //$('#noRecord5').addClass('noRecord');
-                                 $("#noRecord7").css("display", "block");
-                                 $('#noRecord7').addClass('noRecord');
+                                $('.showStudentDivPopup').hide();
+                                $(".setTaskPopBtn").attr('disabled');
+                                $scope.studentList = '';
+                                $scope.noOfStudents = 0;
+                                $scope.nostudentList = "No Students Found… ";
+                                $scope.nostudentList1="Try: ";
+                                $scope.nostudentList2="1. Reload the webpage.";
+                                $scope.nostudentList3="2. If the problem persists, please submit your query";
+                                $scope.nostudentlist4="here.";
+                                $("#noRecord7").css("display", "block");
+                                $('#noRecord7').addClass('noRecord');
                             }
                           
                         }
     
-                    }else{//ERROR : 500 in api
-                        //$("#createTaskMessage").css("display", "none");
-                        //$('#noRecord5').css('display','block');
-                        
+                   } else if(response.msg == "ERR_INTERNET_DISCONNECTED") {//ERROR : 500 in api
+                      
                         $('.showStudentDivPopup').hide();
+                        $("#confy1").click();
+                        $scope.msg = 'Server failed to respond';
                         $(".setTaskPopBtn").attr('disabled');
                         $scope.studentList = '';
                         $scope.noOfStudents = 0;
-                        //$scope.nostudentList = "No Students Found… Try: 1. Reload the webpage. 2. If the problem persists, please submit your query to support@involvedtech.co.uk using your school email address.";
                         $scope.nostudentList = "No Students Found… ";
-                                    $scope.nostudentList1="Try: ";
-                                    $scope.nostudentList2="1. Reload the webpage.";
-                                    $scope.nostudentList3="2. If the problem persists, please submit your query";
-                                    $scope.nostudentlist4="here.";
-                        //$scope.studentListMessagePopup = "You have currently placed an error message on RHS 'Oops…..' - this appears when LHS returns no student data.<br>Change to be made - RHS should always be present - it should not depend on Left hand side student list. Please remove the current error message - there should never be a no data scenario on RHS.";
-                        //$('#noRecord5').addClass('noRecord');
+                        $scope.nostudentList1="Try: ";
+                        $scope.nostudentList2="1. Reload the webpage.";
+                        $scope.nostudentList3="2. If the problem persists, please submit your query";
+                        $scope.nostudentlist4="here.";
                         $("#noRecord7").css("display", "block");
                         $('#noRecord7').addClass('noRecord');
                        
+                    }else{
+                          $('.showStudentDivPopup').hide();
+                        $(".setTaskPopBtn").attr('disabled');
+                        $scope.studentList = '';
+                        $scope.noOfStudents = 0;
+                        $scope.nostudentList = "No Students Found… ";
+                        $scope.nostudentList1="Try: ";
+                        $scope.nostudentList2="1. Reload the webpage.";
+                        $scope.nostudentList3="2. If the problem persists, please submit your query";
+                        $scope.nostudentlist4="here.";
+                        $("#noRecord7").css("display", "block");
+                        $('#noRecord7').addClass('noRecord');
                     }
                     
                 });
@@ -3002,13 +3588,256 @@
         $("#status_right_content").fadeOut();
         $("#preloader_right_content").delay(200).fadeOut("fast");
     };
-    $scope.myInbox = function (){
-        //alert('myInbox func');
+    $scope.myInbox = function ()
+    {
         setOnlyCookie("tab", "myInbox", 60 * 60 * 60);
-        ///LOADER HIDE
-        $(window).scrollTop(0);
-        $("#status_right_content").fadeOut();
-        $("#preloader_right_content").delay(200).fadeOut("fast");
+        
+        $timeout(function() {
+            $scope.studentInboxPerformanceResponse = function(studentId,classId,Firstname,Lastname,ParentsName,Image,ClassName,IsUnlockedInbox)
+            {
+                $scope.FirstnameInbox   = Firstname;
+                $scope.LastnameInbox    = Lastname;
+                $scope.ParentsNameInbox = ParentsName;
+                $scope.ClassNameInbox   = ClassName;
+                $scope.ImageInbox       = Image;
+                
+                homeService.studentInboxPerformanceResponse(access_token,studentId,classId,function (response)
+                {
+                    //alert('1');
+                    console.log('STUD INBOX PERFORMANCE');
+                    console.log(response);
+                    if(response.status)
+                    { 
+                        if(response != '')
+                        {
+                            $scope.studentInboxAttendance= response.Attendance;
+                            $scope.studentInboxAttendanceTrend= response.AttendanceTrend;
+                            $scope.studentInboxGradeTrend= response.GradeTrend;
+                            $scope.studentInboxLastGrade= response.LastGrade;
+                            $scope.studentInboxTargetGrade= response.TargetGrade;
+                            $scope.studentInboxstatus= response.status;
+                            $('.user_box').removeClass('studSelect');
+                            $('#msgstud'+studentId).addClass('studSelect');
+                            $timeout(function() {
+                            //$("#chat_box").mCustomScrollbar({
+                            //    axis: "y",
+                            //    theme: "3d",
+                            //    scrollInertia: 550,
+                            //    scrollbarPosition: "outside"
+                            //});
+                            $("#chat_box").mCustomScrollbar("scrollTo","bottom");
+                               document.getElementById("chat_box").addEventListener("wheel", myFunction);
+                                    function myFunction(event) {
+                                        console.log(event);
+                                        var offset = $("#mCSB_5_container" ).offset();
+                                        var Top=offset.top;
+                                        //alert(Top);
+                                        if (Top==245) {
+                                           $scope.getMore(); 
+                                        }
+                                    }
+                             },100);  
+                        } else {
+                            $scope.studentInboxAttendance= "";
+                            $scope.studentInboxAttendanceTrend= "";
+                            $scope.studentInboxGradeTrend= "";
+                            $scope.studentInboxLastGrade= "";
+                            $scope.studentInboxTargetGrade= "";
+                            $scope.studentInboxstatus= "";
+                        }      
+                    } else if(response.msg == "ERR_INTERNET_DISCONNECTED") {//ERROR : 500 in api
+                            $scope.studentInboxAttendance= "";
+                            $scope.studentInboxAttendanceTrend= "";
+                            $scope.studentInboxGradeTrend= "";
+                            $scope.studentInboxLastGrade= "";
+                            $scope.studentInboxTargetGrade= "";
+                            $scope.studentInboxstatus= "";
+                    } else {
+                            $scope.studentInboxAttendance= "";
+                            $scope.studentInboxAttendanceTrend= "";
+                            $scope.studentInboxGradeTrend= "";
+                            $scope.studentInboxLastGrade= "";
+                            $scope.studentInboxTargetGrade= "";
+                            $scope.studentInboxstatus= "";
+                    }
+                });
+                var userid = getOnlyCookie("userid");
+                
+                /*LOAD MESSAGE HISTORY*/
+                homeService.InboxMessageHistoryResponse(access_token,studentId,classId, function (response1)
+                {
+                    //alert('2');
+                    if(response1.status)
+                    { 
+                        if(response1 != '')
+                        {
+                            console.log('MESSAGE HISTORY');
+                            console.log(response1);
+                            $scope.InboxMessageHistory = response1;
+                            $scope.noChatFound = "";
+                            $scope.loggedInTeacherId = userid;
+                            $scope.latestmessagetime = response1[response1.length - 1].SentDate;
+                            $scope.loggedInTeacherIdLoadMore = userid;
+                   
+                            $("#append_chat_div").mCustomScrollbar("scrollTo","bottom",{scrollInertia:0});
+                             
+                            $scope.fetching = false;
+                            $scope.disabled = false;
+                            var latestmessagetime = $("#latestmessagetime").val();
+                            $scope.getMore = function()
+                            {
+                               //alert('scroll') 
+                                var latestmessagetime1 = $("#latestmessagetime").val();
+             
+                                // Block fetching until the AJAX call returns
+                                homeService.InboxMessageHistoryLoadMoreResponse(access_token,studentId,classId,latestmessagetime1,function (response2)
+                                {
+                                    if(response2.status)
+                                    { 
+                                        console.log('MESSAGE HISTORY LOAD MORE');
+                                        console.log(response2);
+                                        $scope.InboxMessageHistoryLoadMore = response2;
+                                        $scope.loggedInTeacherIdLoadMore = userid;
+                                        if (response2 != null){ 
+                                            $("#latestmessagetime").val(response2[response2.length - 1].SentDate);
+                                        }
+                                    }else{
+                                         $scope.disabled = true; 
+                                    }
+                                });
+                            };
+                        } else {
+                            console.log('MESSAGE HISTORY');
+                            console.log(response1);
+                            $scope.InboxMessageHistory = "";
+                            $scope.noChatFound = "No messages found";
+                            $scope.loggedInTeacherId = userid;
+                            $scope.latestmessagetime = "";
+                        }      
+                    } else if(response.msg == "ERR_INTERNET_DISCONNECTED") {//ERROR : 500 in api
+                        console.log('MESSAGE HISTORY');
+                        console.log(response1);
+                        $("#confy1").click();
+                        $scope.msg = 'Server failed to respond';
+                        $scope.InboxMessageHistory = "";
+                        $scope.noChatFound = "No messages found";
+                        $scope.loggedInTeacherId = userid;
+                        $scope.latestmessagetime = "";
+                    } else {
+                        console.log('MESSAGE HISTORY');
+                        console.log(response1);
+                        $scope.InboxMessageHistory = "";
+                        $scope.noChatFound = "No messages found";
+                        $scope.loggedInTeacherId = userid;
+                        $scope.latestmessagetime = "";
+                    }
+                });
+               
+                
+                /*SEND MESSAGE INBOX*/
+                $scope.sendMessageInbox = function()
+                {
+                    var content = $.trim($("#content1").val());
+                    var error = 0;
+                    if( $('#content1').val().toString().trim() == '' )
+                    {              
+                        $('#content1').val('');    
+                        $("#content1").attr("placeholder","Please enter your message").addClass('red_place');
+                        error++;
+                        return false;
+                    }else{                          
+                        $("#content1").attr("placeholder","Type a message here...").removeClass('red_place');  
+                    }
+                    if(content.length > 500)
+                    {                           
+                        $("#content1").attr("placeholder","Your message must not be more than 500 characters").addClass('red_place');
+                        error++;
+                        return false;
+                    }else{
+                        $("#content1").attr("placeholder","Type a message here...").removeClass('red_place');  
+                    }
+                    
+                    if(error == 0)
+                    {
+                        homeService.studentInboxMessageSend(access_token,studentId,classId,content,function (response3)
+                        {
+                            console.log('INBOX MESSAGE SEND');
+                            console.log(response3);
+                            document.getElementById("sendMessageInbox").disabled = false;
+                               
+                            if(response3)
+                            {
+                                document.getElementById("sendMessageInbox").disabled = true;
+                                $scope.response3 = response3;
+                                var SenderName = response3.SenderName;
+                                var Content = response3.Content;
+                                var SentDate = $filter('date')(response3.SentDate, "MMM. dd - h:mma");  // for type="date" binding
+                                $('#append_dummy_div').append('<span class="clearfix" style="display: block;"><div class="chat-convrstaion chat-rel"><div class="conversation arrow_box">'+Content+'</div><span>'+SentDate+'</span></div></span>');
+                                $("#content1").val('');
+                                $timeout(function() {
+                                    //$("#chat_box").mCustomScrollbar({
+                                    //    axis: "y",
+                                    //    theme: "3d",
+                                    //    scrollInertia: 550,
+                                    //    scrollbarPosition: "outside"
+                                    //});
+                                    $("#chat_box").mCustomScrollbar("scrollTo","bottom");
+                                },100); 
+                                
+                            }else{
+                              
+                            }
+                        });
+                    }
+                }
+            };
+            if (teacherId != undefined)
+            {
+                homeService.studentListInboxResponse(access_token, teacherId, function (response)
+                {
+                    console.log('STUDENT LIST INBOX');
+                    console.log(response);
+                    if(response.status)
+                    { 
+                        if(response != '')
+                        {
+                            $scope.studentListInbox = response;
+                            $scope.noStudentMsg = "";
+                            //LOADER HIDE
+                            $(window).scrollTop(0);
+                            $("#status_right_content8").css("display", "none");
+                            $("#preloader_right_content8").css("display", "none");
+                            //$scope.studentInboxPerformanceResponse(response[0].Id,response[0].ClassId,response[0].Firstname,response[0].Lastname,response[0].ParentsName,response[0].Image,response[0].ClassName,response[0].IsUnlocked);
+                        }else{
+                            $scope.studentListInbox = "";
+                            $scope.noStudentMsg = "No student found";
+                            //LOADER HIDE
+                            $(window).scrollTop(0);
+                            $("#status_right_content8").css("display", "none");
+                            $("#preloader_right_content8").css("display", "none");
+                        }      
+                    } else if(response.msg == "ERR_INTERNET_DISCONNECTED") {//ERROR : 500 in api
+                        $scope.studentListInbox = "";
+                        $scope.noStudentMsg = "No student found";
+                        //LOADER HIDE
+                        $(window).scrollTop(0);
+                        $("#status_right_content8").css("display", "none");
+                        $("#preloader_right_content8").css("display", "none");
+                        $("#confy1").click();
+                        $scope.msg = 'Server failed to respond';
+                    } else {
+                        $scope.studentListInbox = "";
+                        $scope.noStudentMsg = "No student found";
+                        //LOADER HIDE
+                        $(window).scrollTop(0);
+                        $("#status_right_content8").css("display", "none");
+                        $("#preloader_right_content8").css("display", "none");
+                    }
+                });
+            }else{
+                $scope.noStudentMsg = "No student found";
+            }
+         },100); 
     };
     $scope.myTask = function (check_date)
     {
@@ -3520,19 +4349,31 @@
                                 $scope.weeklyTaskMessage3="to set a task for the students.";
                                 $scope.myTaskList = '';
                             }
-                        }else{//ERROR : 500 in api
+                        } else if(response.msg == "ERR_INTERNET_DISCONNECTED") {//ERROR : 500 in api
+                            /////LOADER SHOW
+                            $(window).scrollTop(0);
+                            $("#status_right_content5").css("display", "none");
+                            $("#preloader_right_content5").css("display", "none");
+                            $("#confy1").click();
+                            $scope.msg = 'Server failed to respond';
+                            $('#noRecord6').addClass('noRecord');
+                            $scope.weeklyTaskMessage = "No Tasks Due this week.";
+                            $scope.weeklyTaskMessage1="Click on ";
+                            $scope.weeklyTaskMessage2="Create Task";
+                            $scope.weeklyTaskMessage3="to set a task for the students.";
+                            $scope.myTaskList = '';
+                        } else{
                             /////LOADER SHOW
                             $(window).scrollTop(0);
                             $("#status_right_content5").css("display", "none");
                             $("#preloader_right_content5").css("display", "none");
                             $('#noRecord6').addClass('noRecord');
-                           // $scope.weeklyTaskMessage = "No Tasks Due this week.Click on Create Task to set a task for the students.";
                             $scope.weeklyTaskMessage = "No Tasks Due this week.";
-                                $scope.weeklyTaskMessage1="Click on ";
-                                $scope.weeklyTaskMessage2="Create Task";
-                                $scope.weeklyTaskMessage3="to set a task for the students.";
+                            $scope.weeklyTaskMessage1="Click on ";
+                            $scope.weeklyTaskMessage2="Create Task";
+                            $scope.weeklyTaskMessage3="to set a task for the students.";
                             $scope.myTaskList = '';
-                        } 
+                        }
                     });
                 
             };
@@ -3600,25 +4441,36 @@
                             }else{
                                 $('#noRecord6').addClass('noRecord');
                                 $scope.myTaskList = '';
-                                //$scope.weeklyTaskMessage = "No Tasks Due this week.Click on Create Task to set a task for the students.";
                                 $scope.weeklyTaskMessage = "No Tasks Due this week.";
                                 $scope.weeklyTaskMessage1="Click on ";
                                 $scope.weeklyTaskMessage2="Create Task";
                                 $scope.weeklyTaskMessage3="to set a task for the students.";
                             }
-                        }else{//ERROR : 500 in api
+                        } else if(response.msg == "ERR_INTERNET_DISCONNECTED") {//ERROR : 500 in api
+                            /////LOADER SHOW
+                            $(window).scrollTop(0);
+                            $("#status_right_content5").css("display", "none");
+                            $("#preloader_right_content5").css("display", "none");
+                            $("#confy1").click();
+                            $scope.msg = 'Server failed to respond';
+                            $('#noRecord6').addClass('noRecord');
+                            $scope.myTaskList = '';
+                            $scope.weeklyTaskMessage = "No Tasks Due this week.";
+                            $scope.weeklyTaskMessage1="Click on ";
+                            $scope.weeklyTaskMessage2="Create Task";
+                            $scope.weeklyTaskMessage3="to set a task for the students.";
+                        } else{
                             /////LOADER SHOW
                             $(window).scrollTop(0);
                             $("#status_right_content5").css("display", "none");
                             $("#preloader_right_content5").css("display", "none");
                             $('#noRecord6').addClass('noRecord');
                             $scope.myTaskList = '';
-                            //$scope.weeklyTaskMessage = "No Tasks Due this week.Click on Create Task to set a task for the students.";
                             $scope.weeklyTaskMessage = "No Tasks Due this week.";
-                                $scope.weeklyTaskMessage1="Click on ";
-                                $scope.weeklyTaskMessage2="Create Task";
-                                $scope.weeklyTaskMessage3="to set a task for the students.";
-                        } 
+                            $scope.weeklyTaskMessage1="Click on ";
+                            $scope.weeklyTaskMessage2="Create Task";
+                            $scope.weeklyTaskMessage3="to set a task for the students.";
+                        }
                     });
          
                     /*CALENDER DROPDOWN ONSELECT will show 28 days after & before */
@@ -3702,19 +4554,31 @@
                                 $scope.weeklyTaskMessage3="to set a task for the students.";
                                 $scope.myTaskList = '';
                             }
-                        }else{//ERROR : 500 in api
+                        } else if(response.msg == "ERR_INTERNET_DISCONNECTED") {//ERROR : 500 in api
+                            /////LOADER SHOW
+                            $(window).scrollTop(0);
+                            $("#status_right_content5").css("display", "none");
+                            $("#preloader_right_content5").css("display", "none");
+                            $("#confy1").click();
+                            $scope.msg = 'Server failed to respond';
+                            $('#noRecord6').addClass('noRecord');
+                            $scope.weeklyTaskMessage = "No Tasks Due this week.";
+                            $scope.weeklyTaskMessage1="Click on ";
+                            $scope.weeklyTaskMessage2="Create Task";
+                            $scope.weeklyTaskMessage3="to set a task for the students.";
+                            $scope.myTaskList = '';
+                        } else{
                             /////LOADER SHOW
                             $(window).scrollTop(0);
                             $("#status_right_content5").css("display", "none");
                             $("#preloader_right_content5").css("display", "none");
                             $('#noRecord6').addClass('noRecord');
-                            //$scope.weeklyTaskMessage = "No Tasks Due this week.Click on Create Task to set a task for the students.";
                             $scope.weeklyTaskMessage = "No Tasks Due this week.";
-                                $scope.weeklyTaskMessage1="Click on ";
-                                $scope.weeklyTaskMessage2="Create Task";
-                                $scope.weeklyTaskMessage3="to set a task for the students.";
+                            $scope.weeklyTaskMessage1="Click on ";
+                            $scope.weeklyTaskMessage2="Create Task";
+                            $scope.weeklyTaskMessage3="to set a task for the students.";
                             $scope.myTaskList = '';
-                        } 
+                        }
                     });
 
                     /*CALENDER DROPDOWN ONSELECT will show 21 days after & before */
@@ -3809,26 +4673,37 @@
                                 $scope.myTaskList = response2;
                             }else{
                                 $('#noRecord6').addClass('noRecord');
-                                //$scope.weeklyTaskMessage = "No Tasks Due this week.Click on Create Task to set a task for the students.";
                                 $scope.weeklyTaskMessage = "No Tasks Due this week.";
                                 $scope.weeklyTaskMessage1="Click on ";
                                 $scope.weeklyTaskMessage2="Create Task";
                                 $scope.weeklyTaskMessage3="to set a task for the students.";
                                 $scope.myTaskList = '';     
                             }
-                        }else{//ERROR : 500 in api
+                         } else if(response.msg == "ERR_INTERNET_DISCONNECTED") {//ERROR : 500 in api
+                            /////LOADER SHOW
+                            $(window).scrollTop(0);
+                            $("#status_right_content5").css("display", "none");
+                            $("#preloader_right_content5").css("display", "none");
+                            $("#confy1").click();
+                            $scope.msg = 'Server failed to respond';
+                            $('#noRecord6').addClass('noRecord');
+                            $scope.weeklyTaskMessage = "No Tasks Due this week.";
+                            $scope.weeklyTaskMessage1="Click on ";
+                            $scope.weeklyTaskMessage2="Create Task";
+                            $scope.weeklyTaskMessage3="to set a task for the students.";
+                            $scope.myTaskList = '';
+                        } else {
                             /////LOADER SHOW
                             $(window).scrollTop(0);
                             $("#status_right_content5").css("display", "none");
                             $("#preloader_right_content5").css("display", "none");
                             $('#noRecord6').addClass('noRecord');
-                            //$scope.weeklyTaskMessage = "No Tasks Due this week.Click on Create Task to set a task for the students.";
                             $scope.weeklyTaskMessage = "No Tasks Due this week.";
-                                $scope.weeklyTaskMessage1="Click on ";
-                                $scope.weeklyTaskMessage2="Create Task";
-                                $scope.weeklyTaskMessage3="to set a task for the students.";
+                            $scope.weeklyTaskMessage1="Click on ";
+                            $scope.weeklyTaskMessage2="Create Task";
+                            $scope.weeklyTaskMessage3="to set a task for the students.";
                             $scope.myTaskList = '';
-                        } 
+                        }
                     });
                     
                     /*CALENDER DROPDOWN ONSELECT will show 28 days after & before */
@@ -4593,6 +5468,7 @@
     /*********************************TASK DESCRIPTION POP UP & EDIT TASK POP UP begins************************/
             $scope.taskDescription = function(taskId,className,taskType,SubjectName,ClassId)
             {
+            
                 /*highlight div when edit / delete is clicked*/
                 $('.post_row').css("background-color", "");
                 //$('#highlightRow'+taskId).css("background-color", "rgba(84,201,232,0.2)");
@@ -4605,35 +5481,63 @@
                 /*for student list class wise*/
                 homeService.studentListResponse(access_token, ClassId, function (response) {
                     if(response.status){ 
-                        
                         if(response != ''){
-                     
+                            $('.showStudentDiv').show();
                             $scope.studentList = response;
                             $scope.noOfStudents = response.length;
-                            $scope.studentListMessagePopup = '';
-                            $('.noRecordClass').removeClass('noRecord');
-   
+                            $scope.nodesc1="";
+                            $scope.nodesc2="";
+                            $scope.nodesc3="";
+                            $scope.nodesc4="";
+                            $scope.nodesc5="";
+                            $('#noRecord13').removeClass('noRecord');
+                            $('#noRecord14').removeClass('noRecord');
+                     
                         }else{
-                            
-                            $scope.studentList = "No Students Found… Try: 1. Reload the webpage. 2. If the problem persists, please submit your query to support@involvedtech.co.uk using your school email address.";
+                            $('.showStudentDiv').hide();
+                            $scope.studentList = "";
                             $scope.noOfStudents = 0;
-                            $scope.studentListMessagePopup = "You have currently placed an error message on RHS 'Oops…..' - this appears when LHS returns no student data.Change to be made - RHS should always be present - it should not depend on Left hand side student list. Please remove the current error message - there should never be a no data scenario on RHS.";
-                            $('.noRecordClass').addClass('noRecord');        
+                            $scope.nodesc1 = "No Students Found… ";
+                            $scope.nodesc2="Try: ";
+                            $scope.nodesc3="1. Reload the webpage.";
+                            $scope.nodesc4="2. If the problem persists, please submit your query";
+                            $scope.nodesc5="here.";
+                            $('#noRecord13').addClass('noRecord');
+                            $('#noRecord14').addClass('noRecord');    
                         }     
-                    }else{//ERROR : 500 in api
-                       
-                        $scope.studentList = "No Students Found… Try: 1. Reload the webpage. 2. If the problem persists, please submit your query to support@involvedtech.co.uk using your school email address.";
+                    } else if(response.msg == "ERR_INTERNET_DISCONNECTED") {//ERROR : 500 in api
+                       $('.showStudentDiv').hide();
+                        $scope.studentList = "";
                         $scope.noOfStudents = 0;
-                        $scope.studentListMessagePopup = "You have currently placed an error message on RHS 'Oops…..' - this appears when LHS returns no student data.Change to be made - RHS should always be present - it should not depend on Left hand side student list. Please remove the current error message - there should never be a no data scenario on RHS.";
-                        $('.noRecordClass').addClass('noRecord');
-                    } 
+                        $("#confy1").click();
+                        $scope.msg = 'Server failed to respond';
+                        $scope.noOfStudents = 0;
+                        $scope.nodesc1 = "No Students Found… ";
+                        $scope.nodesc2="Try: ";
+                        $scope.nodesc3="1. Reload the webpage.";
+                        $scope.nodesc4="2. If the problem persists, please submit your query";
+                        $scope.nodesc5="here.";
+                        $('#noRecord13').addClass('noRecord');
+                        $('#noRecord14').addClass('noRecord');
+                    } else{
+                        $('.showStudentDiv').hide();
+                        $scope.studentList = "";
+                        $scope.noOfStudents = 0;
+                        $scope.nodesc1 = "No Students Found… ";
+                        $scope.nodesc2="Try: ";
+                        $scope.nodesc3="1. Reload the webpage.";
+                        $scope.nodesc4="2. If the problem persists, please submit your query";
+                        $scope.nodesc5="here.";
+                        $('#noRecord13').addClass('noRecord');
+                        $('#noRecord14').addClass('noRecord');
+                    }
                 });
                 
             
                
                 $scope.downloadAttachment = function(uploadedFileId)
                 {
-                    //alert(uploadedFileId);
+                    console.log(uploadedFileId);
                     $http({
                             async: true,
                             crossDomain: true,
@@ -4649,6 +5553,7 @@
                             // mimeType: "multipart/form-data",
                             responseType: "arraybuffer"
                         }).success(function (data, status, headers, config) {
+                            console.log("DOWNLOAD RESPONSE");
                             console.log(data);
                             var file = new Blob([data], { type: 'application/binary' });
                             var fileURL = URL.createObjectURL(file);
@@ -5527,6 +6432,7 @@
         //    });
         //    
         //};
+  
 
         function convertDate(inputFormat) {
             function pad(s) { return (s < 10) ? '0' + s : s; }

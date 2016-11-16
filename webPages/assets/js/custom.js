@@ -23,6 +23,14 @@ $(document).ready(function(){
         arrows:false
     });
     
-})
+});
 
 ////
+
+$(document).ready(function(){
+   $("#message1").addClass("activeMessage");{
+        var t=1;setInterval(function(){$(".message").removeClass("activeMessage"),
+        $(".message").eq(t).addClass("activeMessage"),t+1===$(".message").length?t=0:t++},6e3)
+   }
+                 
+});

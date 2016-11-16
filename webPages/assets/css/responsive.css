@@ -1,5 +1,15 @@
 /*Common responsive Css Used*/
 
+@media (min-width: 1200px) and (max-width: 1300px) {
+    .parents,
+    .school{
+        width: 550px;
+        background:none;
+    }
+    .mobpic_d{
+        width: 350px;
+    }
+}
 @media (max-width: 1199px) {
     .pic_area{
         width: 450px;
@@ -48,7 +58,7 @@
         transform: translateX(-50%);
     }
     .school{
-        padding-top: 170px;
+        padding-top: 185px;
         min-height: 420px;
     }
     .school .parentsLS,
@@ -66,6 +76,9 @@
     }
     .parentsLF.right_sec .parentsLF_content{
         margin-right: 0;
+    }
+    .hvr_content{
+        line-height: 16px;
     }
 }
 
@@ -141,7 +154,7 @@
         top: 255px;
     }
     .parentsLF.parentsB{
-        top: 750px;
+        top: 732px;
     }
     .pulse1{
         top: 58px;
@@ -257,6 +270,35 @@
         width: 70px;
     }
 */
+    .parentsLF.parentsB > img{
+        width: 90px;
+    }
+    .modal-dialog{
+        width: 720px;
+    }
+    .modal_left,
+    .modal_right{
+        width: 46%;
+    }
+    .blnk_div{
+        padding: 10px;
+    }
+    .name_fld{
+        font-size: 12px;
+    }
+    .member_frm label{
+        font-size: 14px;
+    }
+    .modal_right{
+        margin-top: -28px;
+    }
+    .clander_outr{
+        padding:5px;
+    }
+    .modal_left h3{
+        margin-bottom: 1px;
+        font-size: 18px;
+    }
 }
 
 @media (max-width: 767px) {
@@ -297,7 +339,7 @@
         font-size: 15px;
     }
     .arrow_top{
-        margin-top: -40px;
+        margin-top:10px;
     }
     .feature_area::after{
 /*
@@ -390,6 +432,48 @@
     }
     .feature_area{
         border-top: 7px solid #00ccff;
+    }
+    .feature_cell:nth-child(2n+1)::after{
+        border-right: none;
+    }
+    .feature_area{
+        padding-top: 50px;
+    }
+    .banner_outr .col-sm-7{
+        overflow: hidden;
+    }
+    .modal-dialog{
+        width: auto;
+        margin: 10px;
+    }
+    .modal_left, .modal_right{
+        float: none;
+        width: 100%;
+        padding: 15px;
+    }
+    .modal_right{
+        padding: 0;
+    }
+    button.close.close_btn{
+        margin: 5px 5px 0;
+    }
+    .member_frm{
+        margin-bottom:20px;
+    }
+    .modal_right{
+        margin: 0;
+    }
+    .modal_right::before,
+    .modal_right::after,
+    .blnk_div::before,
+    .blnk_div::after{
+        display: none;
+    }
+    .clander_outr::after{
+        display: none;
+    }
+    .clander_outr::before{
+        display: none;
     }
 }
 
@@ -622,6 +706,12 @@
     }
     .footer-bottomIn h2{
         display: none;
+    }
+    .modal_right h4{
+        font-size: 20px;
+    }
+    .clander_outr{
+        margin-top: 10px;
     }
 }
 
