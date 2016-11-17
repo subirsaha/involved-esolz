@@ -1083,6 +1083,10 @@ pic_cell_left {
     left: 50%;
     bottom: -15px;
     transform: translateX(-50%);
+/*
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+*/
 }
 
 .clander_outr:before {
@@ -1190,6 +1194,14 @@ button.close.close_btn:hover {
 .ui-datepicker-prev span,
 .ui-datepicker-next span {
     display: none !important;
+}
+
+/****add css 17-11-16****/
+.sims_img{
+    left: -60px;
+    position: absolute;
+    top: -10px;
+    width: 99px; 
 }
 
 

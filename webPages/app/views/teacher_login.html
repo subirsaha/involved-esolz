@@ -327,138 +327,146 @@
                     <div class="sky_head clearfix">
                         <div class="panel_left">Parent Messaging</div>
                     </div>
-                    <div class="search-user scrl_inr clearfix">
-						<div id="preloader_right_content8" style="display:none">
-							<div id="status_right_content8"></div>
-						</div>
-						
-						<input type="hidden" id="noStudentMsg" value="{{noStudentMsg}}">
-						
-                        <div class="search-user-side">
-							<div class="top_border_user_box">
-								<div class="search_area clearfix" id="searchdiv1">
-									<input type="text" id="searchterm1" placeholder="Search or start a new chat: Enter student name" >
-									<button id="srch1"><i class="fa fa-search" aria-hidden="true"></i></button>
-									
-									<div class="search-task search_reasult1">
-										<div class="user_box clearfix" id="errordiv1" style="text-align: center;padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;display: none">
-										</div>
-										<div class="new_search content">
-											<div class="user_box clearfix stdprof1 move1" ng-repeat="res in searchResList1" id="search_div1{{$index}}">
-												<a href="javascript:void(0)" ng-click="searchStudentSelected(res.Id,res.Firstname,res.Lastname,res.ParentsName,res.SubjectName,res.YearGroup,res.Image,res.IsUnlocked,res.ClassId,res.ClassName)" class="active" id="search_div_anchor1{{$index}}">
-													<div ng-class="res.IsUnlocked == true ? 'outr_border' :''" class="user_pic"><img data-ng-src="data:image/png;base64,{{res.Image}}" alt="performance-pic"></div>
-													<div class="user_details">
-														<h3>{{res.Firstname}} {{res.Lastname}}</h3>
-														<span>{{res.ClassName}}</span>
-													</div>
-												</a>
-											</div>
-									   </div>
-									   <input type="hidden" id="hover_div1" value="-1">
-									   <div class="clear_search" id="closediv1" style="text-align: center;cursor: pointer;color: white;background-color: gray; padding-top:5px;padding-right: 5px;padding-bottom: 5px;padding-left: 5px;"><b>Clear Search</b></div>
-									</div>
-								</div>
+					
+					<form>
+						<div class="search-user scrl_inr clearfix">
+							<div id="preloader_right_content8" style="display:none">
+								<div id="status_right_content8"></div>
 							</div>
 							
-                            <div class="student_list content">
-								<div id="append_search_div"></div>
-                                <div class="user_box top_border_user_box clearfix" ng-repeat="y in studentListInbox" ng-click="studentInboxPerformanceResponse(y.Id,y.ClassId,y.Firstname,y.Lastname,y.ParentsName,y.Image,y.ClassName,y.IsUnlocked);" id="msgstud{{y.Id}}" ng-class="{studSelect: $index === 0}">
-                                    <label>
-                                        <div ng-class="y.IsUnlocked == true ? 'outr_border' :''" class="user_pic"><img alt="" data-ng-src="data:image/png;base64,{{y.Image}}"></div>
-                                        <div class="user_details">
-                                            <h3>{{y.Firstname}} {{y.Lastname}} ({{y.ClassName}})</h3>
-                                            <span>{{y.ClassName}}</span>
-                                        </div>
-                                    </label>
-                                    <span class="user-noti" ng-if="y.UnreadMessageCount != 0">{{y.UnreadMessageCount}}</span>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div class="search-user-side-right">
-                            <div class="srch-userpad">
-                                <div class="side-top">
-                                    <label for="student1">
-                                        <div ng-class="IsUnlockedInbox == true ? 'outr_border' :''" class="user_pic"><img alt="" data-ng-src="data:image/png;base64,{{ImageInbox}}" class="mCS_img_loaded"></div>
-                                        <div class="user_details">
-                                            <h3>{{FirstnameInbox}} {{LastnameInbox}}</h3>
-                                            <span>{{ClassNameInbox}}</span>
-                                        </div>
-                                    </label> 
-                                </div>
-                                <ul class="side-list">
-                                    <li>
-                                        <h3>Attendance</h3>
-                                        <span>{{studentInboxAttendance}}% <img src="images/side-arrw.png" alt="" /></span>
-                                    </li>
-                                    <li>
-                                        <h3>Target</h3>
-                                        <span>{{studentInboxTargetGrade}}</span>
-                                    </li>
-                                    <li>
-                                        <h3>Grade</h3>
-                                        <span>{{studentInboxLastGrade}} <img src="images/side-arrw.png" alt="" /></span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="other-teacher">
-                               <!-- <a href="">Other Teachers: Miss Bunnet</a>-->
-                                <a href="">Parent: {{ParentsNameInbox}}</a>
-                            </div>
-							<input type="hidden" id="latestmessagetime" value="{{latestmessagetime}}">
+							<input type="hidden" id="noStudentMsg" value="{{noStudentMsg}}">
 							
-				
-                            <div id="chat_box" class="content chat-box " infinite-scroll-container='getMore()' tagged-infinite-scroll-disabled="fetching || disabled" infinite-scroll-parent="true" >
-								<input type="hidden" id="noChatFound" value="{{noChatFound}}">
-									<span  class="clearfix" ng-repeat="per in InboxMessageHistoryLoadMore">
-										<h3 ng-if="per.SenderName != InboxMessageHistoryLoadMore[$index - 1].SenderName">{{per.SenderName}}</h3>
-										<div ng-class="(per.SenderUserId == loggedInTeacherIdLoadMore ? 'chat-convrstaion chat-rel' : 'chat-convrstaion')" >
-											<div class="conversation arrow_box">
-											  {{per.Content}}
+							<div class="search-user-side" id="LHS_Section">
+								<div class="top_border_user_box">
+									<div class="search_area clearfix" id="searchdiv1">
+										<input type="text" id="searchterm1" placeholder="Search or start a new chat: Enter student name" >
+										<button id="srch1"><i class="fa fa-search" aria-hidden="true"></i></button>
+										
+										<div class="search-task search_reasult1">
+											<div class="user_box clearfix" id="errordiv1" style="text-align: center;padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;display: none">
 											</div>
-											<span>{{per.SentDate | date:"MMM. dd - h:mma"}}</span>
+											<div class="new_search content">
+												<div class="user_box clearfix stdprof1 move1" ng-repeat="res in searchResList1" id="search_div1{{$index}}">
+													<a href="javascript:void(0)" ng-click="searchStudentSelected(res.Id,res.Firstname,res.Lastname,res.ParentsName,res.SubjectName,res.YearGroup,res.Image,res.IsUnlocked,res.ClassId,res.ClassName)" class="active" id="search_div_anchor1{{$index}}">
+														<div ng-class="res.IsUnlocked == true ? 'outr_border' :''" class="user_pic"><img data-ng-src="data:image/png;base64,{{res.Image}}" alt="performance-pic"></div>
+														<div class="user_details">
+															<h3>{{res.Firstname}} {{res.Lastname}}</h3>
+															<span>{{res.ClassName}}</span>
+														</div>
+													</a>
+												</div>
+										   </div>
+										   <input type="hidden" id="hover_div1" value="-1">
+										   <div class="clear_search" id="closediv1" style="text-align: center;cursor: pointer;color: white;background-color: gray; padding-top:5px;padding-right: 5px;padding-bottom: 5px;padding-left: 5px;"><b>Clear Search</b></div>
 										</div>
-										<!--<div ng-if="per.SenderUserId == loggedInTeacherIdLoadMore" class="chat-convrstaion chat-rel">
-											<div class="conversation arrow_box">
-											  {{per.Content}}
+									</div>
+								</div>
+								
+								<div class="student_list content">
+									<div id="append_search_div"></div>
+									<div class="user_box top_border_user_box clearfix" ng-repeat="y in studentListInbox" ng-click="studentInboxPerformanceResponse(y.Id,y.ClassId,y.Firstname,y.Lastname,y.ParentsName,y.Image,y.ClassName,y.IsUnlocked);" id="msgstud{{y.Id}}" >
+										<!--ng-class="{studSelect: $index === 0}"-->
+										<label>
+											<div ng-class="y.IsUnlocked == true ? 'outr_border' :''" class="user_pic"><img alt="" data-ng-src="data:image/png;base64,{{y.Image}}"></div>
+											<div class="user_details">
+												<h3>{{y.Firstname}} {{y.Lastname}} ({{y.ClassName}})</h3>
+												<span>{{y.ClassName}}</span>
 											</div>
-											<span>{{per.SentDate | date:"MMM. dd - h:mma"}}</span>
-										</div>-->
-									</span>
-									<span ng-if="InboxMessageHistory == ''">No message found</span>
-									<span class="clearfix" style="display: block;" ng-repeat="per in InboxMessageHistory">
-										<h3  ng-if="(per.SenderName != InboxMessageHistory[$index - 1].SenderName) && (per.SenderUserId != loggedInTeacherId)">{{per.SenderName}}</h3>
-										<div ng-class="(per.SenderUserId == loggedInTeacherId ? 'chat-convrstaion chat-rel' : 'chat-convrstaion')">
-											<div class="conversation arrow_box">
-											  {{per.Content}}
+										</label>
+										<span class="user-noti" ng-if="y.UnreadMessageCount != 0">{{y.UnreadMessageCount}}</span>
+									</div>
+								</div>
+								<input type="hidden" id="studentIds" value="">
+							</div>
+							
+							<div id="noMsg" class="noMsgClass" style="text-align: center;margin-top: 10%;">Please select student to see the message history</div>
+							<div class="search-user-side-right" id="RHS_Section">
+								
+								<div class="srch-userpad" id="rhs_section1">
+									<div class="side-top">
+										<label for="student1">
+											<div ng-class="IsUnlockedInbox == true ? 'outr_border' :''" class="user_pic"><img alt="" data-ng-src="data:image/png;base64,{{ImageInbox}}" class="mCS_img_loaded"></div>
+											<div class="user_details">
+												<h3>{{FirstnameInbox}} {{LastnameInbox}}</h3>
+												<span>{{ClassNameInbox}}</span>
 											</div>
-											<span>{{per.SentDate | date:"MMM. dd - h:mma"}}</span>
+										</label> 
+									</div>
+									<ul class="side-list">
+										<li>
+											<h3>Attendance</h3>
+											<span>{{studentInboxAttendance}}% <img src="images/side-arrw.png" alt="" /></span>
+										</li>
+										<li>
+											<h3>Target</h3>
+											<span>{{studentInboxTargetGrade}}</span>
+										</li>
+										<li>
+											<h3>Grade</h3>
+											<span>{{studentInboxLastGrade}} <img src="images/side-arrw.png" alt="" /></span>
+										</li>
+									</ul>
+								</div>
+								<div class="other-teacher"  id="rhs_section2">
+								   <!-- <a href="">Other Teachers: Miss Bunnet</a>-->
+									<a href="">Parent: {{ParentsNameInbox}}</a>
+								</div>
+								<input type="hidden" id="latestmessagetime" value="{{latestmessagetime}}">
+								
+					
+								<div id="chat_box" class="content chat-box " infinite-scroll-container='getMore()' tagged-infinite-scroll-disabled="fetching || disabled" infinite-scroll-parent="true" >
+									<input type="hidden" id="noChatFound" value="{{noChatFound}}">
+										<span  class="clearfix" ng-repeat="per in InboxMessageHistoryLoadMore">
+											<h3 ng-if="per.SenderName != InboxMessageHistoryLoadMore[$index - 1].SenderName">{{per.SenderName}}</h3>
+											<div ng-class="(per.SenderUserId == loggedInTeacherIdLoadMore ? 'chat-convrstaion chat-rel' : 'chat-convrstaion')" >
+												<div class="conversation arrow_box">
+												  {{per.Content}}
+												</div>
+												<span>{{per.SentDate | date:"MMM. dd - h:mma"}}</span>
+											</div>
+											<!--<div ng-if="per.SenderUserId == loggedInTeacherIdLoadMore" class="chat-convrstaion chat-rel">
+												<div class="conversation arrow_box">
+												  {{per.Content}}
+												</div>
+												<span>{{per.SentDate | date:"MMM. dd - h:mma"}}</span>
+											</div>-->
+										</span>
+										
+										<span ng-if="InboxMessageHistory == ''"  >No Active Chats Found…</span>
+										<span class="clearfix" style="display: block;" ng-repeat="per in InboxMessageHistory">
+											<h3  ng-if="(per.SenderName != InboxMessageHistory[$index - 1].SenderName) && (per.SenderUserId != loggedInTeacherId)">{{per.SenderName}}</h3>
+											<div ng-class="(per.SenderUserId == loggedInTeacherId ? 'chat-convrstaion chat-rel' : 'chat-convrstaion')">
+												<div class="conversation arrow_box">
+												  {{per.Content}}
+												</div>
+												<span>{{per.SentDate | date:"MMM. dd - h:mma"}}</span>
+											</div>
+										
+										</span>
+										<div id="append_dummy_div"></div>
+										
+								</div>
+								
+								
+								<div class="text-box" id="rhs_section3">
+									<div class="text-box-l">
+									   <textarea id="content1" class="content" placeholder="Type a message here..."  cols="" rows=""  [ng-maxlength="500"]></textarea>
+										<div class="input-attach">
+											<div class="fileUpload">
+											   <!-- <span><img src="images/attach_pic.png" alt="" class="mCS_img_loaded"></span>-->
+												<input type="file" class="upload">
+											 </div>
 										</div>
-									
-									</span>
-									<div id="append_dummy_div"></div>
-									
-									
-                            </div>
-							
-							
-                            <div class="text-box">
-                                <div class="text-box-l">
-                                   <textarea id="content1" class="content" placeholder="Type a message here..."  cols="" rows=""  [ng-maxlength="500"]></textarea>
-                                    <div class="input-attach">
-                                        <div class="fileUpload">
-                                           <!-- <span><img src="images/attach_pic.png" alt="" class="mCS_img_loaded"></span>-->
-                                            <input type="file" class="upload">
-                                         </div>
-                                    </div>
-                                </div>
-                               <div class="text-box-r">
-                                    <a href="javascript:void(0)"  id="sendMessageInbox" ng-click="sendMessageInbox()"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
+									</div>
+									<input type="reset" id="sendMessageInboxReset" style="display:none">
+								   <div class="text-box-r">
+										<a href="javascript:void(0)"  id="sendMessageInbox" ng-click="sendMessageInbox()"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
+									</div>
+								</div>
+	
+							</div>
+						</div>
+					</form>
                 </div>
 				<!----MY INBOX SECTION end---->
 				
@@ -917,7 +925,7 @@
 						<input type="file" class="upload" onChange="readURL(this);" />
 					</div>-->
 					<br>
-					<label style="font-weight:normal">Template Messages</label>
+					<label style="font-weight:500">Template Messages</label>
 					<div class="up_photo">
 						<div class="pre_msg content" id="pre_msg">
 							<ul>

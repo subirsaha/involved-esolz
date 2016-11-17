@@ -299,6 +299,19 @@
         margin-bottom: 1px;
         font-size: 18px;
     }
+     #successMsg_modal1{
+        width: 100%;
+    }
+    #successMsg_modal1 .modal-dialog{
+        width: 220px;
+        margin: 30px auto;
+    }
+     .sims_img {
+        left: -25px;
+        position: absolute;
+        top: -9px;
+        width: 75px;
+    }
 }
 
 @media (max-width: 767px) {
@@ -474,6 +487,10 @@
     }
     .clander_outr::before{
         display: none;
+    }
+    /*add css 17-11-16*/
+    .container{
+        width: auto;
     }
 }
 
@@ -712,6 +729,12 @@
     }
     .clander_outr{
         margin-top: 10px;
+    }
+    #myModal.modal{
+        position: absolute;
+    }
+    #myModal.modal{
+        position: absolute;
     }
 }
 

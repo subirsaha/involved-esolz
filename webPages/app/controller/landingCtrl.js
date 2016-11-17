@@ -3,18 +3,34 @@
         var days = 1;
         var tomorrow = new Date(Date.now()+days*24*60*60*1000);
 
-        $(document).ready(function() {
-            $( "#datepicker" ).datepicker(
-            {
-               minDate: tomorrow
-            });
+               $( window ).load(function() {
+            // Run code
             $('.screen_slider').slick({
                 infinite: true,
                 slidesToShow: 1,
                 slidesToScroll: 1,
                 autoplay: true,
-                arrows:false
+                arrows:false,
+                responsive: true,
             });
+          });
+        $(document).ready(function() {
+            $( "#datepicker" ).datepicker(
+            {
+               minDate: tomorrow
+            });
+            $(window).scrollTop(0);
+            $(".navbar-collapse li").first().addClass("active");
+            $timeout(function() {
+                $('.screen_slider').slick({
+                    infinite: true,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    autoplay: true,
+                    arrows:false
+                });
+            },10);
+            
         });
         /*HOME BUTTON CLICK*/
         var selector = '.nav li';
@@ -73,7 +89,7 @@
             if( $('#name').val().toString().trim() == '' )
             {              
                 $('#name').val('');
-                $("#name").attr("placeholder","Please enter your name").addClass('red_place');
+                $("#name").attr("placeholder","Enter your name").addClass('red_place');
                 error++;
                 return false;
             }else{
@@ -91,7 +107,7 @@
             if( $('#job_title').val().toString().trim() == '' )
             {              
                 $('#job_title').val('');
-                $("#job_title").attr("placeholder","Please enter job title").addClass('red_place');
+                $("#job_title").attr("placeholder","Enter job title").addClass('red_place');
                 error++;
                 return false;
             }else{
@@ -109,24 +125,24 @@
             if($('#email').val().toString().trim() == '' || email==0)
             {
                 $('#email').val('');
-                $("#email").attr("placeholder","Please enter email").addClass('red_place');
+                $("#email").attr("placeholder","Enter your email").addClass('red_place');
                 error++;
                 return false;
             }
             else{
-                $("#email").attr("placeholder","Email").removeClass('red_place');
+                $("#email").attr("placeholder","Enter your email").removeClass('red_place');
             }
             if (!isValidEmailAddress(email))
             {
                 $('#email').val('');
                 //$scope.emailErr = "Please enter valid email";
-                $("#email").attr("placeholder","Please enter valid email").addClass('red_place');
+                $("#email").attr("placeholder","Enter valid email").addClass('red_place');
                 error++;
                 return false;
             }else{
                 
                 //$scope.emailErr = "";
-                $("#email").attr("placeholder","Email").removeClass('red_place');
+                $("#email").attr("placeholder","Enter your email").removeClass('red_place');
             }
             
             if( $('#contact_no').val().toString().trim() == '' )
@@ -161,7 +177,7 @@
             if( $('#school').val().toString().trim() == '' )
             {              
                 $('#school').val('');
-                $("#school").attr("placeholder","Please enter your school name").addClass('red_place');
+                $("#school").attr("placeholder","Enter your school name").addClass('red_place');
                 error++;
                 return false;
             }else{
@@ -180,7 +196,7 @@
             if( $('#postcode').val().toString().trim() == '' )
             {              
                 $('#postcode').val('');
-                $("#postcode").attr("placeholder","Please enter school postcode").addClass('red_place');
+                $("#postcode").attr("placeholder","Enter school postcode").addClass('red_place');
                 error++;
                 return false;
             }else{
@@ -227,7 +243,7 @@
                         $("#preloader_right_content2").css("display", "none");
                         document.getElementById("bookDemoCloseBTn").disabled = false;
                         document.getElementById("bookDemoSubmit").disabled = false;
-                        $scope.successMsg1 = 'Your demo is not booked.Try again!';
+                        $scope.successMsg1 = response.Message;
                         $('#successMsg1').click();
                         $('#bookDemoReset').click();
                         $('#bookDemoCloseBTn').click();

@@ -551,6 +551,7 @@ button:hover{
 	border-bottom:1px solid #d7d7d7;
 	background:#fff;
 }
+
 .user_box a{
 	display:block;
 	padding:8px 20px;
@@ -1092,7 +1093,7 @@ ul.side-list li span {
     font-weight: 600;
 }
 .side-top .user_pic.active, .user_box .user_pic.active {
-        border: 1px solid #06cc30;
+        border: 2px solid #06cc30;
 }    
 .search-user-side .search_reasult {
     display: block;
@@ -1104,6 +1105,7 @@ ul.side-list li span {
 }
 .search-user-side .search_area input {
     width: 94%;
+
 }
 .student_list .user_box:hover {
     /*background: #fff;*/
@@ -1215,15 +1217,17 @@ ul.side-list li span {
 
 .text-box {
    overflow: hidden;
+   border-top: 1px solid #ccc;
 }
 .text-box-l {
-    border-top: 1px solid #ccc;
+   /* border-top: 1px solid #ccc;*/
     padding: 15px 0 15px 20px;
     width:450px;
     float: left;
 }
 .chat-box.content { 
     height:365px;
+	/*height:150px;*/
 }
 .text-box-l input,
 .text-box-l textarea{
@@ -1511,6 +1515,7 @@ ul.side-list li span {
     border: solid 1px #54c9e8;
     z-index: 99;
     display: none;
+	left: 0;
 }
 .search-task .post_left{
 	width: 100%;
@@ -1623,8 +1628,10 @@ ul.side-list li span {
 }
 
 /****add css 14-7-16****/
-.container {
-    width:1280px;
+@media (min-width: 481px) {
+	.container {
+	    width:1280px;
+	}
 }
 
 .textarea-wrapper .content textarea, .textarea-wrapper .textarea-clone{
@@ -1884,7 +1891,7 @@ ul.side-list li span {
 	border:2px solid #06cc30;
 }
 .search-user-side-right{
-	width:550px;
+	width:553px;
 	float:left;
 	height:100%;
 }
@@ -1905,7 +1912,8 @@ ul.side-list li span {
 #preloader_right_content4,
 #preloader_right_content5,
 #preloader_right_content6,
-#preloader_right_content7{
+#preloader_right_content7,
+#preloader_right_content8{
     background-color:#27a9e3;
     bottom: 0;
     left: 0;
@@ -1951,6 +1959,9 @@ ul.side-list li span {
 {
 	top:131px;
 }
+#preloader_right_content8{
+	top:37px;
+}
 #preloader_right_content1{
 	top:0;
 }
@@ -1971,7 +1982,8 @@ ul.side-list li span {
 #preloader_right_content4,
 #preloader_right_content5,
 #preloader_right_content6,
-#preloader_right_content7{
+#preloader_right_content7,
+#preloader_right_content8{
 	position: absolute;
 }
 
@@ -1995,7 +2007,8 @@ ul.side-list li span {
 #status_right_content4,
 #status_right_content5,
 #status_right_content6,
-#status_right_content7
+#status_right_content7,
+#status_right_content8
 {
     background-image:url(../images/loader.gif);
     background-position: center center;
@@ -2337,7 +2350,7 @@ textarea:disabled{
 }
 #message .textarea-wrapper{
     /*height: 185px;*/
-    height:415px;
+    height:185px
 }
 
 /****add css8-8-16****/
@@ -2609,7 +2622,11 @@ ul.week_drp{
 	padding-left: 8px;
 }
 #message1{
-    font-size: 16px;
+	height: 100%;
+	font-family: 'Roboto', sans-serif;
+	font-size: 14px;
+	line-height: 1.42857143;
+	color: #333;
 }
 .chat-box h3{
     margin-left: 15px;
@@ -2618,10 +2635,10 @@ ul.week_drp{
     margin-right: 15px;
 }
 #sectionC .text-box-l textarea{
-    width: 100%;
+    /*width: 100%;*/
 }
 .text-box-r{
-    display: none;
+    /*display: none;*/
 }
 .text-box:hover .text-box-r.inbox_send_btn{
     display: block;
@@ -2643,5 +2660,77 @@ ul.week_drp{
     right:-18px;
     top: 7px;
 }
+
+
+
+
+
+/****added on 3 nov 16*****/
+.dropdown-menu > li.selected a{
+    background: #54c9e8;
+}
+#task .comnt_outr,
+#task_class .comnt_outr{
+    height: 175px;
+}
+#message .textarea-wrapper{
+    height: 185px;
+}
+.search_area.show .search-task{
+    display: block;
+    left: 0;
+}
+.user_box.active{
+    background: none;
+}
+.user_box.active .user_pic{
+    border-color: #06cc30;
+}
+.new_search.content{
+    max-height: 305px;
+    /*margin-bottom: 21px;*/
+	height: auto;
+}
+
+.clear_search a{
+    display: block;
+    width: 100%;
+    background: #808080;
+    padding: 6px 0;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+}
+.clear_search a:hover{
+    background: #54c9e8;
+}
+.pre_msg{ 
+    background: #fafafa;
+    border:1px solid #eeeeee;
+    padding: 9px 5px;
+}
+.pre_msg.content{
+    height: 170px !important;
+}
+.pre_msg ul li{
+    padding:4px 10px;
+    font-size: 14px;
+    color: #898888;
+    border-bottom: 1px solid #f0f0f0;
+}
+.pre_msg ul li:last-child{
+   /* border-bottom: none;*/
+}
+.pre_msg ul li:hover{
+    background-color: rgba(84,201,232,0.2);
+}
+
+
+
+
+
+
+
+
 
 
