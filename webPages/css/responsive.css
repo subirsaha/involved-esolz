@@ -1,0 +1,287 @@
+/*Common responsive Css Used*/
+
+@media (max-width: 1199px) {
+	.mac_sc{
+		float:none;
+		overflow:hidden;
+	}
+	.glob_box{
+		margin-right:10px;
+	}
+	.panel_left{
+		width:70%;
+	}
+	.panel_right{
+		width:30%;
+	}
+	.sky_head{
+		font-size:15px;
+	}
+	.table_outter{
+		overflow-x:auto;
+	}
+	.class_row{
+		width:840px;
+		white-space:nowrap;
+	}
+	.right_content{
+		width:100%;
+	}
+	.panel_left{
+		width:430px;
+	}
+	.panel_right{
+		width:40%;
+	}
+	.student_list .user_box{
+		padding:15px;
+	}
+	.student_list .user_pic{
+		margin-right:5px;
+	}
+	.student_list .user_details{
+		width:70%;
+	}
+	.date_select label{
+		float:none;
+		width:100%;
+		margin:0 0 15px 0;
+	}
+	.select_cell{
+		float:none;
+		width:100%;
+	}
+	
+}
+
+@media (max-width: 991px) {
+	.side_panel{
+		width:165px;
+		margin-right:12px;
+	}
+	.teacher_profile{
+		padding:10px;
+	}
+	.teacher_profile span{
+		font-size:15px;
+	}
+	.class_nav ul li a{
+		padding:7px 5px;
+	}
+	.class_nav ul li a span{
+		right:10px;
+	}
+	.glob_box{
+		margin-right:10px;
+	}
+	.link_area a{
+		margin:0 10px 5px 0;
+	}
+	.scrl_inr{
+		height:470px;
+	}
+	.task_hd .search_area{
+		width:255px;
+	}
+	.post_left h2{
+		font-size:20px;
+	}
+	.select_left{
+		float:none;
+		width:100%;
+	}
+}
+
+@media (max-width: 767px) {
+	.login_box{
+		width:90%;
+		margin:20px auto;
+		padding:5px 0 0;
+	}
+	.login_box h3{
+		padding:0 15px;
+		margin:25px 0 15px;
+		font-size:30px;
+	}
+	.frm_inr{
+		padding:0 15px;
+	}
+	.frm_inr h4{
+		font-size:22px;
+		margin:0 0 10px;
+	}
+	.side_panel{
+		float:none;
+		width:100%;
+		margin:0 auto 25px;
+		padding:0;
+	}
+	.search_area{
+		width:230px;
+	}
+	.search_area input{
+		width:88%;
+	}
+	.task_hd h3{
+		font-size:16px;
+	}
+	.post_left h2{
+		font-size:18px;
+	}
+}
+
+
+
+@media (max-width: 568px) {
+	.login_box h2 img{
+		width:100px;
+	}
+	input{
+		padding:5px 8px;
+	}
+	.remember{
+		margin:15px 0;
+	}
+	.trm_row{
+		margin:15px 0;
+		padding:15px;
+	}
+	.side_panel{
+		width:100%;
+	}
+	.footer{
+		padding:25px 0;
+		font-size:13px;
+	}
+	.user_box a{
+		padding:8px;
+	}
+	.user_pic{
+		margin-right:7px;
+	}
+	.teacher_profile h3{
+		margin:5px 0;
+	}
+	.class_nav ul li a{
+		font-size:14px;
+	}
+	.task_hd h3{
+		font-size:14px;
+	}
+	.task_hd .search_area{
+		width:200px;
+	}
+	.search_area input{
+		width:85%;
+		text-overflow: ellipsis;
+		padding:0 5px 0 0;
+	}
+	.post_row{
+		padding:15px;
+	}
+	.post_left h2{
+		font-size:15px;
+	}
+	.inner_left,
+	.inner_right{
+		float:none;
+		width:100%;
+	}
+	.create_nav{
+		display:block;
+	}
+	.create_nav li {
+		display: inline-block;
+		width: 32%;
+	}
+	.create_nav li a i{
+		display:none;
+	}
+	.create_nav li a{
+		padding:5px;
+		font-size:14px;
+	}
+	.inr_task .sky_bar{
+		height:auto;
+	}
+	.post_text{
+		font-size:16px;
+	}
+	.select_hd{
+		padding:5px 10px;
+	}
+	.select_left{
+		float:left;
+		width:33%;
+		margin:0;
+		padding:0 10px 0 0;
+	}
+	
+}
+
+@media (max-width:480px) {
+	.header_part h1{
+		float:none;
+		text-align:center;
+		margin:0 0 10px;
+	}
+	.header_right{
+		float:none;
+		width:100%;
+	}
+	.search_area{
+		width:70%;
+	}
+	.search_area input{
+		width:85%;
+	}
+	.setting_right{
+		margin:6px 0 0;
+		width:25%;
+		text-align:right;
+	}
+	.header_right{
+		position:relative;
+	}
+	.task_hd .link_area{
+		position:absolute;
+		right:0;
+	}
+	.task_hd h3{
+		width:100%;
+		float:none;
+	}
+	.task_hd .search_area{
+		margin-top:12px;
+		width:100%;
+	}
+	.sky_bar a,
+	.wk_picker{
+		font-size:15px;
+	}
+	.sky_bar a i{
+		font-size:22px;
+		margin-top:-1px;
+	}
+	.sml_text{
+		font-size:14px;
+	}
+	.post_left,
+	.post_right{
+		float:none;
+		width:100%;
+	}
+	.post_right{
+		text-align:left;
+		margin:15px 0 0;
+	}
+	.notification{
+		width:13px;
+		height:13px;
+		line-height:13px;
+	}
+	.create_nav li a{
+		font-size:12px;
+	}
+	
+}

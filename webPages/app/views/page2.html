@@ -1,0 +1,1964 @@
+<body>
+<div id="preloader">
+	<div id="status"></div>
+</div>
+	
+	
+<div class="outter_wrap">
+<!--header start-->
+<div class="header_part clearfix">
+	<div class="container">
+    	<h1><a href="javascript:void(0)"><img src="images/logo.png" alt=""></a></h1>
+        <div class="header_right">
+        	<div class="search_area clearfix" id="searchdiv">
+            	<input id="searchterm" placeholder="Search a student" type="text" >
+                <button id="srch"><i class="fa fa-search" aria-hidden="true" ></i></button>
+				<!--<div id="search_cross" class="search-cross"><img src="images/search-cross.png" alt="search-cross" /></div>-->
+                <div class="search_reasult">
+					<div class="user_box clearfix" id="errordiv" style="text-align: center;padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;">
+					</div>
+                	<div class="user_box clearfix stdprof" ng-repeat="res in searchResList">
+						<a data-target="#student_pop" data-toggle="modal"  href="javascript:void(0);" class="active" ng-click="studentProfile(res.Id,res.Firstname,res.Lastname,res.YearGroup,res.Image,res.IsUnlocked)" >
+							<div ng-class="res.IsUnlocked == true ? 'outr_border' :''" class="user_pic"><img data-ng-src="data:image/png;base64,{{res.Image}}" alt="performance-pic"></div>
+							<div class="user_details">
+								<h3>{{res.Firstname}} {{res.Lastname}}</h3>
+								<span>{{res.YearGroup}}</span>
+							</div>
+						</a>
+					</div>
+					<div class="user_box clearfix" id="closediv" style="text-align: center;cursor: pointer;color: white;background-color: gray; padding-top:5px;padding-right: 5px;padding-bottom: 5px;padding-left: 5px;"><b>Clear search</b></div>
+                </div>
+		
+            </div>
+            <div class="setting_right">
+            	<a href="#"><img src="images/settiing_icon.png" alt=""></a>
+                <a href="javascript:void(0);" data-toggle="modal" data-target="#logout_modal"><img src="images/logout_icon.png" alt=""></a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--header end-->
+
+<!--main content-->
+<div class="inner_content">
+    <div class="container">
+        <div class="side_panel">
+            <div class="teacher_profile">
+                <div class="user_pic_d"><img data-ng-src="data:image/png;base64,{{TeacherImage}}" alt=""></div>
+                <h3>{{TeacherTitle}} {{TeacherFirstname}} {{TeacherLastname}}</h3>
+                <span>{{TeacherSchoolName}}</span>
+            </div>
+            <div class="class_nav">
+                <ul>
+                    <li class="active" id="myClasses" ng-click="">
+						<a data-toggle="{{toggle_status_my_classes}}" data-target="#sectionA" id="my_classes" ng-click="cancelClickTab('my_classes',$event);" href='javascript:void(0);'>My Classes</a>
+					</li>
+                    <li id="myTimetable">
+						<a data-toggle="{{toggle_status_my_timetable}}" data-target="#sectionB" id="my_timetable" ng-click="cancelClickTab('my_timetable');myTimetable();" href='javascript:void(0);'>My Timetable
+						</a>
+					</li>
+                    <li id="myInbox">
+                        <a data-toggle="{{toggle_status_my_inbox}}" data-target="#sectionC" id="my_inbox"  ng-click="cancelClickTab('my_inbox');myInbox();" href='javascript:void(0);'>
+                            My Inbox
+                            <sup>3</sup>
+                        </a>
+                    </li>
+                    <li data-toggle="{{toggle_status_my_task}}" data-target="#sectionD" id="myTask" ng-click="myTask(1);" class="">
+						<a ng-click="removeWeekRangeCookie();cancelClickTab('my_task');" href='javascript:void(0);'>My Tasks</a>
+					</li>
+					<!--<li>
+						<a data-toggle="{{toggle_status}}" data-target="#sectionD" id="myTask" ng-click="removeWeekRangeCookie();myTask(1);cancelClickTab('my_task');" href='javascript:void(0);'>My Tasks</a>
+					</li>-->
+                </ul>
+            </div>
+        </div>
+        <div class="table_outter">
+            <div class="right_content tab-content">
+				<div id="preloader_right_content">
+					<div id="status_right_content"></div>
+				</div>
+				<!--MY CLASSES SECTION start-->
+                <div id="sectionA" class="tab-pane fade in active tabcustomheight">
+                    <div class="sky_head clearfix">
+                        <div class="panel_left">Class </div>
+                        <div class="panel_right">
+                            Class Performance
+                            <a href="#"><img src="images/notification.png" alt=""></a>
+                        </div>
+                    </div>
+                    <div id="content-1" class="scrl_inr">
+						<div id="noRecord4" class="noRecordClass">
+							<div><b>{{classListMessage}}</b></div>
+							<div>{{classListMessage1}}</div>
+							<div>{{classListMessage2}} </div>
+							<div>{{classListMessage3}} <a href="#">{{classListMessage4}}</a></div>
+						</div>
+                        <div class="class_row clearfix showStudentDiv" ng-repeat="x in myClasses">
+                            <div class="panel_left" data-toggle="tab" data-target="#sectionE" ng-click="clickRow();" style="cursor:pointer">
+                                <div class="glob_box orange">
+                                    <span>{{x.StudentCount}}</span>
+                                </div>
+                                <div class="mac_sc">
+                                    <div class="title">{{x.Name}}</div>
+                                    <div class="subject">{{x.SubjectName}}</div>
+                                    <div class="link_area">
+                                        <a data-toggle="tab" data-target="#sectionE" ng-click="clickTab('performance');classPerformance(x.Id,x.Name,x.SubjectName);" href= 'javascript:void(0);'>
+                                            <img src="images/pic1.png" alt="">Performance
+                                        </a>
+                                        <a data-toggle="tab" data-target="#sectionE" ng-click="clickTab('task');createTask(x.Id,x.Name,x.SubjectName);" href='javascript:void(0);'>
+                                            <img src="images/pic2.png" alt="">Create Task 
+                                        </a>
+                                        <a data-toggle="tab" data-target="#sectionE" ng-click="clickTab('message');sendMessage(x.Id,x.Name,x.SubjectName);" href='javascript:void(0);'>
+                                            <img src="images/pic3.png" alt="">Send Message
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel_right">
+                                <div class="right_srl">
+                                    <div class="color_cell">
+                                        <div class="num_box">2</div>
+                                        <div class="color_box">
+                                            <span class="rate green"></span>
+                                        </div>
+                                        <div class="gray_text">6A</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">6</div>
+                                        <div class="color_box">
+                                            <span class="rate yellow"></span>
+                                        </div>
+                                        <div class="gray_text">6B</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">4</div>
+                                        <div class="color_box">
+                                            <span class="rate pink"></span>
+                                        </div>
+                                        <div class="gray_text">6C</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">2</div>
+                                        <div class="color_box">
+                                            <span class="rate orange_d"></span>
+                                        </div>
+                                        <div class="gray_text">5A</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">1</div>
+                                        <div class="color_box">
+                                            <span class="rate sky"></span>
+                                        </div>
+                                        <div class="gray_text">5B</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">2</div>
+                                        <div class="color_box">
+                                            <span class="rate green"></span>
+                                        </div>
+                                        <div class="gray_text">6A</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">6</div>
+                                        <div class="color_box">
+                                            <span class="rate yellow"></span>
+                                        </div>
+                                        <div class="gray_text">6B</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">4</div>
+                                        <div class="color_box">
+                                            <span class="rate pink"></span>
+                                        </div>
+                                        <div class="gray_text">6C</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">2</div>
+                                        <div class="color_box">
+                                            <span class="rate orange_d"></span>
+                                        </div>
+                                        <div class="gray_text">5A</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">1</div>
+                                        <div class="color_box">
+                                            <span class="rate sky"></span>
+                                        </div>
+                                        <div class="gray_text">5B</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">2</div>
+                                        <div class="color_box">
+                                            <span class="rate green"></span>
+                                        </div>
+                                        <div class="gray_text">6A</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">6</div>
+                                        <div class="color_box">
+                                            <span class="rate yellow"></span>
+                                        </div>
+                                        <div class="gray_text">6B</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">4</div>
+                                        <div class="color_box">
+                                            <span class="rate pink"></span>
+                                        </div>
+                                        <div class="gray_text">6C</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">2</div>
+                                        <div class="color_box">
+                                            <span class="rate orange_d"></span>
+                                        </div>
+                                        <div class="gray_text">5A</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">1</div>
+                                        <div class="color_box">
+                                            <span class="rate sky"></span>
+                                        </div>
+                                        <div class="gray_text">5B</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">2</div>
+                                        <div class="color_box">
+                                            <span class="rate green"></span>
+                                        </div>
+                                        <div class="gray_text">6A</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">6</div>
+                                        <div class="color_box">
+                                            <span class="rate yellow"></span>
+                                        </div>
+                                        <div class="gray_text">6B</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">4</div>
+                                        <div class="color_box">
+                                            <span class="rate pink"></span>
+                                        </div>
+                                        <div class="gray_text">6C</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">2</div>
+                                        <div class="color_box">
+                                            <span class="rate orange_d"></span>
+                                        </div>
+                                        <div class="gray_text">5A</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">1</div>
+                                        <div class="color_box">
+                                            <span class="rate sky"></span>
+                                        </div>
+                                        <div class="gray_text">5B</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">2</div>
+                                        <div class="color_box">
+                                            <span class="rate green"></span>
+                                        </div>
+                                        <div class="gray_text">6A</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">6</div>
+                                        <div class="color_box">
+                                            <span class="rate yellow"></span>
+                                        </div>
+                                        <div class="gray_text">6B</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">4</div>
+                                        <div class="color_box">
+                                            <span class="rate pink"></span>
+                                        </div>
+                                        <div class="gray_text">6C</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">2</div>
+                                        <div class="color_box">
+                                            <span class="rate orange_d"></span>
+                                        </div>
+                                        <div class="gray_text">5A</div>
+                                    </div>
+                                    <div class="color_cell">
+                                        <div class="num_box">1</div>
+                                        <div class="color_box">
+                                            <span class="rate sky"></span>
+                                        </div>
+                                        <div class="gray_text">5B</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                 </div>
+                </div>
+				<!--MY CLASSES SECTION end-->
+				
+				<!--MY TIMETABLE SECTION start-->
+				<div id="sectionB" class="tab-pane fade">
+                    <div class="sky_head clearfix">
+                        <div class="panel_left">My Timetable </div>
+                    </div>
+                    <div class="inr_content">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </div>
+                </div>
+				<!--MY TIMETABLE SECTION end-->
+				
+				<!--MY INBOX SECTION start-->
+                <div id="sectionC" class="tab-pane tabcustomheight fade">
+                    <div class="sky_head clearfix">
+                        <div class="panel_left">Messages</div>
+                    </div>
+                    <div class="search-user scrl_inr clearfix">
+                        <div class="search-user-side">
+                            <div class="search_area clearfix">
+                                <input name="" placeholder="Search a student" type="text">
+                                <button><i class="fa fa-search" aria-hidden="true"></i></button>
+                            </div>
+			    <div class="active_chat">Active Chat</div>
+                            <div class="student_list content">
+                                <div class="user_box active clearfix">
+                                    <label>
+                                        <div class="user_pic active"><img alt="" src="images/prof_pic1.png"></div>
+                                        <div class="user_details">
+                                            <h3>Jhon Smith</h3>
+                                            <span>Mr. Smith & Mrs. Smith</span>
+                                        </div>
+                                    </label>
+                                    <span class="user-noti">1</span>
+                                </div>
+				<div class="active_chat">Start New Chat</div>
+                                <div class="user_box clearfix">
+                                    <label>
+                                        <div class="user_pic"><img src="images/prof_pic2.png" alt=""></div>
+                                        <div class="user_details">
+                                            <h3>Angelina Joly</h3>
+                                            <span>Mr. A Joly & Mrs. Jolly</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="user_box clearfix">
+                                    <label>
+                                        <div class="user_pic active"><img src="images/prof_pic3.png" alt=""></div>
+                                        <div class="user_details">
+                                            <h3>Stacey Jonson</h3>
+                                        </div>
+                                    </label>
+                                    <span class="user-noti">2</span>
+                                </div>
+                                <div class="user_box clearfix">
+                                    <label>
+                                        <div class="user_pic"><img src="images/prof_pic4.png" alt=""></div>
+                                        <div class="user_details">
+                                            <h3>Erik Kingbard</h3>
+                                            <span>Mr. Kingbard & Mrs. Kingbard</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="user_box clearfix">
+                                    <label>
+                                        <div class="user_pic"><img src="images/prof_pic3.png" alt=""></div>
+                                        <div class="user_details">
+                                            <h3>Stacey Jonson</h3>
+                                            <span>Mr. Jonson & Mrs. Jonson</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="user_box clearfix">
+                                    <label>
+                                        <div class="user_pic active"><img src="images/prof_pic3.png" alt=""></div>
+                                        <div class="user_details">
+                                            <h3>Stacey Jonson</h3>
+                                        </div>
+                                    </label>
+                                    <span class="user-noti">4</span>
+                                </div>
+                                <div class="user_box clearfix">
+                                    <label>
+                                        <div class="user_pic"><img src="images/prof_pic4.png" alt=""></div>
+                                        <div class="user_details">
+                                            <h3>Erik Kingbard</h3>
+                                            <span>Mr. Kingbard & Mrs. Kingbard</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                 <div class="user_box clearfix">
+                                    <label>
+                                        <div class="user_pic active"><img alt="" src="images/prof_pic1.png"></div>
+                                        <div class="user_details">
+                                            <h3>Jhon Smith</h3>
+                                            <span>Mr. Smith & Mrs. Smith</span>
+                                        </div>
+                                    </label>
+                                    <span class="user-noti">1</span>
+                                </div>
+                                <div class="user_box clearfix">
+                                    <label>
+                                        <div class="user_pic"><img src="images/prof_pic2.png" alt=""></div>
+                                        <div class="user_details">
+                                            <h3>Angelina Joly</h3>
+                                            <span>Mr. A Joly & Mrs. Jolly</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="user_box clearfix">
+                                    <label>
+                                        <div class="user_pic active"><img src="images/prof_pic3.png" alt=""></div>
+                                        <div class="user_details">
+                                            <h3>Stacey Jonson</h3>
+                                        </div>
+                                    </label>
+                                    <span class="user-noti">2</span>
+                                </div>
+                                <div class="user_box clearfix">
+                                    <label>
+                                        <div class="user_pic"><img src="images/prof_pic4.png" alt=""></div>
+                                        <div class="user_details">
+                                            <h3>Erik Kingbard</h3>
+                                            <span>Mr. Kingbard & Mrs. Kingbard</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="user_box clearfix">
+                                    <label>
+                                        <div class="user_pic"><img src="images/prof_pic3.png" alt=""></div>
+                                        <div class="user_details">
+                                            <h3>Stacey Jonson</h3>
+                                            <span>Mr. Jonson & Mrs. Jonson</span>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="user_box clearfix">
+                                    <label>
+                                        <div class="user_pic active"><img src="images/prof_pic3.png" alt=""></div>
+                                        <div class="user_details">
+                                            <h3>Stacey Jonson</h3>
+                                        </div>
+                                    </label>
+                                    <span class="user-noti">4</span>
+                                </div>
+                                <div class="user_box clearfix">
+                                    <label>
+                                        <div class="user_pic"><img src="images/prof_pic4.png" alt=""></div>
+                                        <div class="user_details">
+                                            <h3>Erik Kingbard</h3>
+                                            <span>Mr. Kingbard & Mrs. Kingbard</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="search-user-side-right">
+                            <div class="srch-userpad">
+                                <div class="side-top">
+                                    <label for="student1">
+                                        <div class="user_pic active"><img alt="" src="images/prof_pic1.png" class="mCS_img_loaded"></div>
+                                        <div class="user_details">
+                                            <h3>Jhon Smith</h3>
+                                            <span>Mr. Smith &amp; Mrs. Smith</span>
+                                        </div>
+                                    </label> 
+                                </div>
+                                <ul class="side-list">
+                                    <li>
+                                        <h3>Attendance</h3>
+                                        <span>75% <img src="images/side-arrw.png" alt="" /></span>
+                                    </li>
+                                    <li>
+                                        <h3> Target</h3>
+                                        <span>5C</span>
+                                    </li>
+                                    <li>
+                                        <h3>Grade</h3>
+                                        <span>6A <img src="images/side-arrw.png" alt="" /></span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="other-teacher">
+                                <a href="">Other Teachers: Miss Bunnet</a>
+                                <a href="">Guardian: Mr. Smith & Mrs. Smith</a>
+                            </div>
+                            <div class="chat-box content">
+                                <h3>Miss Bunnet</h3>
+                                <div class="chat-convrstaion">
+                                    <div class="conversation arrow_box">
+                                       This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh
+                                    </div>
+                                    <span>Jun. 20 - 11:30am</span>
+                                </div>
+                                <div class="chat-convrstaion chat-rel">
+                                    <div class="conversation arrow_box">
+                                       This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh
+                                    </div>
+                                    <span>Jun. 20 - 11:30am</span>
+                                </div>
+                                <div class="chat-convrstaion">
+                                    <div class="conversation arrow_box">
+                                       This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh
+                                    </div>
+                                    <span>Jun. 20 - 11:30am</span>
+                                </div>
+                                <div class="chat-convrstaion chat-rel">
+                                    <div class="conversation arrow_box">
+                                       This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh
+                                    </div>
+                                    <span>Jun. 20 - 11:30am</span>
+                                </div>
+                                <div class="chat-convrstaion">
+                                    <div class="conversation arrow_box">
+                                       This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh
+                                    </div>
+                                    <span>Jun. 20 - 11:30am</span>
+                                </div>
+                            </div>
+                            <div class="text-box">
+                                <div class="text-box-l">
+                                   <textarea name="" class="content" placeholder="Type a message here ..."  cols="" rows=""></textarea>
+                                    <div class="input-attach">
+                                        <div class="fileUpload clearfix">
+                                            <span><img src="images/attach_pic.png" alt="" class="mCS_img_loaded"></span>
+                                            <input type="file" class="upload">
+                                         </div>
+                                    </div>
+                                </div>
+                               <div class="text-box-r">
+                                    <a href="javascript:void(0)"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+				<!----MY INBOX SECTION end---->
+				
+				<!----MY TASK SECTION start---->
+                <div id="sectionD" class="tab-pane fade tabcustomheight">
+					<div class="topsink">
+                    	<div class="task_hd clearfix">
+                        <h3 class="pull-left">Weekly Tasks Due</h3>
+                        <div class="header_right">
+                            <div class="header-search-wrap">
+                                <div class="search_area clearfix">
+                                    <input type="text" placeholder="Search for a task: type task title" name="">
+                                    <button><i aria-hidden="true" class="fa fa-search"></i></button>
+                                    <div class="search-cross"><img src="images/search-cross.png" alt="search-cross" /></div>
+                                </div>
+                                <div class="search-task">
+                                    <ul class="content">
+                                        <li class="clearfix">
+                                            <a href="#" class="post_left">
+                                                <div class="sml_text">
+                                                    <span class="orange_text">Class test</span>
+                                                    <span class="gray_text_new">7 MA - 5C</span>
+                                                </div>
+                                                <h2>Write a Essay</h2>
+                                            </a>
+                                        </li>
+                                        <li class="clearfix">
+                                            <a href="" class="post_left">
+                                                <div class="sml_text">
+                                                    <span class="grn_text">Class test</span>
+                                                    <span class="gray_text_new">7 MA - 5C</span>
+                                                </div>
+                                                <h2>Write a Essay</h2>
+                                            </a>
+                                        </li>
+                                        <li class="clearfix">
+                                            <a href="" class="post_left">
+                                                <div class="sml_text">
+                                                    <span class="orange_text">Class test</span>
+                                                    <span class="gray_text_new">7 MA - 5C</span>
+                                                </div>
+                                                <h2>Write a Essay</h2>
+                                            </a>
+                                        </li>
+                                        <li class="clearfix">
+                                            <a href="" class="post_left">
+                                                <div class="sml_text">
+                                                    <span class="grn_text">Class test</span>
+                                                    <span class="gray_text_new">7 MA - 5C</span>
+                                                </div>
+                                                <h2>Write a Essay</h2>
+                                            </a>
+                                        </li>
+                                        <li class="clearfix">
+                                            <a href="" class="post_left">
+                                                <div class="sml_text">
+                                                    <span class="orange_text">Class test</span>
+                                                    <span class="gray_text_new">7 MA - 5C</span>
+                                                </div>
+                                                <h2>Write a Essay</h2>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="link_area pull-left">
+                                <a href="javascript:void(0)" data-toggle="modal" data-target="#create_task" ng-click="createTaskPopup();createTaskFieldsReset();">
+                                    <img alt="" src="images/pic2.png" class="mCS_img_loaded">
+                                    Create Task 
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    	<div class="sky_bar clearfix"><!--| date:'EEEE dd MMM yyyy'   Mon Jul 25 2016-->
+                        <a href="javascript:void(0)" class="pull-left" ng-click="previousWeekClick()" id="prev">
+                            <i class="fa fa-angle-left pull-left" aria-hidden="true"></i>
+                            Prev
+                        </a>
+						<div class="wk_picker dropdown">
+                              <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" id="week_drp_click">{{currentWeekStartDate | date:'MMM dd'}} - {{currentWeekEndDate | date:'MMM dd'}} <i class="fa fa-sort-desc" aria-hidden="true"></i></a>
+							 
+							<!--<input type="hidden" id="displayStartDate" name="displayStartDate" value="{{currentWeekStartDate}}">
+							<input type="hidden" id="displayEndDate" name="displayEndDate" value="{{currentWeekEndDate}}">-->
+							   <!--ng-class="each == currentWeekRange ? 'active' :''" -->
+							 
+							<ul class="dropdown-menu week_drp content" id="week_drp">
+								  <div class="user_box clearfix" id="previous_week" style="text-align: center;cursor: pointer;color: white;background-color: gray; padding-top:5px;padding-right: 5px;padding-bottom: 5px;padding-left: 5px;" ng-click="load_more_weeks('prev');"><b>Load more</b></div>
+								  <li ng-repeat="each in myTaskListCalendar"
+									  ng-class="'{{each.StartDate | date:'yyyy-MM-dd'}}' == '{{currentWeekStartDate | date:'yyyy-MM-dd'}}'? 'active' :''"
+									  ng-click="selectWeek(each.StartDate,each.EndDate);">
+									  <a href="javascript:void(0)" >{{each.StartDate  | date:'MMM dd'}} - {{each.EndDate | date:'MMM dd'}}</a>
+								  </li>
+								  <div class="user_box clearfix" id="next_week" style="text-align: center;cursor: pointer;color: white;background-color: gray; padding-top:5px;padding-right: 5px;padding-bottom: 5px;padding-left: 5px;" ng-click="load_more_weeks('next');"><b>Load more</b></div>
+							</ul>
+							
+                        </div>
+						<!--<input type="hidden" value="{{responseArrIndex}}" id="responseArrIndex">
+						<input type="hidden" value="{{weekStartDate}}" id="weekStartDate">
+						<input type="hidden" value="{{weekEndDate}}" id="weekEndDate">-->
+                         <a href="javascript:void(0)" class="pull-right" ng-click="nextWeekClick()"  id="next">
+                            Next
+                            <i class="fa fa-angle-right pull-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+					</div>
+					<div id="content-2" class="scrl_inr-he">
+					<div id="noRecord6" class="noRecordClass"><div><b>{{weeklyTaskMessage}}</b></div>
+						<div>{{weeklyTaskMessage1}} <a href="javascript:void(0)" data-toggle="modal" data-target="#create_task" ng-click="createTaskPopup();createTaskFieldsReset();">{{weeklyTaskMessage2}}</a> {{weeklyTaskMessage3}}</div></div>
+                    <div class="post_area" ng-repeat="x in myTaskList" id="highlight{{x.Id}}">
+                        <div class="post_hd dateDiv" id="dateDiv{{x.DueDate}}" dateDiv="{{x.DueDate}}" ng-if="x.DueDate != myTaskList[$index - 1].DueDate">{{x.DueDate | date:'EEEE dd MMM yyyy'}}</div><!--Monday 25 May 2016-->
+                        <div class="post_row clearfix" id="highlightRow{{x.Id}}">
+                            <div class="post_left">
+                                <a href='javascript:void(0);' data-toggle="modal" data-target="#taskDescription" ng-click="taskDescription(x.Id,x.ClassName,x.TaskType,x.SubjectName,x.ClassId)">
+                                    <div class="sml_text">
+                                        <span ng-class="(x.TaskType == 'Homework' ? 'orange_text' : (x.TaskType == 'Class Test'? 'magenta_text' :(x.TaskType == 'Project'? 'purple_text' : 'grey_text')))"> {{x.TaskType}} </span>
+                                        <span class="gray_text_new"> {{x.ClassName}}</span>
+                                    </div>
+                                    <h2>{{x.Title}}</h2>
+                                </a>
+                            </div>
+                            <div class="post_right">
+								<!--<span ng-if="(x.DueDate | date:'dd-mm-yyyy') >= (todayDate  | date:'dd-mm-yyyy')">-->
+                                <input name="" value="Edit" class="edit post_btn" type="button" data-toggle="modal" data-target="#edit_task" taskId="{{x.Id}}" id="editMyTask{{x.Id}}" ng-click="taskDescription(x.Id,x.ClassName,x.TaskType,x.SubjectName,x.ClassId);resetEditPopup();">
+                                <input name="" value="Delete" class="delete post_btn" type="button" data-toggle="modal" data-target="#delete_task" taskId="{{x.Id}}" id="deleteMyTask{{x.Id}}" ng-click="deleteModalOpen(x.Id);">
+								<!--</span>-->
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+			</div>
+			    <!--MY TASK SECTION end-->
+			
+				<!--CREATE TASK SECTION start-->
+				<div id="sectionE" class="tab-pane fade tabcustomheight">
+					 <div class="table_outter">
+						<div class="right_content">
+						   <div class="inr_task">
+								<div class="back_class">
+									<a href="javascript:void(0);" data-toggle="{{toggle_status_back_btn}}" data-target="#sectionA" id="back_btn" ng-click="cancelClickTab('back_btn');">
+										<i class="fa fa-angle-left" aria-hidden="true"></i>
+										Back to My Classes
+									</a>
+									<span id="performance_print_span" style="display:none"><input class="print_btn" type="button" value="Print" id="performance_print" ng-click="printDiv1('print-content')"></span>
+								</div>
+								<div class="post_text">
+									{{className}} <span>{{subject}}</span>
+								</div>
+								
+								<div class="sky_bar clearfix">
+									<ul class="create_nav">
+										<li id="performance_class" ng-click="classPerformance(classId,className,subject);">
+											<a data-toggle="{{toggle_status_performance}}" data-target="#performance" id="performance_tab" href='javascript:void(0);' ng-click="cancelClickTab('performance');">
+												<!--<input type="hidden" data-target="#performance" id="performance_tab">-->
+												<i>
+													<span><img src="images/prfrmnc_hvr.png" alt=""></span>
+													<img src="images/prfrmnc.png" alt="">
+												</i>
+												Performance
+											</a>
+										</li>
+										<li id="task_class" ng-click="createTask(classId,className,subject);">
+											<a data-toggle="tab" data-target="#task" id="task_tab" href='javascript:void(0);'>
+												<!--<input type="hidden" data-target="#task" id="task_tab">-->
+												<i>
+													<span><img src="images/task_hvr.png" alt=""></span>
+													<img src="images/task.png" alt="">
+												</i>
+												Create Task
+											 </a>
+										</li>
+										<li id="message_class" ng-click="sendMessage(classId,className,subject);" >
+										<!--<li id="message_class">-->
+											<a data-toggle="{{toggle_status_message}}" data-target="#message" id="message_tab" href='javascript:void(0);' ng-click="cancelClickTab('message');">
+												<!--<input type="hidden" data-target="#message" id="message_tab">-->
+												<i>
+													<span><img src="images/msg_hvr.png" alt=""></span>
+													<img src="images/msg.png" alt="">
+												</i>
+												Send Message
+											</a>
+										</li>
+									</ul>
+								</div>
+								<div class="tab-content task-tab-content tabcustomheight">
+									
+									
+	<!---------------------------PERFORMANCE begins--------------------------------------------->									
+									<div id="performance" class="task-tab-pane scrl_inr performance-tab-pane tab-pane fade">
+									   <div id="print-content'">	
+										<div id="noRecord1" class="noRecordClass">
+												<div><b>{{studentListMessagePerformance}}</b></div>
+												<div>{{studentListMessagePerformance1}}</div>
+												<div>{{studentListMessagePerformance2}} </div>
+												<div>{{studentListMessagePerformance3}} <a href="#">{{studentListMessagePerformance4}}</a></div>
+										</div>
+										<div class="performance-table-wrap content showStudentDiv">
+											<div class="performance-table">
+												<div class="performance-table-tr">
+													<div class="performance-table-th">
+														Student
+													</div>
+													<div class="performance-table-th">
+														Attendance
+													</div>
+													<div class="performance-table-th">
+														Target
+													</div>
+													<div class="performance-table-th">
+														Grade
+													</div>
+												</div>
+												<a href="javascript:void(0)" data-target="#student_performance" data-toggle="modal" class="performance-table-tr performance-active performance_class2" ng-repeat="per in performanceList" id="studentPerformance{{per.Id}}" ng-click="studentPerformance(per.Id,per.Firstname,per.Lastname,per.Image,per.Attendance,per.TargetGrade,per.LastGrade,per.AttendanceTrend,per.GradeTrend,per.IsUnlocked);">
+													<div class="performance-table-td">
+														<div ng-class="per.IsUnlocked == true ? 'outr_border' :''" class="performance-pic">
+															<img data-ng-src="data:image/png;base64,{{per.Image}}" alt="performance-pic" />
+														</div>
+														<span class="performance-name"><div>{{per.Firstname}} {{per.Lastname}}</div></span>
+													</div>
+													<div class="performance-table-td" >
+														<span ng-if="per.Attendance != ''" ng-class="(per.AttendanceTrend == true ? 'p-green' : (per.AttendanceTrend == false ? 'p-red' : 'orange_text'))" >{{per.Attendance}}% </span>
+														
+														<span ng-if="per.Attendance == ''" ng-class="(per.AttendanceTrend == true ? 'p-green' : (per.AttendanceTrend == false ? 'p-red' : 'orange_text'))" >0% </span>
+													</div>
+													<div class="performance-table-td">
+														<span class="p-gray" ng-if="per.TargetGrade != ''">{{per.TargetGrade}}</span>
+														<span class="p-gray" ng-if="per.TargetGrade == ''">-</span>
+													</div>
+												
+													<div class="performance-table-td">
+														<span ng-class="(per.GradeTrend == true ? 'p-green' : (per.GradeTrend == false ? 'p-red' : 'orange_text'))" ng-if="per.LastGrade != ''">{{per.LastGrade}}</span>
+														<span ng-class="(per.GradeTrend == true ? 'p-green' : (per.GradeTrend == false ? 'p-red' : 'orange_text'))" ng-if="per.LastGrade == ''">-</span>
+													</div>
+												</a>
+											</div>
+										</div>
+									   </div>
+									</div>
+	<!---------------------------PERFORMANCE ends----------------------------------------------->	
+	<!---------------------------CREATE TASKS begin--------------------------------------------->														
+									<div id="task" class="task-tab-pane tabcustomheight tab-pane fade">
+										<div class="task_inr clearfix">
+											<div class="inner_left same_ht">
+												<form id="studentsForm1">	
+													<div id="noRecord2" class="noRecordClass">
+														<div><b>{{nostudentList}}</b></div>
+														<div>{{nostudentList1}}</div>
+														<div>{{nostudentList2}} </div>
+														<div>{{nostudentList3}} <a href="#">{{nostudentlist4}}</a></div>
+														</div>
+													<div class="showStudentDiv">
+														<div class="select_hd clearfix">
+															<div class="student_left">Students ({{countSelectStudentsTask}} Selected) </div>
+															<div class="student_right">
+																<input type="checkbox" id="remember_1" ng-click="allTaskClick();">
+																<label for="remember_1">Select All</label>
+															</div>
+														</div>
+														<div class="student_list content">	
+															<div class="user_box clearfix" ng-repeat="x in studentList" id="studentListInTask{{x.Id}}" >
+																<input  class="checkbox1 studentListInTaskCheckbox" type="checkbox"
+																		ng-if="x.IsUnlocked == true"
+																		name="studentListInTaskCheckbox[]"
+																		id="studentTask{{x.Id}}"
+																		studentIdTask="{{x.Id}}"
+																		ng-checked="isChecked(x.Id)!=-1"
+																		ng-click="eachTaskClick(x.Id);">	
+																<label for="studentTask{{x.Id}}">
+																	<div ng-class="x.IsUnlocked == true ? 'outr_border' :''" class="user_pic"><img alt="" data-ng-src="data:image/png;base64,{{x.Image}}"></div>
+																	<div class="user_details">
+																		<h3>{{x.Firstname}} {{x.Lastname}}</h3>
+																		<span>{{x.ParentsName}}</span>
+																	</div>
+																</label>
+															</div>
+														</div>
+													</div>
+													<input type="reset" id="studentsReset1" style="display:none">
+												</form>
+											</div>
+											
+											<div class="inner_right same_ht">
+											<!--<div id="noRecord8" class="noRecordClass">{{studentListMessage}}</div>-->
+											<form id="taskCreateForm" enctype="multipart/form-data">	
+												<div class="select_outter">
+													<select class="selectpicker tasktype" id="tasktype1" ng-model="itemselected" ng-change="onCategoryChange1(itemselected);">
+														<option disabled selected style="display: none;">Task Type</option>
+														<option ng-repeat="(key, value) in taskList" value="{{key}}" data-content="<span class='blacktext'>{{value}}</span>">{{value}}</option>
+													</select>
+													<div id="tasktypeErr" style="color: red;">{{tasktypeErr}}</div>
+												</div>
+												<div class="title_outr">
+													<input type="text" placeholder="Title" id="title1" maxlength="50">
+													<!--<div id="tasktitleErr" style="color: red;">{{tasktitleErr}}</div>-->
+												</div>
+												<div class="comnt_outr" id="content-2">
+													<textarea placeholder="Description" id="description1" maxlength="500"></textarea>
+													<!--<div id="taskdescErr" style="color: red;">{{taskdescErr}}</div>-->
+												</div>
+												<div class="fileUpload clearfix" style="cursor: pointer;" ng-click="attach()">
+													<div class="file_name" style="cursor: pointer;">Attach file</div>
+													<span style="cursor: pointer;">
+														<img id="attach_pic1" src="images/attach_pic.png" alt="">
+														<img id="add_more" class="add_more" src="images/add_more.png" style="display: none;" alt=""></span>
+												</div>
+												
+												<input type="hidden" name="fileNum" id="fileNum" value="0">
+												<input type="hidden" name="file_size1" id="file_size1" value="0">
+												
+												<div class="outter clearfix" id="adddiv1">
+											
+												<!--append files upload divs here-->	
+											
+												</div>
+												
+												
+												<div class="date_select clearfix">
+													<label>Due Date</label>
+													<div class="select_cell">
+														<div class="select_left">
+															<select class="selectpicker" id="day1" ng-model="day1" ng-change="checkCalendar(day1);">
+																<!--<option value="" disabled selected ng-hide="SelectedDay">dd</option>-->
+																<option disabled selected style="display: none;">dd</option>
+																<option value="01" ng-selected="{{TodayDay == 01}}" data-content="<span class='blacktext'>1</span>">1</option>
+																<option value="02" ng-selected="{{TodayDay == 02}}" data-content="<span class='blacktext'>2</span>">2</option>
+																<option value="03" ng-selected="{{TodayDay == 03}}" data-content="<span class='blacktext'>3</span>">3</option>
+																<option value="04" ng-selected="{{TodayDay == 04}}" data-content="<span class='blacktext'>4</span>">4</option>
+																<option value="05" ng-selected="{{TodayDay == 05}}" data-content="<span class='blacktext'>5</span>">5</option>
+																<option value="06" ng-selected="{{TodayDay == 06}}" data-content="<span class='blacktext'>6</span>">6</option>
+																<option value="07" ng-selected="{{TodayDay == 07}}" data-content="<span class='blacktext'>7</span>">7</option>
+																<option value="08" ng-selected="{{TodayDay == 08}}" data-content="<span class='blacktext'>8</span>">8</option>
+																<option value="09" ng-selected="{{TodayDay == 09}}" data-content="<span class='blacktext'>9</span>">9</option>
+																<option value="10" ng-selected="{{TodayDay == 10}}" data-content="<span class='blacktext'>10</span>">10</option>
+																<option value="11" ng-selected="{{TodayDay == 11}}" data-content="<span class='blacktext'>11</span>">11</option>
+																<option value="12" ng-selected="{{TodayDay == 12}}" data-content="<span class='blacktext'>12</span>">12</option>
+																<option value="13" ng-selected="{{TodayDay == 13}}" data-content="<span class='blacktext'>13</span>">13</option>
+																<option value="14" ng-selected="{{TodayDay == 14}}" data-content="<span class='blacktext'>14</span>">14</option>
+																<option value="15" ng-selected="{{TodayDay == 15}}" data-content="<span class='blacktext'>15</span>">15</option>
+																<option value="16" ng-selected="{{TodayDay == 16}}" data-content="<span class='blacktext'>16</span>">16</option>
+																<option value="17" ng-selected="{{TodayDay == 17}}" data-content="<span class='blacktext'>17</span>">17</option>
+																<option value="18" ng-selected="{{TodayDay == 18}}" data-content="<span class='blacktext'>18</span>">18</option>
+																<option value="19" ng-selected="{{TodayDay == 19}}" data-content="<span class='blacktext'>19</span>">19</option>
+																<option value="20" ng-selected="{{TodayDay == 20}}" data-content="<span class='blacktext'>20</span>">20</option>
+																<option value="21" ng-selected="{{TodayDay == 21}}" data-content="<span class='blacktext'>21</span>">21</option>
+																<option value="22" ng-selected="{{TodayDay == 22}}" data-content="<span class='blacktext'>22</span>">22</option>
+																<option value="23" ng-selected="{{TodayDay == 23}}" data-content="<span class='blacktext'>23</span>">23</option>
+																<option value="24" ng-selected="{{TodayDay == 24}}" data-content="<span class='blacktext'>24</span>">24</option>
+																<option value="25" ng-selected="{{TodayDay == 25}}" data-content="<span class='blacktext'>25</span>">25</option>
+																<option value="26" ng-selected="{{TodayDay == 26}}" data-content="<span class='blacktext'>26</span>">26</option>
+																<option value="27" ng-selected="{{TodayDay == 27}}" data-content="<span class='blacktext'>27</span>">27</option>
+																<option value="28" ng-selected="{{TodayDay == 28}}" data-content="<span class='blacktext'>28</span>">28</option>
+																<option value="29" ng-selected="{{TodayDay == 29}}" data-content="<span class='blacktext'>29</span>">29</option>
+																<option value="30" ng-selected="{{TodayDay == 30}}" data-content="<span class='blacktext'>30</span>">30</option>
+																<option value="31" ng-selected="{{TodayDay == 31}}" data-content="<span class='blacktext'>31</span>">31</option>
+															</select>
+														</div>
+														<div class="select_left">
+															<select class="selectpicker" id="mnth1" ng-model="mnth1" ng-change="checkCalendar(mnth1);">
+																<!--<option value="" disabled selected ng-hide="SelectedMonth">mm</option>-->
+																<option disabled selected style="display: none;">mm</option>
+																<option value="01" ng-selected="{{TodayMnth == 01}}" data-content="<span class='blacktext'>Jan</span>">Jan</option>
+																<option value="02" ng-selected="{{TodayMnth == 02}}" data-content="<span class='blacktext'>Feb</span>">Feb</option>
+																<option value="03" ng-selected="{{TodayMnth == 03}}" data-content="<span class='blacktext'>Mar</span>">Mar</option>
+																<option value="04" ng-selected="{{TodayMnth == 04}}"data-content="<span class='blacktext'>Apr</span>">Apr</option>
+																<option value="05" ng-selected="{{TodayMnth == 05}}" data-content="<span class='blacktext'>May</span>">May</option>
+																<option value="06" ng-selected="{{TodayMnth == 06}}" data-content="<span class='blacktext'>Jun</span>">Jun</option>
+																<option value="07" ng-selected="{{TodayMnth == 07}}" data-content="<span class='blacktext'>Jul</span>">Jul</option>
+																<option value="08" ng-selected="{{TodayMnth == 08}}" data-content="<span class='blacktext'>Aug</span>">Aug</option>
+																<option value="09" ng-selected="{{TodayMnth == 09}}" data-content="<span class='blacktext'>Sep</span>">Sep</option>
+																<option value="10" ng-selected="{{TodayMnth == 10}}" data-content="<span class='blacktext'>Oct</span>">Oct</option>
+																<option value="11" ng-selected="{{TodayMnth == 11}}" data-content="<span class='blacktext'>Nov</span>">Nov</option>
+																<option value="12" ng-selected="{{TodayMnth == 12}}" data-content="<span class='blacktext'>Dec</span>">Dec</option>
+															</select>
+														</div>
+														<div class="select_left">
+															<select class="selectpicker" id="year1" ng-model="year1" ng-change="checkCalendar(year1);" default-option="select Year">
+																<!--<option value="" disabled selected ng-hide="SelectedYear">yyyy</option>-->
+																<option disabled selected style="display: none;">yyyy</option>
+																<option value="{{TodayYr}}" ng-selected="{{TodayYr==TodayYr}}" data-content="<span class='blacktext'>{{TodayYr}}</span>">{{TodayYr}}</option>
+																<option value="{{NextYr}}" ng-selected="{{NextYr==TodayYr}}" data-content="<span class='blacktext'>{{NextYr}}</span>">{{NextYr}}</option>
+															</select>
+														</div>
+													</div>
+													<div id="dateErr" style="color: red;">{{dateErr}}</div>
+													</div>
+													<input type="hidden" id="studentIdsForCreateTask">
+													<input type="reset" id="taskCreateReset" style="display:none">
+													<div class="set_task">
+														<span id="loader_settask" class="loader_settask" style="display:none"></span>
+														<button id="setTaskBtn" ng-click="setTask();">Set Task</button>
+											
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>				
+	<!---------------------------CREATE TASKS end--------------------------------------------->									
+																
+	<!---------------------------MESSAGE begins--------------------------------------------->										
+									<div id="message" class="task-tab-pane tabcustomheight tab-pane fade">								
+										<div class="task_inr clearfix">
+											
+												<div class="inner_left same_ht">
+													<div id="noRecord3" class="noRecordClass">
+														<div><b>{{nostudentList}}</b></div>
+														<div>{{nostudentList1}}</div>
+														<div>{{nostudentList2}} </div>
+														<div>{{nostudentList3}} <a href="#">{{nostudentList4}}</a></div>
+													</div>
+													<form id="studentsForm2" class="showStudentDiv">
+													<div class="select_hd clearfix">
+														<div class="student_left">Students ({{countSelectStudentsMessage}} Selected) </div>
+														<div class="student_right">
+															<input type="checkbox" id="remember" ng-click="allMessageClick();">
+															<label for="remember">Select All</label>
+														</div>
+													</div>
+													<div class="student_list content">
+														<div class="user_box clearfix" ng-repeat="x in studentListmsg" id="studentListInMessage{{x.Id}}" >
+															<input class="checkbox1 studentListInMessageCheckbox" type="checkbox"
+																	ng-if="x.IsUnlocked == true"
+																   name="studentListInMessageCheckbox[]"
+																   studentIdMessage="{{x.Id}}"
+																   id="studentMessage{{x.Id}}"
+																   ng-checked="isChecked(x.Id)!=-1"
+																   ng-click="eachMessageClick(x.Id);">
+															<label for="studentMessage{{x.Id}}">
+																<div ng-class="x.IsUnlocked == true ? 'outr_border' :''" class="user_pic"><img alt="" data-ng-src="data:image/png;base64,{{x.Image}}"></div>
+																<div class="user_details">
+																	<h3>{{x.Firstname}} {{x.Lastname}}</h3>
+																	<span>{{x.ParentsName}}</span>
+																</div>
+															</label>
+														</div>
+													</div>
+												<input type="reset" id="studentsReset2" style="display:none">
+											</form>
+											</div>
+											
+											<div class="inner_right">
+											<!--<div id="noRecord9" class="noRecordClass">{{studentListMessage}}</div>-->
+											<form id="messageForm">
+												<div class="textarea-wrapper">
+													<textarea  class="type_msg" placeholder="Type Message" id="message1"></textarea>
+													<div class="textarea-clone"></div>
+												</div>
+												<div class="fileUpload clearfix pick_photo">
+													<div class="file_name">Attach photo</div>
+													<span><img src="images/attach_pic.png" alt=""></span>
+													<input type="file" class="upload" onChange="readURL(this);" />
+													<!--<img src="#" alt="" />-->
+												</div>
+												<!--<div class="up_photo">
+													<a href="#" data-toggle="modal" data-target="#attachPhoto">
+													   <img id="blah" src="images/bird_pic.png" alt="">
+													</a>
+												</div>-->
+												<input type="reset" id="messageReset" style="display:none">
+												<input type="hidden" id="studentIdsForMessage" >
+												<div class="set_task">
+													<button id="setTaskBtnMsg" ng-click="setTaskMsg();">Set Task</button>
+												</div>
+											</form>
+											</div>
+										</div>
+									</div>
+	<!---------------------------MESSAGE ends--------------------------------------------->
+	
+	
+								</div>
+						   </div>
+						</div>
+					</div>
+				</div>
+				<!--CREATE TASK SECTION end-->
+			</div>
+        </div>
+    </div>
+</div>
+<!--main content-->
+
+<!--footer start-->
+<div class="footer">Copyright &copy; 2016 InvolvEdTech. All Rights Reserved.</div>
+<!--footer end-->
+
+<!----------HTML OF ALL MODALS---------------------------------------------------------------->
+
+<!-- attach photo modal -->
+<!--<div class="modal fade attach_photo" id="attachPhoto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><img src="images/popup-cross.png" alt="popup-cross" /></span></button>
+                <h3>Preview</h3>
+            </div>
+            <div class="modal-body clearfix">
+                <div class="choose-another-img">
+                    <label for="chooseAnother">Choose Another image</label>
+                    <input type="file" id="chooseAnother" />
+                </div>
+                <div class="attach-photo-main">
+                    <img src="images/attach-crop-photo.jpg" alt="attach-crop-photo" />
+                </div>
+                <a href="#" class="crop-img">Crop Image</a>
+                <div class="clearfix"></div>
+                <div class="attach-message clearfix">
+                    <input type="text" placeholder="Type Message Here" class="form-controls" />
+                    <input type="button" value="Send" class="attach-sent" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+--><!-- attach photo modal -->
+
+<!-- crop photo modal FROM CREATE_TASK.HTML PAGE -->
+<div class="modal fade attach_photo" id="cropPhoto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><img src="images/popup-cross.png" alt="popup-cross" /></span></button>
+                <h3>Preview</h3>
+            </div>
+            <div class="modal-body clearfix">
+                <div class="choose-another-img">
+                    <label for="chooseAnother">Choose Another image</label>
+                    <input type="file" id="chooseAnother" />
+                </div>
+                <div class="attach-photo-main crop-photo-main">
+                    <img src="images/crop-img.jpg" alt="crop-img" />
+                </div>
+                <div class="clearfix"></div>
+                <div class="attach-message crop-attach-message clearfix">
+                    <input type="button" value="Send" class="attach-sent" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- crop photo modal FROM CREATE_TASK.HTML PAGE -->
+
+<!-- crop photo modal FROM TEACHER_LOGIN.HTML PAGE -->
+<div class="modal fade attach_photo task-description" id="taskDescription" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="taskDescriptionClose" ng-click="deselect()"><span aria-hidden="true"><img src="images/popup-cross.png" alt="popup-cross" /></span></button>
+                <h3>Task Description</h3>
+            </div>
+            <div class="modal-body clearfix">
+				
+                <div class="task_inr clearfix">
+                    <div class="inner_left">
+                    	<div class="select_area">
+                        	<div ng-class="(taskType == 'Homework' ? 'orange_text' : (taskType == 'Class Test'? 'magenta_text' :(taskType == 'Project'? 'purple_text' : 'grey_text')))">{{taskType}}</div>
+                            <div class="select_sub_text">
+                            	{{className}}  <span>({{SubjectName}})</span>
+                            </div>
+                        </div>
+						<form>
+							<div class="select_hd clearfix">
+								<div class="student_left">Students ({{selectedStudentCount}} Selected) </div>
+							</div>
+							<div class="student_list content" id="content-1">
+								<div class="user_box clearfix taskDesUser" ng-repeat="x in studentList" id="studentListInTaskDescPopup{{x.Id}}" ng-class="isExist(x.Id)!=-1? 'active' :''">
+									<input  class="checkbox1 studentListInTaskDesccheckbox" type="checkbox"
+                                            ng-if="x.IsUnlocked == true"
+											id="studentTaskDescPopup{{x.Id}}"
+											name='studentIdTaskDescPopupCheckbox[]'		
+											studentIdTaskDescPopup="{{x.Id}}"
+											ng-checked="isExist(x.Id)!=-1"
+											disabled readonly>
+									<label for="studentTaskDescPopup{{x.Id}}">
+										<div ng-class="x.IsUnlocked == true ? 'outr_border' :''" class="user_pic"><img alt="" data-ng-src="data:image/png;base64,{{x.Image}}"></div>
+										<div class="user_details">
+											<h3>{{x.Firstname}} {{x.Lastname}}</h3>
+											<span>{{x.ParentsName}}</span>
+										</div>
+									</label>
+								</div>
+							</div>
+							<input type="reset" id="studentsReset3" style="display:none">
+						</form>
+                    </div>
+                    <div class="inner_right">
+                        <h4 class="presentaion">{{Title}}</h4>
+                        <div class="date_fix_area clearfix">
+                        	<div class="set_date pull-left">
+                                <input type="text" value="{{CreatedDate |date:'dd MMM yyyy'}}" disabled>
+                                <div class="date_label">
+                                	<i class="fa fa-calendar" aria-hidden="true"></i>
+                                	Set Date
+                                </div>
+                            </div>
+							
+                            <div class="set_date pull-right">
+                                <input type="text" value="{{DueDate | date:'dd MMM yyyy'}}" disabled>
+                                <div class="date_label" ng-if="(taskType == 'Homework')||(taskType == 'Project')||(taskType == 'Other')">
+                                	<i class="fa fa-calendar" aria-hidden="true"></i>									
+                                	Due Date
+                                </div>
+								<div class="date_label" ng-if="(taskType == 'Class Test')">
+                                	<i class="fa fa-calendar" aria-hidden="true"></i>									
+                                	Test Date
+                                </div>
+                            </div>
+							
+                        </div>
+                        <div class="comnt_outr" id="content-2">
+                            <textarea  placeholder="Description" disabled>{{Description}}</textarea>
+                        </div>
+                        <div class="fileUpload  clearfix">
+                            <div class="file_name">Attachment</div>
+                            <span><img src="images/attach_pic.png" alt=""></span>
+                            <input type="file" disabled readonly class="upload" />
+                         </div>
+                        <div class="title_outr">
+                           <!-- <div class="attach_text">{{AttachmentCount}} Attachments</div>-->
+                            <div class="pdf_pic clearfix">
+                                <div class="pdf_left" ng-repeat="x in Attachments">
+                                	<a class='vcard-hyperlink' ng-click="downloadAttachment(x.Id);" href="http://server.involvedtech.co.uk:80/api/files/insecuretaskattachment={{x.Id}}">
+										<!--<img src="data:image/png;base64,{{fileAttachementRes}}" />-->
+                                        <img src="images/push-pin.png" alt="">
+                                        <span>{{x.Name | limitTo : 10}}...</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="set_task">
+                            <input class="edit post_btn" type="button" value="Edit" ng-click="editModalOpen();">
+							<input class="delete post_btn" type="button" value="Delete" ng-click="deleteModalOpenforDesc();">
+                        </div>
+                    </div>
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- crop photo modal FROM TEACHER_LOGIN.HTML PAGE -->
+
+<!----------------------------------CREATE TASK MODAL begins---------------------------------------------------------------->
+<!--create task modal-->
+<div class="modal fade attach_photo" id="create_task" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+				<span ng-click="cancelClickPop();"><button type="button"  class="close" ><span aria-hidden="true"><img src="images/popup-cross.png" alt="popup-cross" /></span></button></span>
+				<input type="hidden" id="createTaskPopUpClose" class="close" data-dismiss="modal" aria-label="Close" >
+                <h3>Create New Task</h3>
+            </div>
+            <div class="modal-body clearfix">
+                <div class="task_inr clearfix">
+                    <div class="inner_left same_ht">
+                    	<div class="select_area">
+                        	<label>Class:</label>
+                            <div class="select_outter_new" ng-click="changeStyle()">
+								<select id="selectClassDdp" name="selValue" class="selectpicker" ng-model="classIdModel" ng-change="studentListResponseDropdown(classIdModel)" default-option="Select a class">
+									<option value="0" selected="selected">Select a class</option>
+									<!---<option value="0" disabled selected style="display: none;">Select a class</option>-->
+									<!--<option value="" disabled ng-hide="classIdModel" style="display: none;">Select a class</option>-->
+									<!---***  code to already select a class on page load  ***---->
+									<!--<option ng-repeat="x in myClasses" value="{{x.Id}}" ng-selected="{{x.Id}} == {{myClasses[0].Id}}"data-content="<span class='blacktext'>{{x.Name}} ({{x.SubjectName}})</span>">{{x.Name}} ({{x.SubjectName}})</option>-->
+									<option ng-repeat="x in myClasses"
+											value="{{x.Id}}"
+											data-content="<span class='blacktext'>{{x.Name}} ({{x.SubjectName}})</span>">{{x.Name}} ({{x.SubjectName}})</option>
+								</select>
+                        	</div>
+                        </div>
+						<div id="noRecord7" class="noRecordClass" style="display:none"><div><b>{{nostudentList}}</b></div>
+													<div>{{nostudentList1}}</div>
+													<div>{{nostudentList2}} </div>
+													<div>{{nostudentList3}} <a href="#">{{nostudentlist4}}</a></div>
+													</div>
+						<div id="createTaskMessage" style="display:none">
+							<p><span class="task_instruction" >&nbsp;<b>1</b>&nbsp;</span>&nbsp;<span class="t_inst">Select a Class.</span></p>
+							<p><span class="task_instruction" >&nbsp;<b>2</b>&nbsp;</span>&nbsp;<span class="t_inst">Enter Task Details.</span></p>
+						</div>
+						<form class="showStudentDivPopup poplist" style="display:none">  
+							<div id="preloader_create_task_modal" style="display:none">
+								<div id="status_create_task_modal"  style="display:none"></div>
+							</div>
+							<div class="select_hd clearfix showStudentDivPopup" style="display:none">
+								<div class="student_left">Students ({{countSelectStudentsTaskPopup}} Selected) </div>
+								<div class="student_right">
+									<input type="checkbox" id="remember4"  ng-click="allTaskPopupClick();" >
+									<label for="remember4">Select All</label>
+								</div>
+							</div>
+							<div class="student_list content showStudentDivPopup" id="content-1">
+								<div class="user_box clearfix" ng-repeat="x in studentList" id="studentListInTaskPopup{{x.Id}}"  ng-class="{active: isExist(x.Id)!=-1}">
+									<input  class="checkbox2 studentIdTaskPopupCheckbox" type="checkbox"
+                                            ng-if="x.IsUnlocked == true"
+											id="studentTaskPopup{{x.Id}}"
+											name='studentIdTaskPopupCheckbox[]'
+											ng-checked="isExist(x.Id)!=-1"
+											studentIdTaskPopup="{{x.Id}}"
+											ng-click="eachTaskPopupClick(x.Id);">
+									<label for="studentTaskPopup{{x.Id}}">
+										<div ng-class="x.IsUnlocked == true ? 'outr_border' :''" class="user_pic"><img alt="" data-ng-src="data:image/png;base64,{{x.Image}}"></div>
+										<div class="user_details">
+											<h3>{{x.Firstname}} {{x.Lastname}}</h3>
+											<span>{{x.ParentsName}}</span>
+										</div>
+									</label>
+								</div>
+							</div>
+							<input type="reset" id="studentsReset4" style="display:none">
+						</form>
+                    </div>
+					
+                    <div class="inner_right pop_create same_ht">
+					<!--<div id="noRecord5" class="noRecordClass">{{studentListMessagePopup}}</div>-->
+					<form class="">	
+                        <div class="select_outter">
+                            <select class="selectpicker tasktype" id="tasktype2" ng-model="itemSelected" ng-change="onCategoryChange(itemSelected);">
+                                <option value="0" disabled selected style="display: none;">Task Type</option>
+								<option ng-repeat="(key, value) in taskList" value="{{key}}" data-content="<span class='blacktext'>{{value}}</span>">{{value}}</option>
+                            </select>
+							<div id="tasktypeErr2" style="color: red;">{{tasktypeErr2}}</div>
+                        </div>
+                        <div class="title_outr">
+                            <input type="text" placeholder="Title" id="title2"  maxlength="50">
+							<!--<div id="tasktitleErr2" style="color: red;">{{tasktitleErr2}}</div>-->
+                        </div>
+                        <div class="comnt_outr" id="content-2">
+                            <textarea placeholder="Description" id="description2" maxlength="500"></textarea>
+							<!--<div id="taskdescErr2" style="color: red;">{{taskdescErr2}}</div>-->
+                        </div>
+                        <div class="fileUpload clearfix" style="cursor: pointer;" ng-click="attach2()">
+                            <div class="file_name" style="cursor: pointer;">Attach file</div>
+                            <span style="cursor: pointer;">
+								<img id="attach_pic2" src="images/attach_pic.png" alt="">
+								<img id="add_more2" class="add_more" src="images/add_more.png" style="display: none;" alt="">
+							</span>
+						</div>
+						
+						<input type="hidden" name="fileNum2" id="fileNum2" value="0">
+						<input type="hidden" name="file_size2" id="file_size2" value="0">
+						<div class="title_outr clearfix" id="adddiv2">
+						
+						<!--append file upload div here-->
+						
+						</div>
+                       <!-- <div class="title_outr">
+                            <div class="pdf_pic clearfix">
+                                <div class="pdf_left w3attach" ng-repeat="file in files" id="attachmentCreateTaskPopup{{$index}}">
+                                    <img src="images/push-pin.png" alt="">
+                                    <span>{{file.name  | limitTo : 10}}...</span>
+									<img ng-click="removeAttachmentCreateTaskPopup($index);" class="remove_btn_class"  style="float: right;"src="images/remove_btn.png" alt="">
+                                </div>
+                            </div>
+                         </div>-->
+                        <div class="date_select clearfix">
+                            <label>Due Date</label>
+							<div class="select_cell">
+								<div class="select_left">
+									<select class="selectpicker" id="day2" ng-model="day2" ng-change="checkCalendarPop(day2);">
+										<!--<option value="" disabled selected ng-hide="SelectedDay">dd</option>-->
+										<option disabled selected style="display: none;">dd</option>
+										<option value="01" ng-selected="{{TodayDay == 1}}" data-content="<span class='blacktext'>1</span>">1</option>
+										<option value="02" ng-selected="{{TodayDay == 2}}" data-content="<span class='blacktext'>2</span>">2</option>
+										<option value="03" ng-selected="{{TodayDay == 3}}" data-content="<span class='blacktext'>3</span>">3</option>
+										<option value="04" ng-selected="{{TodayDay == 4}}" data-content="<span class='blacktext'>4</span>">4</option>
+										<option value="05" ng-selected="{{TodayDay == 5}}" data-content="<span class='blacktext'>5</span>">5</option>
+										<option value="06" ng-selected="{{TodayDay == 6}}" data-content="<span class='blacktext'>6</span>">6</option>
+										<option value="07" ng-selected="{{TodayDay == 7}}" data-content="<span class='blacktext'>7</span>">7</option>
+										<option value="08" ng-selected="{{TodayDay == 8}}" data-content="<span class='blacktext'>8</span>">8</option>
+										<option value="09" ng-selected="{{TodayDay == 9}}" data-content="<span class='blacktext'>9</span>">9</option>
+										<option value="10" ng-selected="{{TodayDay == 10}}" data-content="<span class='blacktext'>10</span>">10</option>
+										<option value="11" ng-selected="{{TodayDay == 11}}" data-content="<span class='blacktext'>11</span>">11</option>
+										<option value="12" ng-selected="{{TodayDay == 12}}" data-content="<span class='blacktext'>12</span>">12</option>
+										<option value="13" ng-selected="{{TodayDay == 13}}" data-content="<span class='blacktext'>13</span>">13</option>
+										<option value="14" ng-selected="{{TodayDay == 14}}" data-content="<span class='blacktext'>14</span>">14</option>
+										<option value="15" ng-selected="{{TodayDay == 15}}" data-content="<span class='blacktext'>15</span>">15</option>
+										<option value="16" ng-selected="{{TodayDay == 16}}" data-content="<span class='blacktext'>16</span>">16</option>
+										<option value="17" ng-selected="{{TodayDay == 17}}" data-content="<span class='blacktext'>17</span>">17</option>
+										<option value="18" ng-selected="{{TodayDay == 18}}" data-content="<span class='blacktext'>18</span>">18</option>
+										<option value="19" ng-selected="{{TodayDay == 19}}" data-content="<span class='blacktext'>19</span>">19</option>
+										<option value="20" ng-selected="{{TodayDay == 20}}" data-content="<span class='blacktext'>20</span>">20</option>
+										<option value="21" ng-selected="{{TodayDay == 21}}" data-content="<span class='blacktext'>21</span>">21</option>
+										<option value="22" ng-selected="{{TodayDay == 22}}" data-content="<span class='blacktext'>22</span>">22</option>
+										<option value="23" ng-selected="{{TodayDay == 23}}" data-content="<span class='blacktext'>23</span>">23</option>
+										<option value="24" ng-selected="{{TodayDay == 24}}" data-content="<span class='blacktext'>24</span>">24</option>
+										<option value="25" ng-selected="{{TodayDay == 25}}" data-content="<span class='blacktext'>25</span>">25</option>
+										<option value="26" ng-selected="{{TodayDay == 26}}" data-content="<span class='blacktext'>26</span>">26</option>
+										<option value="27" ng-selected="{{TodayDay == 27}}" data-content="<span class='blacktext'>27</span>">27</option>
+										<option value="28" ng-selected="{{TodayDay == 28}}" data-content="<span class='blacktext'>28</span>">28</option>
+										<option value="29" ng-selected="{{TodayDay == 29}}" data-content="<span class='blacktext'>29</span>">29</option>
+										<option value="30" ng-selected="{{TodayDay == 30}}" data-content="<span class='blacktext'>30</span>">30</option>
+										<option value="31" ng-selected="{{TodayDay == 31}}" data-content="<span class='blacktext'>31</span>">31</option>
+									</select>
+								</div>
+								<div class="select_left">
+									<select class="selectpicker" id="mnth2" ng-model="mnth2" ng-change="checkCalendarPop(mnth2);">
+										<!--<option value="" disabled selected ng-hide="SelectedMonth">mm</option>-->
+										<option disabled selected style="display: none;">mm</option>
+										<option value="01" ng-selected="{{TodayMnth == 01}}" data-content="<span class='blacktext'>Jan</span>">Jan</option>
+										<option value="02" ng-selected="{{TodayMnth == 02}}" data-content="<span class='blacktext'>Feb</span>">Feb</option>
+										<option value="03" ng-selected="{{TodayMnth == 03}}" data-content="<span class='blacktext'>Mar</span>">Mar</option>
+										<option value="04" ng-selected="{{TodayMnth == 04}}" data-content="<span class='blacktext'>Apr</span>">Apr</option>
+										<option value="05" ng-selected="{{TodayMnth == 05}}" data-content="<span class='blacktext'>May</span>">May</option>
+										<option value="06" ng-selected="{{TodayMnth == 06}}" data-content="<span class='blacktext'>Jun</span>">Jun</option>
+										<option value="07" ng-selected="{{TodayMnth == 07}}" data-content="<span class='blacktext'>Jul</span>">Jul</option>
+										<option value="08" ng-selected="{{TodayMnth == 08}}" data-content="<span class='blacktext'>Aug</span>">Aug</option>
+										<option value="09" ng-selected="{{TodayMnth == 09}}" data-content="<span class='blacktext'>Sep</span>">Sep</option>
+										<option value="10" ng-selected="{{TodayMnth == 10}}" data-content="<span class='blacktext'>Oct</span>">Oct</option>
+										<option value="11" ng-selected="{{TodayMnth == 11}}" data-content="<span class='blacktext'>Nov</span>">Nov</option>
+										<option value="12" ng-selected="{{TodayMnth == 12}}" data-content="<span class='blacktext'>Dec</span>">Dec</option>
+									</select>
+								</div>
+								<div class="select_left">
+									<select class="selectpicker" id="year2" ng-model="year2" ng-change="checkCalendarPop(year2);">
+										<!--<option value="" disabled selected ng-hide="SelectedYear">yyyy</option>-->
+										<option disabled selected style="display: none;">yyyy</option>
+										<option value="{{TodayYr}}" selected="selected" data-content="<span class='blacktext'>{{TodayYr}}</span>">{{TodayYr}}</option>
+										<option value="{{NextYr}}" data-content="<span class='blacktext'>{{NextYr}}</span>">{{NextYr}}</option>
+									</select>
+								</div>
+							</div>
+							</div>
+							<div id="dateErr2" style="color: red;">{{dateErr2}}</div>
+                
+						<input type="hidden" id="studentIdsForTaskPopUp">
+						<input type="reset" id="taskCreatePopUpReset" style="display:none">
+						<div class="set_task
+							<span id="loader_settask2" class="loader_settask" style="display:none"></span>
+                            <button  id="setTaskPopBtn" ng-click="setTaskPop();">Set Task</button>
+                        </div>
+						</form>
+                        
+                    </div>
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--create task modal end-->
+<!----------------------------------CREATE TASK MODAL ends---------------------------------------------------------------->
+
+<!----------------------------------EDIT TASK MODAL --edit pop up--------------------------------------------------------->
+<div class="modal fade attach_photo" id="edit_task" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close"  id="editPopupClose" ng-click="editclose();"><span aria-hidden="true"><img src="images/popup-cross.png" alt="popup-cross" /></span></button>
+                <h3>Edit Task</h3>
+            </div>
+            <div class="modal-body clearfix">
+               <div class="task_inr clearfix">
+                    <div class="inner_left">
+                    	<div class="select_area">
+                        	<div ng-class="(taskType == 'Homework' ? 'orange_text' : (taskType == 'Class Test'? 'magenta_text' :(taskType == 'Project'? 'purple_text' : 'grey_text')))">{{taskType}}</div>
+                            <div class="select_sub_text">
+                            	{{className}}  <span>({{SubjectName}})</span>
+                            </div>
+                        </div>
+                        <div class="select_hd clearfix">
+                            <div class="student_left">Students ({{selectedStudentCount}} Selected) </div>
+                            <div class="student_right" >
+                                <input type="checkbox" id="remember3" >
+                                <label for="remember3">Select All</label>
+                            </div>
+                        </div>
+                        <div class="student_list content" id="content-1">
+                            <div  ng-repeat="x in studentList" id="studentListInEditPopup{{x.Id}}" class="user_box clearfix editcall" ng-class="{active: isExist(x.Id)!=-1}">
+                                <input  class="checkbox1 studentListInEditPopupCheckbox" type="checkbox"
+                                        ng-if="x.IsUnlocked == true"
+										id="studentEditPopup{{x.Id}}"
+										name='studentEditPopupCheckbox[]'		
+										studentEditPopup="{{x.Id}}"
+										ng-checked="isExist(x.Id)!=-1"
+										ng-click="eachEditTaskClick(x.Id);">
+                                <label for="studentEditPopup{{x.Id}}">
+                                    <div ng-class="x.IsUnlocked == true ? 'outr_border' :''" class="user_pic"><img alt="" data-ng-src="data:image/png;base64,{{x.Image}}"></div>
+                                    <div class="user_details">
+                                        <h3>{{x.Firstname}} {{x.Lastname}}</h3>
+                                        <span>{{x.ParentsName}}</span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+					<form>
+                    <div class="inner_right">
+                        <!--<div class="select_outter">
+                            <select class="selectpicker">
+                                <option disabled selected style="display: none;">Task Type</option>
+								<option ng-repeat="(key, value) in taskList" value="{{key}}">{{value}}</option>
+                            </select>
+                        </div>-->
+						
+                        <div class="title_outr">
+                            <input type="text" placeholder="Title" id="title3" value="{{Title}}"  style="font-size:20px;" maxlength="50">
+							<!--<div id="tasktitleErr3" style="color: red;">{{tasktitleErr3}}</div>-->
+                        </div>
+                        <div class="comnt_outr" id="content-2">
+                            <textarea  placeholder="Description" id="description3"  maxlength="500">{{Description}}</textarea>
+							<!--<div id="taskdescErr3" style="color: red;">{{taskdescErr3}}</div>-->
+                        </div>
+                        <div class="fileUpload clearfix" style="cursor: pointer;">
+                            <div class="file_name" style="cursor: pointer;" ng-click="attach3()">Attach file</div>
+							
+							<img id="attach_pic3" src="images/attach_pic.png" alt="">
+							<img id="add_more3" class="add_more" src="images/add_more.png" style="display: none;" alt=""></span>
+                        </div>
+                        <div class="title_outr clearfix">
+                           
+                            <div class="pdf_pic clearfix">
+								
+								<!-----FOR UPLOADED FILES------->
+                                <div class="pdf_left attachmentEdit w3attachedit" ng-repeat="x in Attachments" name="attachmentEdit[]" id="attachmentDivOld{{x.Id}}" attachmentId="{{x.Id}}" attachmentName="{{x.Name}}" noOfAttachments="{{Attachments.length}}">
+									<a class='vcard-hyperlink' ng-click="downloadAttachment(x.Id);" href="">
+                                	<!--<a class='vcard-hyperlink' ng-click="downloadAttachment(x.Id);" href="http://server.involvedtech.co.uk:80/api/files/insecuretaskattachment={{x.Id}}">-->
+										<!--<img src="data:image/png;base64,{{fileAttachementRes}}" />-->
+                                        <img src="images/push-pin.png" alt="">					
+                                        <span>{{x.Name | limitTo : 10}}...</span>
+										
+                                    </a>
+									<img ng-click="removeAttachmentOld(x.Id);" class="remove_btn_class" style="float: right !important;" src="images/remove_btn.png" attachmentid="{{x.Id}}" alt="">
+								</div>
+								
+								<!-----FOR NEW UPLOADED FILES------->
+								<!--<div class="pdf_left attachmentEditNew w3attach" ng-repeat="file in files" id="attachmentDivNew{{$index}}" name="attachmentEditNew[]">
+                                    <img src="images/push-pin.png" alt="">
+                                    <span>{{file.name | limitTo : 10}}...</span>
+									<img ng-click="removeAttachmentNew($index);" class="remove_btn_class" style="float: right !important;" src="images/remove_btn.png" alt="">
+                                </div>-->
+							</div>
+							<input type="hidden" name="fileNum3" id="fileNum3" value="0">
+							<input type="hidden" name="file_size3" id="file_size3" value="0">
+							
+							<input type="hidden" id="noOfOldFiles" value="{{AttachmentCount}}">
+								<!-----FOR NEW UPLOADED FILES------->
+								<div class="outter clearfix" id="adddiv3">
+									
+																	
+								</div>
+								
+								
+								
+								
+								
+                            
+                         </div>
+                        <div class="date_select clearfix">
+                            <label>Due Date</label>
+							<div class="select_cell" id="editTaskCalendar">
+								<div class="select_left">
+									<select class="selectpicker" id="day3" ng-model="day3" ng-change="checkCalendarEditPop(day3);">
+										<!--<option value="" disabled ng-hide="SelectedDay1">dd</option>--> 
+										<option disabled selected style="display: none;">dd</option>
+										<option value="01" ng-selected="{{DueDateDay == 01}}"  data-content="<span class='blacktext'>1</span>">1</option>
+										<option value="02" ng-selected="{{DueDateDay == 02}}"  data-content="<span class='blacktext'>2</span>">2</option>
+										<option value="03" ng-selected="{{DueDateDay == 03}}"  data-content="<span class='blacktext'>3</span>">3</option>
+										<option value="04" ng-selected="{{DueDateDay == 04}}"  data-content="<span class='blacktext'>4</span>">4</option>
+										<option value="05" ng-selected="{{DueDateDay == 05}}"  data-content="<span class='blacktext'>5</span>">5</option>
+										<option value="06" ng-selected="{{DueDateDay == 06}}"  data-content="<span class='blacktext'>6</span>">6</option>
+										<option value="07" ng-selected="{{DueDateDay == 07}}"  data-content="<span class='blacktext'>7</span>">7</option>
+										<option value="08" ng-selected="{{DueDateDay == 08}}"  data-content="<span class='blacktext'>8</span>">8</option>
+										<option value="09" ng-selected="{{DueDateDay == 09}}"  data-content="<span class='blacktext'>9</span>">9</option>
+										<option value="10" ng-selected="{{DueDateDay == 10}}"  data-content="<span class='blacktext'>10</span>">10</option>
+										<option value="11" ng-selected="{{DueDateDay == 11}}"  data-content="<span class='blacktext'>11</span>">11</option>
+										<option value="12" ng-selected="{{DueDateDay == 12}}"  data-content="<span class='blacktext'>12</span>">12</option>
+										<option value="13" ng-selected="{{DueDateDay == 13}}"  data-content="<span class='blacktext'>13</span>">13</option>
+										<option value="14" ng-selected="{{DueDateDay == 14}}"  data-content="<span class='blacktext'>14</span>">14</option>
+										<option value="15" ng-selected="{{DueDateDay == 15}}"  data-content="<span class='blacktext'>15</span>">15</option>
+										<option value="16" ng-selected="{{DueDateDay == 16}}"  data-content="<span class='blacktext'>16</span>">16</option>
+										<option value="17" ng-selected="{{DueDateDay == 17}}"  data-content="<span class='blacktext'>17</span>">17</option>
+										<option value="18" ng-selected="{{DueDateDay == 18}}"  data-content="<span class='blacktext'>18</span>">18</option>
+										<option value="19" ng-selected="{{DueDateDay == 19}}"  data-content="<span class='blacktext'>19</span>">19</option>
+										<option value="20" ng-selected="{{DueDateDay == 20}}"  data-content="<span class='blacktext'>20</span>">20</option>
+										<option value="21" ng-selected="{{DueDateDay == 21}}"  data-content="<span class='blacktext'>21</span>">21</option>
+										<option value="22" ng-selected="{{DueDateDay == 22}}"  data-content="<span class='blacktext'>22</span>">22</option>
+										<option value="23" ng-selected="{{DueDateDay == 23}}"  data-content="<span class='blacktext'>23</span>">23</option>
+										<option value="24" ng-selected="{{DueDateDay == 24}}"  data-content="<span class='blacktext'>24</span>">24</option>
+										<option value="25" ng-selected="{{DueDateDay == 25}}"  data-content="<span class='blacktext'>25</span>">25</option>
+										<option value="26" ng-selected="{{DueDateDay == 26}}"  data-content="<span class='blacktext'>26</span>">26</option>
+										<option value="27" ng-selected="{{DueDateDay == 27}}"  data-content="<span class='blacktext'>27</span>">27</option>
+										<option value="28" ng-selected="{{DueDateDay == 28}}"  data-content="<span class='blacktext'>28</span>">28</option>
+										<option value="29" ng-selected="{{DueDateDay == 29}}"  data-content="<span class='blacktext'>29</span>">29</option>
+										<option value="30" ng-selected="{{DueDateDay == 30}}"  data-content="<span class='blacktext'>30</span>">30</option>
+										<option value="31" ng-selected="{{DueDateDay == 31}}"  data-content="<span class='blacktext'>31</span>">31</option>
+									</select>
+								</div>
+								<div class="select_left">
+									<select class="selectpicker" id="mnth3" ng-model="mnth3" ng-change="checkCalendarEditPop(mnth3);">
+										<!--<option value="" disabled ng-hide="SelectedMonth1">mm</option>-->
+										<option disabled selected style="display: none;">mm</option>
+										<option value="01" ng-selected="{{DueDateMnth == 01}}"  data-content="<span class='blacktext'>Jan</span>">Jan</option>
+										<option value="02" ng-selected="{{DueDateMnth == 02}}"  data-content="<span class='blacktext'>Feb</span>">Feb</option>
+										<option value="03" ng-selected="{{DueDateMnth == 03}}"  data-content="<span class='blacktext'>Mar</span>">Mar</option>
+										<option value="04" ng-selected="{{DueDateMnth == 04}}"  data-content="<span class='blacktext'>Apr</span>">Apr</option>
+										<option value="05" ng-selected="{{DueDateMnth == 05}}"  data-content="<span class='blacktext'>May</span>">May</option>
+										<option value="06" ng-selected="{{DueDateMnth == 06}}"  data-content="<span class='blacktext'>Jun</span>">Jun</option>
+										<option value="07" ng-selected="{{DueDateMnth == 07}}"  data-content="<span class='blacktext'>Jul</span>">Jul</option>
+										<option value="08" ng-selected="{{DueDateMnth == 08}}"  data-content="<span class='blacktext'>Aug</span>">Aug</option>
+										<option value="09" ng-selected="{{DueDateMnth == 09}}"  data-content="<span class='blacktext'>Sep</span>">Sep</option>
+										<option value="10" ng-selected="{{DueDateMnth == 10}}"  data-content="<span class='blacktext'>Oct</span>">Oct</option>
+										<option value="11" ng-selected="{{DueDateMnth == 11}}"  data-content="<span class='blacktext'>Nov</span>">Nov</option>
+										<option value="12" ng-selected="{{DueDateMnth == 12}}"  data-content="<span class='blacktext'>Dec</span>">Dec</option>
+									</select>
+								</div>
+								<div class="select_left">
+									<select class="selectpicker" id="year3" ng-model="year3" ng-change="checkCalendarEditPop(year3);">
+										<!--<option value="" disabled ng-hide="SelectedYear1">yyyy</option>-->
+										<option disabled selected style="display: none;">yyyy</option>
+										<option value="{{TodayYr}}" ng-selected="{{DueDateYear == TodayYr}}" data-content="<span class='blacktext'>{{TodayYr}}</span>">{{TodayYr}}</option>
+										<option value="{{NextYr}}" ng-selected="{{DueDateYear == NextYr}}" data-content="<span class='blacktext'>{{NextYr}}</span>">{{NextYr}}</option>
+									</select>
+								</div>
+							</div>
+							<div id="dateErr3" style="color: red;">{{dateErr3}}</div>
+                         </div>
+						<input type="reset" id='studentsReset6' style="display:none">
+						<input type="hidden" id="studentIdsAssigned" value="">
+						<input type="hidden" id="studentIdsForEditPopup" value="">
+                        <div class="set_task">
+				<span id="loader_settask3" class="loader_settask" style="display:none"></span>
+                            <button id="editTaskPopBtn" ng-click="updateTask();">Update</button>
+                            <button class="red" ng-click="cancelClick()" >Cancel</button>
+                        </div>
+                    </div>
+               </form>
+			   </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--edit pop end-->
+
+<!--delete pop up-->
+<div class="modal fade attach_photo" id="delete_task" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body clearfix">
+               <span>Delete Task?</span>
+               <div class="delete_btn">
+					<a href="javascript:void(0)" class="yes_bg" data-dismiss="modal" aria-label="Close" ng-click="taskDelete()">Yes</a>
+               		<a href="javascript:void(0)" data-dismiss="modal" aria-label="Close" ng-click="noDeleteBtn();">No</a>
+                    
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--delete pop end-->
+
+<!--logout pop up-->
+<div class="modal fade attach_photo" id="logout_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body clearfix">
+               <span>Confirm logout?</span>
+               <div class="delete_btn">
+				<a href="javascript:void(0)" class="yes_bg" data-dismiss="modal" aria-label="Close" ng-click="logout()">Yes</a>
+               		<a href="javascript:void(0)" data-dismiss="modal" aria-label="Close">No</a>
+                    
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--logout pop end-->
+
+
+<input id="confy" type="button" data-toggle="modal" data-target="#settaskconfirm_modal" style="display:none">
+<!--settaskconfirm pop up-->
+<div class="modal fade attach_photo" id="settaskconfirm_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body clearfix">
+               <span>{{message}}</span>
+               <div class="delete_btn">  	
+                    <a href="javascript:void(0)" class="yes_bg"  aria-label="Close" data-dismiss="modal" aria-label="Close">OK</a>
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--settaskconfirm pop end-->
+
+
+<input id="fileErr" type="button" data-toggle="modal" data-target="#fileErr_modal" style="display:none">
+<!--settaskconfirm pop up-->
+<div class="modal fade attach_photo" id="fileErr_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body clearfix">
+             <span id="fileUploadErrMsg"></span>
+               <div class="delete_btn">  	
+                    <a href="javascript:void(0)" class="yes_bg"  aria-label="Close" data-dismiss="modal" aria-label="Close">OK</a>
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--settaskconfirm pop end-->
+
+<input id="dataLostConfy" type="button" data-toggle="modal" data-target="#lostConfy_modal" style="display:none">
+<!--settaskconfirm pop up-->
+<div class="modal fade attach_photo" id="lostConfy_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body clearfix">
+               <span><h4 style="color: #54c9e8">Any updated task data will be lost.</h4><br>Are you sure you want to leave this screen?</span>
+               <div class="delete_btn">  	
+                    
+                    <a href="javascript:void(0)" class="yes_bg" data-dismiss="modal" aria-label="Close"  ng-click="cancelTask();">Yes</a>
+					<a href="javascript:void(0)" data-dismiss="modal" aria-label="Close">No</a>
+					
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--settaskconfirm pop end-->
+
+
+
+<input id="dataLostConfyPop" type="button" data-toggle="modal" data-target="#lostConfy_modal2" style="display:none">
+<!--settaskconfirm pop up-->
+<div class="modal fade attach_photo" id="lostConfy_modal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body clearfix">
+               <span><h4 style="color: #54c9e8">Any updated task data will be lost.</h4><br>Are you sure you want to leave this screen?</span>
+               <div class="delete_btn">  	
+                   
+                    <a href="javascript:void(0)" class="yes_bg" data-dismiss="modal" aria-label="Close"  ng-click="cancelTaskPop();">Yes</a>
+					<a href="javascript:void(0)" data-dismiss="modal" aria-label="Close">No</a>
+					 
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--settaskconfirm pop end-->
+
+
+<input id="dataLostConfyTab" type="button" data-toggle="modal" data-target="#lostConfy_modal3" style="display:none">
+<!--settaskconfirm pop up-->
+<div class="modal fade attach_photo" id="lostConfy_modal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body clearfix">
+               <span><h4 style="color: #54c9e8">Any updated task data will be lost.</h4><br>Are you sure you want to leave this screen?</span>
+               <div class="delete_btn">  	
+                    <a href="javascript:void(0)" class="yes_bg" data-dismiss="modal" aria-label="Close" ng-click="yesBtn();">Yes</a>
+					<a href="javascript:void(0)" data-dismiss="modal" aria-label="Close">No</a>
+			   </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--settaskconfirm pop -->
+<input id="successMsg" type="button" data-toggle="modal" data-target="#successMsg_modal" style="display:none">
+<!--settaskconfirm pop up-->
+<div class="modal fade attach_photo" id="successMsg_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body clearfix">
+               <span>{{successMsg}}</span>
+               <div class="delete_btn" id="successMsgClose">  	
+                    <a href="javascript:void(0)" class="yes_bg" id="closeModal" data-dismiss="modal" aria-label="Close" style="display:none;">OK</a>
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--settaskconfirm pop end-->
+
+<!--edit pop up-->
+<input id="successMsg1" type="button" data-toggle="modal" data-target="#successMsg_modal1" style="display:none">
+<!--settaskconfirm pop up-->
+<div class="modal fade attach_photo" id="successMsg_modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body clearfix">
+               <span>{{successMsg1}}</span>
+               <!--<div class="delete_btn" id="successMsgClose1">  	
+                    <a href="javascript:void(0)" class="yes_bg" id="closeModal1" data-dismiss="modal" aria-label="Close" style="display:none;">OK</a>
+               </div>-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--settaskconfirm pop end-->
+
+
+<!--student_performance modal-->
+<div class="modal fade attach_photo" id="student_performance" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><img src="images/popup-cross.png" alt="popup-cross" /></span></button>
+                <h3>{{ClassName}}</h3>
+            </div>
+            <div class="modal-body clearfix">
+               <div class="task_inr clearfix task_inr_label">
+               		<div class="performance-table">
+                        <div class="performance-table-tr">
+                                <div class="performance-table-th">
+                                    Student
+                                </div>
+                                <div class="performance-table-th">
+                                    Attendance
+                                </div>
+                                <div class="performance-table-th">
+                                    Target
+                                </div>
+                                <div class="performance-table-th">
+                                    Grade
+                                </div>
+								<div class="print_div">
+									<input class="print_btn" type="button" value="Print" id="screenshot" ng-click="graph_screenshot();">
+								</div>
+                        </div>
+                    </div>
+                    <div class="student_grade_hd clearfix" id="modal_horizontal_line">
+                    	<div class="performance-table">
+                            <div class="performance-table-tr">
+                                    <div class="performance-table-td">
+                                        <div class="student_pic {{IsUnlocked}}" ><img alt="" data-ng-src="data:image/png;base64,{{Image}}"></div>
+                                        <div class="student_title_area">
+                                            <h2>{{Firstname}} {{Lastname}}</h2>
+                                            <span class="psub">{{SubjectName}}</span>
+                                        </div>
+                                    </div>
+									
+									<div id="performance_upper">
+										
+										<!---SVG IMAGE for attendance begin--------------------->
+										<div class="performance-table-td perfGraph" id="Attendance_circle">
+										<div class="rating_outter backcolor_class">
+											<div class="value_area p-green" ng-if="AttendanceTrend == true"><i class="fa fa-caret-up pop-col" aria-hidden="true"></i> {{Attendance}}%</div>
+											<div class="value_area p-red" ng-if="AttendanceTrend == false">{{Attendance}}% <i class="fa fa-caret-down" aria-hidden="true"></i></div>
+											<div class="value_area orange_text" ng-if="AttendanceTrend == null">{{Attendance}}%</div>
+											<svg xmlns="http://www.w3.org/2000/svg" width="297mm" height="210mm" viewBox="0 0 1052.3622 744.09448">
+												<g color="#000" fill="none" stroke-width="24">
+													<path id="carbs1" style="isolation:auto;mix-blend-mode:normal" d="M874.322 370.115a350.75 350.75 0 0 1-350.75 350.75 350.75 350.75 0 0 1-350.752-350.75 350.75 350.75 0 0 1 350.75-350.75 350.75 350.75 0 0 1 350.752 350.75z" overflow="visible" solid-color="#000000" stroke="#b981d1"/>
+													<!--<path ng-if="AttendanceTrend == false" id="carbs2" style="isolation:auto;mix-blend-mode:normal" d="M874.322 370.115a350.75 350.75 0 0 1-350.75 350.75 350.75 350.75 0 0 1-350.752-350.75 350.75 350.75 0 0 1 350.75-350.75 350.75 350.75 0 0 1 350.752 350.75z" overflow="visible" solid-color="#000000" stroke="#ff3c1f"/>
+													<path ng-if="AttendanceTrend == null" id="carbs3" style="isolation:auto;mix-blend-mode:normal" d="M874.322 370.115a350.75 350.75 0 0 1-350.75 350.75 350.75 350.75 0 0 1-350.752-350.75 350.75 350.75 0 0 1 350.75-350.75 350.75 350.75 0 0 1 350.752 350.75z" overflow="visible" solid-color="#000000" stroke="#ff7800"/>-->
+												</g>
+											</svg>
+										</div>
+										</div>
+										<input type=hidden id="carbs-input" value="{{Attendance}}">
+										<!---SVG IMAGE ends--------------------->
+										
+										<!---SVG IMAGE for TargetGrade begin--------------------->
+										<div class="performance-table-td perfGraph" id="TargetGrade_circle">
+										<div class="rating_outter trGrd">
+											<div class="value_area">{{TargetGrade}}</div>        
+											<svg xmlns="http://www.w3.org/2000/svg" width="297mm" height="210mm" viewBox="0 0 1052.3622 744.09448">
+												<g color="#000" fill="none" stroke-width="24">
+													<path id="proteins" style="isolation:auto;mix-blend-mode:normal" d="M874.322 370.115a350.75 350.75 0 0 1-350.75 350.75 350.75 350.75 0 0 1-350.752-350.75 350.75 350.75 0 0 1 350.75-350.75 350.75 350.75 0 0 1 350.752 350.75z" overflow="visible" solid-color="#000000" stroke="#48CAE5"/>
+												</g>
+											</svg>
+										</div>
+										</div>
+										
+										<!---SVG IMAGE ends--------------------->
+										
+										<!---SVG IMAGE for TargetGrade begin--------------------->
+										<div class="performance-table-td perfGraph" id="LastGrade_circle">
+										<div class="rating_outter grd">
+											<div class="value_area last_cell_d p-green" ng-if="GradeTrend == true"><i class="fa fa-caret-up pop-col" aria-hidden="true"></i> {{LastGrade}}</div>
+											<div class="value_area last_cell_d p-red" ng-if="GradeTrend == false">{{LastGrade}} <i class="fa fa-caret-down" aria-hidden="true"></i></div>
+											<div class="value_area last_cell_d orange_text" ng-if="GradeTrend == null">{{LastGrade}}</div>
+											<svg xmlns="http://www.w3.org/2000/svg" width="297mm" height="210mm" viewBox="0 0 1052.3622 744.09448">
+												<g color="#000" fill="none" stroke-width="24">
+													<path  ng-if="GradeTrend == true" id="fat1" style="isolation:auto;mix-blend-mode:normal" d="M874.322 370.115a350.75 350.75 0 0 1-350.75 350.75 350.75 350.75 0 0 1-350.752-350.75 350.75 350.75 0 0 1 350.75-350.75 350.75 350.75 0 0 1 350.752 350.75z" overflow="visible" solid-color="#000000" stroke="#6bc04b"/>
+													<path ng-if="GradeTrend == false" id="fat2" style="isolation:auto;mix-blend-mode:normal" d="M874.322 370.115a350.75 350.75 0 0 1-350.75 350.75 350.75 350.75 0 0 1-350.752-350.75 350.75 350.75 0 0 1 350.75-350.75 350.75 350.75 0 0 1 350.752 350.75z" overflow="visible" solid-color="#000000" stroke="#ff3c1f"/>
+													<path ng-if="GradeTrend == null" id="fat3" style="isolation:auto;mix-blend-mode:normal" d="M874.322 370.115a350.75 350.75 0 0 1-350.75 350.75 350.75 350.75 0 0 1-350.752-350.75 350.75 350.75 0 0 1 350.75-350.75 350.75 350.75 0 0 1 350.752 350.75z" overflow="visible" solid-color="#000000" stroke="#ff7800"/>
+												</g>
+											</svg>
+										</div>
+										</div>
+										<!---SVG IMAGE ends--------------------->
+									</div>
+									
+								   
+									<!--<div class="performance-table-td" id="Attendance_circle">
+										<div class="c100 p{{Attendance}} small backcolor_class">
+											<span ng-if="AttendanceTrend == true" class="p-green"><i class="fa fa-caret-up pop-col" aria-hidden="true"></i> {{Attendance}}%</span>
+											<span ng-if="AttendanceTrend == false" class="p-red">{{Attendance}}% <i class="fa fa-caret-down" aria-hidden="true"></i></span>
+											<span ng-if="AttendanceTrend == null" class="orange_text">{{Attendance}}%</span>
+											<div class="slice">
+												<div class="bar"></div>
+												<div class="fill"></div>
+											</div>
+										</div>										  
+                                    </div>
+									-<div class="performance-table-td" id="TargetGrade_circle">
+										<div class="c100 p100 small">
+											<span>{{TargetGrade}}</span>
+											<div class="slice">
+												<div class="bar sky"></div>
+												<div class="fill sky"></div>
+											</div>
+										</div>
+									</div>
+									<div class="performance-table-td" id="LastGrade_circle">
+										<div class="c100 p100 small" id="LastGrade">
+											<span ng-if="GradeTrend == true" class="p-green"><i class="fa fa-caret-up pop-col" aria-hidden="true"></i> {{LastGrade}}</span>
+											<span ng-if="GradeTrend == false" class="p-red">{{LastGrade}} <i class="fa fa-caret-down" aria-hidden="true"></i></span>
+											<span ng-if="GradeTrend == null" class="orange_text">{{LastGrade}}</span>
+											
+											<div class="slice">
+												<div ng-class="(GradeTrend == true ? 'bar greenp' : (GradeTrend == false ? 'bar redp' : 'bar orangep'))"></div>
+												<div ng-class="(GradeTrend == true ? 'fill greenp' : (GradeTrend == false ? 'fill redp' : 'fill orangep'))"></div>
+											</div>
+										</div>
+									</div>-->
+									
+									
+									
+                               </div>
+                    	</div>	
+                    </div>
+					<!----PERFORMANCE GRAPH-------------->
+                    <div class="grade_pic">
+						<div id="noRecord12" class="noRecordClass">{{studentPerformanceNoData}}</div>
+						<div id="graph_container" class="showStudentDiv" style="padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;"></div>
+					</div>
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!---student_performance end--->
+
+<!---student profile pop------->
+<div class="modal fade attach_photo" id="student_pop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><img src="images/popup-cross.png" alt="popup-cross" /></span></button>
+                <div class="student_pic {{IsUnlocked}}"><img data-ng-src="data:image/png;base64,{{Image}}" alt="student-pic"></div>
+                <div class="student_title_area">
+                	<h2>{{Name}}</h2>
+                    <span>{{Year}}</span>
+                </div>
+            </div>
+            <div class="modal-body clearfix">
+               <div class="task_inr clearfix">
+                    <div class="inner_left">
+						<div id="noRecord10" class="noRecordClass">
+							<div><b>{{studentPerformanceList1}}</b></div>
+							<div>{{studentPerformanceList2}} </div>
+							<div>{{studentPerformanceList3}}</div>
+							<div>{{studentPerformanceList4}}</div>
+						</div>
+                    	<div class="performance-table showStudentDiv">
+                            <div class="performance-table-tr">
+                                <div class="performance-table-th">
+                                    Class
+                                </div>
+                                <div class="performance-table-th">
+                                    Attendance
+                                </div>
+                                <div class="performance-table-th">
+                                    Target
+                                </div>
+                                <div class="performance-table-th">
+                                    Grade
+                                </div>
+                           </div>
+                        </div>
+						
+                    	<div class="performance-table-wrap content showStudentDiv">
+                            <div class="performance-table">
+							   <div class="noRecordClass">{{studentprofileMessage}}</div>
+                               <div class="performance-table-tr prof" ng-repeat="profileper in profileperlist" id="prof{{profileper.Id}}" ng-click="graphstudentPerformanceSubjectwise(profileper.Id,profileper.GradeTrend,profileper.SubjectName);">
+                                    <div class="performance-table-td">
+                                        <div class="performance-pic" ng-class="profileper.IsUnlocked == true ? 'outr_border' :''">
+                                            <img alt="performance-pic" data-ng-src="data:image/png;base64,{{profileper.Image}}" class="mCS_img_loaded">
+                                        </div>
+                                        <span class="performance-name">
+                                            <a href="#" class="sub_name">{{profileper.SubjectName}}</a>
+                                            <span class="student_category">{{profileper.Title}} {{profileper.Firstname}} {{profileper.Lastname}}</span>
+                                        </span>
+                                    </div>
+                                    <div class="performance-table-td">
+                                        <span ng-class="(profileper.AttendanceTrend == true ? 'p-green' : (profileper.AttendanceTrend == false ? 'p-red' : 'orange_text'))" ng-if="profileper.Attendance!=''">{{profileper.Attendance}}%</span>
+										<span ng-class="(profileper.AttendanceTrend == true ? 'p-green' : (profileper.AttendanceTrend == false ? 'p-red' : 'orange_text'))" ng-if="profileper.Attendance==''">0%</span>
+                                    </div>
+                                    <div class="performance-table-td">
+                                        <span class="p-gray" ng-if="profileper.TargetGrade!=''">{{profileper.TargetGrade}}</span>
+										<span class="p-gray" ng-if="profileper.TargetGrade==''">-</span>
+                                    </div>
+                                    <div class="performance-table-td">
+                                        <span ng-class="(profileper.GradeTrend == true ? 'p-green' : (profileper.GradeTrend == false ? 'p-red' : 'orange_text'))" ng-if="profileper.LastGrade!=''">{{profileper.LastGrade}}</span>
+										<span ng-class="(profileper.GradeTrend == true ? 'p-green' : (profileper.GradeTrend == false ? 'p-red' : 'orange_text'))" ng-if="profileper.LastGrade==''">-</span>
+                                    </div>
+                              </div>
+                           </div>
+                        </div>
+                    </div>
+                    <div class="inner_right">
+					<div id="noRecord11" class="noRecordClass">
+							<div><b>{{studentPerformanceData1}}</b></div>
+							<div>{{studentPerformanceData2}} </div>
+							<div>{{studentPerformanceData3}}</div>
+							<div>{{studentPerformanceData4}}</div>
+					</div>
+                      <div class="performance-table showStudentDiv" ">
+                           <div class="performance-table-tr">
+                                <div class="performance-table-th">
+                                    Performance Graph
+                                </div>
+                           </div>
+                           <div class="subject">{{NameofSubject}}</div>
+                           <div class="graph_pic"><div id="graph_container_popup"></div></div>
+                      </div>
+                    </div>
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!---end of student profile pop------->
+<!-----FIELD USED FOR REMOVE FILE------------------------------->
+<input type="hidden" class="noOfItems" id="noOfItems" value="0">
+
+</div>
+</body>
