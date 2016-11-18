@@ -1,12 +1,20 @@
-    var postApp = angular.module("routerApp",['ui.router','ngSanitize']);
+    var postApp = angular.module("routerApp",['ui.router','ngSanitize','tagged.directives.infiniteScroll']);
         postApp.config(function($stateProvider,$urlRouterProvider, $locationProvider) {
             $stateProvider
-              .state('/', {
-                     url: '/', 
-                     views: {
-                          'content': { templateUrl: 'app/views/login.html', controller: 'loginCtrl' },   
-                     }
+               //.state('/', {
+               //      url: '/', 
+               //      views: {
+               //           'content': { templateUrl: 'app/views/landing.html', controller: 'landingCtrl' },   
+               //      }
+               // })
+               
+               .state('/', {
+                    url: '/', 
+                    views: {
+                         'content': { templateUrl: 'app/views/landing.html', controller: 'landingCtrl' },   
+                    }
                 })
+              
                .state('/login', {
                      url: '/login', 
                      views: {

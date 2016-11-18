@@ -34,7 +34,7 @@ width: 265px;
 	padding-left:37px;
 }
 .task_inr_label .performance-table-th:nth-child(2){
-	padding-left:0;
+	  padding-left: 8px;
 }
 
 #logout_modal .modal-body span {
@@ -215,7 +215,7 @@ text-align: center;
 }
 #successMsg_modal1{
     position: fixed;
-    top: 50%;
+    top: 40%;
     bottom: inherit;
     left: 50%;
     z-index: 1050;
@@ -230,7 +230,7 @@ text-align: center;
      
 }
 #successMsg_modal1 .modal-dialog{
-    width: 235px;  
+    width: 40%;  
 }
 #successMsg_modal1 .modal-content{
     background:#848d8f;
@@ -434,7 +434,7 @@ div#createTaskMessage p {
 }
 .backcolor_class{
      float: right;
-     margin-right: -2.6em;
+     margin-right: -2.3em;
 }
 
 .trGrd{
@@ -500,7 +500,7 @@ i.fa.fa-caret-down{
 }
 
 .task_inr_label .performance-table-th:nth-child(3){
-    padding-left: 13px;
+    padding-left: 23px;
 }
 /*.prof{
     background-color: rgba(84, 201, 232,0.8);
@@ -560,7 +560,7 @@ img#add_more3 {
     overflow: hidden;
 }
 
-/*.loader{
+.loaderSpin{
     background-image:url(../images/spinningwheel.gif);
     background-position: center center;
     background-repeat: no-repeat;
@@ -575,7 +575,7 @@ img#add_more3 {
 	-os-transform:translate(-50%,-50%);
     position: absolute;
 }
-*/
+
 #loader_settask{
     background-image:url(../images/spinningwheel.gif);
     background-position: center center;
@@ -665,4 +665,52 @@ img.remove_btn_class:hover {
 .srch_data{
     max-height:300px;
     overflow: auto;
+}
+.result_hover{
+    background-color: rgba(84, 201, 232, 0.2);
+}
+.new_task .performance-table-th:first-child{
+    width: 25%;
+}
+.new_task .performance-table-th{
+    width: 25%;
+}
+.new_task .performance-table-td:first-child {
+    width: 25% !important;
+}
+.new_task .performance-table-td {
+    width: 25% !important;
+}
+.class_nav ul li a span, .class_nav ul li a sup, .user-noti
+{
+    border:1px solid #ffffff;
+}
+.studSelect{
+    background-color: rgba(157, 224, 242, 0.8);
+}
+#sectionE .task-tab-content{
+    height: 510px;
+}
+.top_border_user_box
+{
+	border-bottom: 1px solid #d7d7d7;
+}
+
+li.scrollSection:hover >a {
+color: #fff !important;
+border-radius: 25px !important;
+background-color: #1861aa !important;
+}
+.name_fld
+{
+   color: #111 !important; 
+}
+.blue_heading{
+    color: #2277cf !important; 
+}
+@media (max-width: 480px) {
+	#successMsg_modal1 .modal-dialog {
+	    width:90%;
+	    top:50%;
+	}
 }

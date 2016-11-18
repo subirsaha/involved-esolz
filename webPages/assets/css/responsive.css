@@ -1,0 +1,745 @@
+/*Common responsive Css Used*/
+
+@media (min-width: 1200px) and (max-width: 1300px) {
+    .parents,
+    .school{
+        width: 550px;
+        background:none;
+    }
+    .mobpic_d{
+        width: 350px;
+    }
+}
+@media (max-width: 1199px) {
+    .pic_area{
+        width: 450px;
+    }
+    .screen_slider{
+        padding: 47px 18px 40px 15px;
+        width: 198px;
+        height: 340px;
+    }
+    h1{
+        font-size: 32px;
+        line-height: 40px;
+    }
+    .banner_outr{
+        height: 445px;
+    }
+    h3{
+        font-size: 14px;
+    }
+    .parents,
+    .school{
+        width: 60%;
+    }
+    .parents,
+    .school{
+        background: none;
+    }
+    .parentsLF {
+        left: -180px;
+        width: 275px;
+    }
+    .parentsRA, .parentsRB{
+        left: inherit;
+        right: -180px;
+    }
+    .parentsLF.left_sec .parentsLF_content,
+    .parentsLF.right_sec .parentsLF_content{
+        width: 100%;
+    }
+    .parentsLF a{
+        line-height: 22px;
+        font-size: 18px;
+    }
+    .parentsB{
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .school{
+        padding-top: 185px;
+        min-height: 420px;
+    }
+    .school .parentsLS,
+    .school .parentsRB{
+        top: 410px;
+    }
+    .parents-col{
+        padding-bottom: 65px;
+    }
+    .mobpic_d{
+        width: 295px;
+    }
+    .parentsLF_content{
+        margin-top: 0;
+    }
+    .parentsLF.right_sec .parentsLF_content{
+        margin-right: 0;
+    }
+    .hvr_content{
+        line-height: 16px;
+    }
+}
+
+@media (max-width: 991px) {
+    h1{
+        font-size: 25px;
+        line-height: 35px;
+    }
+    .pic_area{
+        width: 405px;
+    }
+    .screen_slider {
+        height: 340px;
+        padding: 40px 17px 40px 13px;
+        width: 179px;
+    }
+    h1{
+        font-size: 20px;
+        margin-bottom: 30px;
+    }
+    h1::after{
+        bottom: -17px;
+    }
+    p{
+        font-size: 14px;
+    }
+    .banner_outr p{
+        margin-bottom: 12px;
+    }
+    .banner_outr{
+        height: 400px;
+    }
+    .teacher_login{
+        margin:0 0 0 20px;
+    }
+    .navbar-nav > li > a{
+        padding: 5px 12px;
+        font-size: 13px;
+    }
+    .logo{
+        width: 120px;
+    }
+    .header .navbar-collapse{
+        margin-top: 0;
+    }
+    .inner_content{
+        padding-top:60px;
+    }
+    .client_pic{
+        width: 205px;
+        height: 205px;
+    }
+    .client_comnt{
+        padding: 25px 0 25px 22px;
+    }
+    h2{
+        font-size: 28px;
+    }
+    .mobpic_d{
+        width: 185px;
+    }
+    .parentsLF.left_sec > img,
+    .right_sec img{
+        width: 100px;
+    }
+/*
+    .parentsLF{
+        top: 60px;
+    }
+*/
+    .parentsLS,
+    .parentsRB{
+        top: 255px;
+    }
+    .parentsLF.parentsB{
+        top: 732px;
+    }
+    .pulse1{
+        top: 58px;
+    }
+    .pulse2{
+        bottom: 55px;
+    }
+    .school{
+        padding-top: 0;
+        margin-top: -395px;
+    }
+    .school .parentsLF{
+        top:110px;
+    }
+    .school .parentsLS, .school .parentsRB{
+        top: 260px;
+    }
+    .app_btn{
+        right: 0;
+        bottom: 30px;
+    }
+    .app_btn a{
+        width: 95px;
+    }
+    .btn-default{
+        padding: 10px 20px;
+    }
+    .global_btn{
+        font-size:17px; 
+    }
+    .copy,
+    .company-policy li a{
+        font-size: 11px;
+        line-height: 22px;
+    }
+    .company-policy li + li{
+        margin-left: 8px;
+    }
+    .footer-topB,
+    .footer-topA{
+        padding: 15px 0;
+    }
+    .feature_cell{
+        padding: 0 5px;
+    }
+    .feature_area{
+        padding: 10px 0 30px;
+    }
+    .footer-bottomIn h2{
+        font-size: 22px;
+    }
+    .btn-info{
+        font-size: 17px;
+        padding:5px 12px;
+    }
+    .footer-bottomIn{
+        height: 60px;
+    }
+    .footer-bottomIn h2{
+        margin-top: 10px;
+    }
+    .footer-bottom .btn-info{
+        margin-top: 14px;
+    }
+    .footer_outr{
+        padding-bottom: 60px;
+    }
+    .parents-col{
+        overflow: hidden;
+    }
+    .hvr_content{
+        top: 8px;
+    }
+    .pulse2.pulse.animated {
+        width: 25px;
+    }
+    .pulse.pulse2::after {
+        height: 35px;
+        margin-left: -17px;
+        margin-top: -17px;
+        width: 35px;
+    }
+    .pulse.pulse2::before {
+        height: 45px;
+        margin-left: -22px;
+        margin-top: -22px;
+        width: 45px;
+    }
+    .pulse1.pulse{
+        width: 15px;
+    }
+    .pulse.pulse1::after {
+        height: 25px;
+        margin-left: -12px;
+        margin-top: -12px;
+        width: 25px;
+    }
+    .pulse.pulse1::before {
+        height: 35px;
+        margin-left: -17px;
+        margin-top: -17px;
+        width: 35px;
+    }
+    .parentsLF p{
+        font-size: 13px;
+    }
+    .pic_cell_left,
+    .pic_cell_right{
+        width: 70px;
+    }
+/*
+    .parentsLF, .parentsB > img{
+        width: 70px;
+    }
+*/
+    .parentsLF.parentsB > img{
+        width: 90px;
+    }
+    .modal-dialog{
+        width: 720px;
+    }
+    .modal_left,
+    .modal_right{
+        width: 46%;
+    }
+    .blnk_div{
+        padding: 10px;
+    }
+    .name_fld{
+        font-size: 12px;
+    }
+    .member_frm label{
+        font-size: 14px;
+    }
+    .modal_right{
+        margin-top: -28px;
+    }
+    .clander_outr{
+        padding:5px;
+    }
+    .modal_left h3{
+        margin-bottom: 1px;
+        font-size: 18px;
+    }
+     #successMsg_modal1{
+        width: 100%;
+    }
+    #successMsg_modal1 .modal-dialog{
+        width: 220px;
+        margin: 30px auto;
+    }
+     .sims_img {
+        left: -25px;
+        position: absolute;
+        top: -9px;
+        width: 75px;
+    }
+}
+
+@media (max-width: 767px) {
+    .teacher_login{
+        position: absolute;
+        top:-3px;
+        right: 80px;
+    }
+    .header{
+        8px 0;
+    }
+    .navbar-toggle{
+        border-radius: 0px;
+        padding: 7px 10px;
+        margin:2px 0 0;
+    }
+    .navbar-default .navbar-toggle{
+        border-color: #fac843;
+    }
+    .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus{
+        background: #fac843;
+    }
+    .navbar-nav > li > a{
+        display: inline-block;
+    }
+    .banner_outr{
+        height: auto;
+        padding-top: 20px;
+    }
+    .pic_area{
+        margin-top: 25px;
+    }
+    .feature_cell{
+        width: 49%;
+        margin-bottom: 10px;
+    }
+    .client_part p{
+        font-size: 15px;
+    }
+    .arrow_top{
+        margin-top:10px;
+    }
+    .feature_area::after{
+/*
+        height: 85px;
+        top: -82px;
+*/
+        display: none;
+    }
+    .feature_area h2{
+        margin-bottom: 15px;
+    }
+    .parents-col{
+        padding-top: 25px;
+    }
+    .parents-col h2{
+        font-size: 30px;
+    }
+    .mobpic_d{
+        width: 105px;
+    }
+    .parentsLF.left_sec > img, .right_sec img{
+        width: 70px;
+    }
+    .pulse1 {
+        left: 15px;
+        top: 45px;
+        width: 12px;
+    }
+    .pulse2 {
+        bottom: 50px;
+        right: 20px;
+        width: 20px;
+    }
+    .parentsLF.parentsB{
+        top:780px;
+    }
+    .school{
+        margin-top:-365px;
+    }
+    .parentsLF {
+        left: -118px;
+        width: 195px;
+    }
+    .parentsRA, .parentsRB{
+        left: inherit;
+        right: -118px;
+    }
+    .parentsLF.parentsB{
+        width:100%;
+        left: 50%;
+    }
+    .company-policy,
+    .copy{
+        width: 100%;
+        float: none;
+    }
+    .footer-bottomIn h2{
+        font-size: 20px;
+    }
+    .mob_view{
+        display: block;
+    }s
+    .footer-colA{
+        float: none !important;
+        margin: 0px auto 10px;
+    }
+    .footer-colB a img{
+        margin-right: 3px;
+    }
+    .footer-colA > a{
+        margin-bottom: 8px;
+    }
+    .app_btn {
+        bottom: 75px;
+        right: -140px;
+    }
+    .mobpic_d{
+        width: 155px;
+        margin-top: 130px;
+    }
+    .navbar-nav > li{
+        margin: 3px 0;
+    }
+    .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus, .nav li a:hover{
+        background: none;
+        color: #1861aa;
+    }
+    .navbar-nav > li > a{
+        padding: 5px 0;
+    }
+    .feature_area{
+        border-top: 7px solid #00ccff;
+    }
+    .feature_cell:nth-child(2n+1)::after{
+        border-right: none;
+    }
+    .feature_area{
+        padding-top: 50px;
+    }
+    .banner_outr .col-sm-7{
+        overflow: hidden;
+    }
+    .modal-dialog{
+        width: auto;
+        margin: 10px;
+    }
+    .modal_left, .modal_right{
+        float: none;
+        width: 100%;
+        padding: 15px;
+    }
+    .modal_right{
+        padding: 0;
+    }
+    button.close.close_btn{
+        margin: 5px 5px 0;
+    }
+    .member_frm{
+        margin-bottom:20px;
+    }
+    .modal_right{
+        margin: 0;
+    }
+    .modal_right::before,
+    .modal_right::after,
+    .blnk_div::before,
+    .blnk_div::after{
+        display: none;
+    }
+    .clander_outr::after{
+        display: none;
+    }
+    .clander_outr::before{
+        display: none;
+    }
+    /*add css 17-11-16*/
+    .container{
+        width: auto;
+    }
+}
+
+
+
+@media (max-width: 568px) {
+    .teacher_login{
+        right: 50px;
+        top: -3px;
+    }
+    .pic_area{
+        width: 287px;
+        overflow: hidden;
+        margin: 25px auto 0;
+    }
+    .feature_area::after{
+        height: 55px;
+        top: -16px;
+    }
+    .screen_slider {
+        height: 340px;
+        padding: 25px 15px 40px 10px;
+        width: 130px;
+    }
+    .screen_slider {
+        height: 340px;
+        padding: 25px 15px 40px 10px;
+        width: 130px;
+    }
+    .app_btn {
+        bottom: 22px;
+        right:0px;
+    }
+    .app_btn a{
+        width: 70px;
+        margin: 0 2px;
+    }
+    .feature_area{
+        padding: 60px 0 30px;
+    }
+    .arrow_top{
+        margin-top: 5px;
+    }
+    h2{
+        font-size: 22px;
+    }
+    .feature_cell{
+        float: none;
+        width: 100%;
+    }
+    .feature_cell::after {
+        border-bottom: 1px dashed #d9dadd;
+        bottom: -5px;
+        content: "";
+        height: 1px;
+        position: absolute;
+        right: 0;
+        transform: translateY(-50%);
+        width: 100%;
+        top: inherit;
+        transform: inherit;
+    }
+    .feature_cell h3 {
+        margin: 12px 0;
+    }
+    .client_pic{
+        float: none;
+        margin: 15px auto;
+    }
+    .client_pic::after{
+        bottom: -35px;
+    }
+    .client_comnt {
+        padding: 20px 0 25px;
+    }
+    .parents-col{
+        padding-top: 15px;
+    }
+    .parents, .school{
+        width: 100%;
+    }
+    .parentsLF{
+        position: static;
+    }
+    .mobpic_d{
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .parentsLF,
+    .parentsB{
+        left: inherit;
+        transform: inherit;
+        position: static;
+        right: inherit;
+        text-align: center;
+        top: inherit;
+        width: 100%;
+    }
+    .parentsLF.parentsB{
+        top: inherit;
+        margin: 0;
+    }
+    
+    .parentsLF.left_sec > img, .right_sec img{
+        float: none;
+        margin: 0 0 10px;
+    }
+    .school{
+        margin: 0;
+    }
+    .parents-col h2{
+        font-size: 25px;
+    }
+    .parents p,
+    .school > p{
+        margin-bottom: 10px;
+    }
+    .footer-colA{
+        float: none !important;
+        margin: 0px auto;
+        text-align: center;
+    }
+    .footer-topA .col-xs-5,
+    .footer-topA .col-xs-2,
+    .col-xs-12,
+    .footer-colA, .footer-colB, .footer-colC{
+        float: none;
+        width: 100%;
+    }
+    .footer-colD{
+        float: none;
+    }
+    .location p span{
+        display: inline-table;
+    }
+    .location p,
+    .footer-colB a,
+    .footer-nav li a{
+        font-size: 12px;
+    }
+    .footer-nav > li {
+        float: left;
+        margin: 0 12px 0 0;
+    }
+    .footer-nav li + li{
+        margin-top: 0;
+    }
+/*
+    .header,
+    .footer-bottom{
+        position: static;
+    }
+*/
+    .footer-bottomIn h2{
+        font-size: 16px;
+    }
+    .footer-bottomIn{
+        height: auto;
+    }
+    .footer-bottom{
+        padding-bottom: 12px;
+    }
+    .footer-bottomIn .btn-info{
+        margin-left: 0;
+    }
+    .footer_outr{
+        padding-bottom: 0;
+    }
+/*
+    .inner_content{
+        padding-top: 0;
+    }
+*/
+    .footer-social a{
+        margin: 5px 0;
+    }
+    .mobpic_d{
+        width: 215px;
+    }
+    .pulse1{
+        top: 68px;
+        left: 25px;
+    }
+    .pulse2{
+        bottom: 70px;
+        right: 35px;
+    }
+    .parentsLF a{
+        font-size: 14px;
+    }
+    .parentsLF p{
+        font-size: 13px;
+        line-height: 17px;
+    }
+    .hvr_content{
+        position: static;
+        top: inherit;
+        left: inherit;
+        bottom: inherit;
+        visibility: visible;
+        opacity: 1;
+    }
+    .parentsLF_content:hover > a{
+        opacity: 1;
+        visibility: visible;
+    }
+    .pic_cell_left,
+    .pic_cell_right{
+        float: none;
+        margin: 0px auto;
+    }
+    .mobpic_d{
+        margin-top: 30px;
+    }
+    .parentsLF{
+        margin-top: 20px;
+        overflow: hidden;
+    }
+    .logo{
+        width: 90px;
+    }
+    .footer-bottomIn{
+        background: none;
+    }
+    .footer-top{
+        padding-bottom: 65px;
+    }
+    .parentsLF.left_sec .parentsLF_content{
+        margin-right: 0;
+    }
+    .footer-bottomIn h2{
+        display: none;
+    }
+    .modal_right h4{
+        font-size: 20px;
+    }
+    .clander_outr{
+        margin-top: 10px;
+    }
+    #myModal.modal{
+        position: absolute;
+    }
+    #myModal.modal{
+        position: absolute;
+    }
+}
+
+@media (max-width:480px) {
+	.footer-bottomIn .btn-info{
+        margin-left: 10px;
+    }
+}
