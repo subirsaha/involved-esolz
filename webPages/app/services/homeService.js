@@ -11,7 +11,7 @@
                     data.status=true;
                     callback(data);
                 }).error(function (data, status, headers, config) {
-                    data.status=false;
+                    //data.status=false;
                     callback(data);
                 });
 
@@ -27,7 +27,12 @@
                     data.status=true;
                     callback(data);
                 }).error(function (data, status, headers, config) {
-                    data.status=false;
+                    if(status == 400){
+                        console.log(data);
+                    }else if(status == 0){
+                        var data = {status:false,msg:"ERR_INTERNET_DISCONNECTED"}
+                    }
+                    //data.status=false;
                     callback(data);
                 });
         }
@@ -42,26 +47,193 @@
                     data.status=true;         
                     callback(data);
                 }).error(function (data, status, headers, config) {
-                    data.status=false;
+                    if(status == 400){
+                        console.log(data);
+                    }else if(status == 0){
+                        var data = {status:false,msg:"ERR_INTERNET_DISCONNECTED"}
+                    } 
+                
+                    //data.status=false;
                     callback(data);
                 });
         }
-        /*PERFORMANCE LIST ACCORDING TO CLASS ID*/
-        //service.performanceListResponse = function (access_token,classId,callback) {
-        //    //alert(classId);
-        //    $http({
-        //            method: 'GET',
-        //            url: api_base_url+'api/students/performance/classid='+classId,
-        //            headers: {'Content-Type': 'application/x-www-form-urlencoded','Authorization':'Bearer '+access_token},    
-        //        }).success(function(data, status, headers, config){                  
-        //            data.status=true;         
-        //            callback(data);
-        //            
-        //        }).error(function (data, status, headers, config) {
-        //            data.status=false;
-        //            callback(data);
-        //        });
-        //}
+        /*STUDENT LIST FOR INBOX*/
+        service.studentListInboxResponse = function (access_token,teacherId,callback) {
+            //alert(teacherId);
+            $http({
+                    method: 'GET',
+                    url: api_base_url+'api/teachers/'+teacherId+'/inboxstudents',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','Authorization':'Bearer '+access_token},    
+                }).success(function(data, status, headers, config){                  
+                    data.status=true;         
+                    callback(data);
+                }).error(function (data, status, headers, config) {
+                    if(status == 400){
+                        console.log(data);
+                    }else if(status == 0){
+                        var data = {status:false,msg:"ERR_INTERNET_DISCONNECTED"}
+                    } 
+                    //data.status=false;
+                    callback(data);
+                });
+        }
+        
+        /*STUDENT INBOX PERFORMANCE DATA*/
+        service.studentInboxPerformanceResponse = function (access_token,studentId,classId,callback) {
+            //alert(teacherId);
+            $http({
+                    method: 'GET',
+                    url: api_base_url+'api/students/'+studentId+'/performance/classid='+classId,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','Authorization':'Bearer '+access_token},    
+                }).success(function(data, status, headers, config){                  
+                    data.status=true;         
+                    callback(data);
+                }).error(function (data, status, headers, config) {
+                    if(status == 400){
+                        console.log(data);
+                    }else if(status == 0){
+                        var data = {status:false,msg:"ERR_INTERNET_DISCONNECTED"}
+                    } 
+                    //data.status=false;
+                    callback(data);
+                });
+        }
+        
+        /*MY INBOX MESSAGE HISTORY*/
+        service.InboxMessageHistoryResponse = function (access_token,studentId,classId,callback) {
+            //alert(teacherId);
+            $http({
+                    method: 'GET',
+                    url: api_base_url+'api/messages/classid='+classId+'&studentid='+studentId+'&count=20&latestmessagetime=null',
+                    headers: {'Content-Type': 'application/json','Authorization':'Bearer '+access_token},    
+                }).success(function(data, status, headers, config){                  
+                    data.status=true;         
+                    callback(data);
+                }).error(function (data, status, headers, config) {
+                    if(status == 400){
+                        console.log(data);
+                    }else if(status == 0){
+                        var data = {status:false,msg:"ERR_INTERNET_DISCONNECTED"}
+                    } 
+                    //data.status=false;
+                    callback(data);
+                });
+        }
+        /*MY INBOX MESSAGE HISTORY LOAD MORE*/
+        service.InboxMessageHistoryLoadMoreResponse = function (access_token,studentId,classId,latestmessagetime,callback) {
+            //alert(teacherId);
+            $http({
+                    method: 'GET',
+                    url: api_base_url+'api/messages/classid='+classId+'&studentid='+studentId+'&count=20&latestmessagetime='+latestmessagetime,
+                    headers: {'Content-Type': 'application/json','Authorization':'Bearer '+access_token},    
+                }).success(function(data, status, headers, config){                  
+                    data.status=true;         
+                    callback(data);
+                }).error(function (data, status, headers, config) {
+                    //if(status == 400){
+                    //    console.log(data);
+                    //}else if(status == 0){
+                    //    var data = {status:false,msg:"ERR_INTERNET_DISCONNECTED"}
+                    //} 
+                    //data.status=false;
+                    callback(data);
+                });
+        }
+        
+        
+        
+        
+        /*STUDENT PARENT MESSAGE SEND*/
+        service.studentParentMessageSend = function (access_token,StudentIdsStr,classId,content,callback)
+        {
+            var str = StudentIdsStr;
+            var str_array = str.split(',');
+            var studentArr = Array();
+            for(var i = 0; i < str_array.length; i++)
+            {
+               // Trim the excess whitespace.
+               str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+               studentArr[i] = str_array[i];
+            }
+            
+            $http({
+                    method: 'POST',
+                    url: api_base_url+'api/messages/multiple',
+                    headers: {'Content-Type': 'application/json','Authorization':'Bearer '+access_token},
+                    data: {
+                           "StudentIds": studentArr,
+                           "ClassId": classId,
+                           "Content": content
+                        },
+                    
+                }).success(function(data, status, headers, config){                  
+                    data.status=true;
+                    console.log("STUDENT PARENT MESSAGE SEND RESPONSE ="+data);
+                    callback(data);
+                }).error(function (data, status, headers, config) {
+                    if(status == 400){
+                        console.log(data);
+                    }else if(status == 0){
+                        var data = {status:false,msg:"ERR_INTERNET_DISCONNECTED"}
+                    } 
+                    //data.status=false;
+                    callback(data);
+                });
+        }
+        
+        
+        
+        /*STUDENT INBOX MESSAGE SEND*/
+        service.studentInboxMessageSend = function (access_token,StudentId,classId,content,callback)
+        {
+           
+            $http({
+                    method: 'POST',
+                    url: api_base_url+'api/messages',
+                    headers: {'Content-Type': 'application/json','Authorization':'Bearer '+access_token},
+                    data: {
+                           "StudentId": StudentId,
+                           "ClassId": classId,
+                           "Content": content
+                        },
+                    
+                }).success(function(data, status, headers, config){                  
+                    data.status=true;
+                    console.log("INBOX MESSAGE SEND RESPONSE ="+data);
+                    callback(data);
+                }).error(function (data, status, headers, config) {
+                    if(status == 400){
+                        console.log(data);
+                    }else if(status == 0){
+                        var data = {status:false,msg:"ERR_INTERNET_DISCONNECTED"}
+                    } 
+                    //data.status=false;
+                    callback(data);
+                });
+        }
+        
+        
+        /*PRE-DEFINED MESSAGE LIST ACCORDING TO CLASS ID*/
+        service.predefinedMessagesResponse  = function (access_token,teacherId,callback) {
+            //alert(classId);
+            $http({
+                    method: 'GET',
+                    url: api_base_url+'api/teachers/'+teacherId+'/predefinedmessages',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','Authorization':'Bearer '+access_token},    
+                }).success(function(data, status, headers, config){                  
+                    data.status=true;         
+                    callback(data);
+                }).error(function (data, status, headers, config) {
+                    if(status == 400){
+                        console.log(data);
+                    }else if(status == 0){
+                        var data = {status:false,msg:"ERR_INTERNET_DISCONNECTED"}
+                    } 
+                    //data.status=false;
+                    callback(data);
+                });
+        }
+        
         /*TASK TYPE DROPDOWN*/
         service.taskListResponse = function (access_token,callback) {
             $http({
@@ -86,22 +258,18 @@
                     url: api_base_url+'api/teachertasks/startdate='+startdate+'&enddate='+enddate,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','Authorization':'Bearer '+access_token},    
                 }).success(function(data, status, headers, config){
-
-                    //var sorted = data.sort(function (a, b) {
-                    //    return a.Id - b.Id || a.DueDate.split('-').reverse().join('') - b.DueDate.split('-').reverse().join('');
-                    //});
-                    //
-                    //sorted.forEach(function (element) {
-                    //    console.log("TASK LIST =======>> 79 ");
-                    //    console.log(JSON.stringify(element));
-                    //});                 
-                                        
-                    console.log("TASK LIST =======>> 79 ");
+                 
+                    console.log("TASK LIST");
                     console.log(data);
                     data.status=true;
                     callback(data);
                 }).error(function (data, status, headers, config) {
-                    data.status=false;
+                    if(status == 400){
+                        console.log(data);
+                    }else if(status == 0){
+                        var data = {status:false,msg:"ERR_INTERNET_DISCONNECTED"}
+                    } 
+                    //data.status=false;
                     callback(data);
                 });
         }
@@ -116,7 +284,7 @@
                     data.status=true;
                     callback(data);
                 }).error(function (data, status, headers, config) {
-                    data.status=false;
+                    //data.status=false;
                     callback(data);
                 });
         }
@@ -140,14 +308,11 @@
                 fileUploadData = [];  
             }else{ //**when files are uploaded
                 var res = JSON.parse(fileUploadResponse);
-                //console.log(res[0].Id);
-                //console.log(res[0].Name);
                 for(var j=0 ; j<res.length ; j++){             
                     fileUploadData[j] = { "Id": res[j].Id, "Name": res[j].Name };
                 }
             }
             console.log('#### fileUploadData ####');
-            //console.log(fileUploadData);
             console.log({
                            "StudentIds": studentArr,
                            "TaskType": TaskType,
@@ -157,10 +322,6 @@
                            "ClassId": ClassId,
                            "Attachments": fileUploadData,
                         });
-   
-            //console.log(JSON.stringify(fileUploadData));
-            //var fileAttachment = JSON.stringify(fileUploadData);
-           
             $http({
                    method: 'POST',
                    url: api_base_url+'api/teachertasks/',
@@ -248,7 +409,7 @@
                     data.status=true;
                     callback(data);
                 }).error(function (data, status, headers, config) {
-                    data.status=false;
+                    //data.status=false;
                     callback(data);
                 });
         }
@@ -265,7 +426,7 @@
                     data.status=true;
                     callback(data);
                 }).error(function (data, status, headers, config) {
-                    data.status=false;
+                    //data.status=false;
                     callback(data);
                 });
         }
@@ -280,7 +441,12 @@
                     data.status=true;
                     callback(data);
                 }).error(function (data, status, headers, config) {
-                    data.status=false;
+                    if(status == 400){
+                        console.log(data);
+                    }else if(status == 0){
+                        var data = {status:false,msg:"ERR_INTERNET_DISCONNECTED"}
+                    }
+                    //data.status=false;
                     callback(data);
                 });
         }
@@ -289,13 +455,13 @@
         service.studentPerformanceListResponse = function (access_token,classId,studentId,callback) {
             $http({
                     method: 'GET',
-                    url: api_base_url+'api/students/'+studentId+'/performance/classid='+classId,
+                    url: api_base_url+'api/students/'+studentId+'/performancegraph/classid='+classId,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','Authorization':'Bearer '+access_token},    
                 }).success(function(data, status, headers, config){
                     data.status=true;
                     callback(data);
                 }).error(function (data, status, headers, config) {
-                    data.status=false;
+                    //data.status=false;
                     callback(data);
                 });
         }
@@ -307,13 +473,34 @@
             }
                 $http({
                     method: 'GET',
-                    url: api_base_url+'api/teachers/findstudents/searchtext='+searchterm,
+                    url: api_base_url+'api/search/students/text='+searchterm,
+                    //url: api_base_url+'api/teachers/findstudents/searchtext='+searchterm,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','Authorization':'Bearer '+access_token},    
                 }).success(function(data, status, headers, config){
                     data.status=true;
                     callback(data);
                 }).error(function (data, status, headers, config) {
-                    data.status=false;
+                    //data.status=false;
+                    callback(data);
+                });
+            
+        }
+        
+        ///*W17 - SEARCH STUDENT (MY INBOX)*/
+        service.studentSearchInboxResponse = function (access_token,teacherId,searchterm,callback) {
+            if (searchterm == "") {
+                searchterm = "%20";
+            }
+                $http({
+                    method: 'GET',
+                    url: api_base_url+'api/search/students/teacherid='+teacherId+'&text='+searchterm,
+                    //url: api_base_url+'api/teachers/findstudents/searchtext='+searchterm,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','Authorization':'Bearer '+access_token},    
+                }).success(function(data, status, headers, config){
+                    data.status=true;
+                    callback(data);
+                }).error(function (data, status, headers, config) {
+                    //data.status=false;
                     callback(data);
                 });
             
@@ -330,7 +517,7 @@
                     data.status=true;
                     callback(data);
                 }).error(function (data, status, headers, config) {
-                    data.status=false;
+                    //data.status=false;
                     callback(data);
                 });
         }
@@ -482,16 +669,44 @@
                 console.log('^^^^^^^^^^^^^^^^^^');
                 callback(response); 
             });
-            
-            
-            //var x = new XMLHttpRequest();
-            //x.open("GET", api_base_url+"api/files/taskattachment="+uploadedFileId, true);
-            //
-            //x.setRequestHeader("authorization", "Bearer "+access_token);
-            //x.responseType = 'blob';
-            ////x.onload=function(e){downloadAttachment(x.response, "dlBinAjax.gif", "image/gif" ); }
-            //x.send();
-
+        }
+        
+        
+        service.bookDemoSubmit = function (name,job_title,email,contact_no,school,postcode,date,callback) {
+                //alert(date);
+                 var static_date = "2016-11-25T01:35:32.458243Z";
+                    console.log({
+                            "Name": name,
+                            "JobTitle": job_title,
+                            "Email":  email,
+                            "PhoneNo": contact_no,
+                            "SchoolName": school,
+                            "SchoolAddress": postcode,
+                            "BookedDate": date
+                        });
+               
+                $http({
+                    method: 'POST',
+                    url: api_base_url+'api/contactus/bookdemo',
+                    data:
+                        {
+                            "Name": name,
+                            "JobTitle": job_title,
+                            "Email":  email,
+                            "PhoneNo": contact_no,
+                            "SchoolName": school,
+                            "SchoolAddress": postcode,
+                            "BookedDate": date
+                        },   
+                    headers: {'Content-Type': 'application/json'},    
+                }).success(function(data, status, headers, config){
+                    console.log('BOOK A DEMO RESPONSE ===>>>'+data);
+                    data.status=true;
+                    callback(data);
+                }).error(function (data, status, headers, config) {
+                    //data.status=false;
+                    callback(data);
+                });
             
         }
         
