@@ -1,5 +1,5 @@
 //CONSTANTS DEFINED FOR JS PAGES
-var base_url        = "http://esolz.co.in/lab3/involved/";
+var base_url        = "http://localhost/";
 var PhysicalPath    = "/var/www/esolz.co.in/public/lab3/involved/";
 var api_base_url    = "http://server.involvedtech.co.uk/";
 

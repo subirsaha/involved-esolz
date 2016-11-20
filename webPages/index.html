@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" ng-app="routerApp">
         <head>
 		<!--meta tag-->  
@@ -35,12 +35,12 @@
 		<!------------------------------------------------------------------------------------------------------------>
 		
 		<title>Involved</title>
-		<base href="/lab3/involved/"></base>
+		<base href="/"></base>
 	</head>
 	<body>
 		<!--<div id="loader" style="background: black;position: fixed;left: 0px;right: 0px;top: 0px;display: block;z-index: 999;bottom: 0px"><img src="images/Loading.gif" style="position: absolute;top: 50%;left: 50%;margin-left: -56px;"></div>-->
 		<div ui-view="header"></div>
-		<div ui-view="content"></div>
+		<div ui-view="content" ng-cloak></div>
 		<div ui-view="footer" id="footer"></div>
 		
 		<script src="js/jquery-1.11.1.js"></script>
