@@ -999,7 +999,7 @@ pic_cell_left {
 }
 
 .modal-dialog {
-    margin: 90px auto 0;
+    margin: 110px auto 0;
     width: 980px;
 }
 
@@ -1218,6 +1218,9 @@ button.close.close_btn:hover {
     transition: all 0.4s ease-in-out 0s;
     -webkit-transition: all 0.4s ease-in-out 0s;
     -moz-transition: all 0.4s ease-in-out 0s;
+}
+.name_fld.red_place{
+    color: red;
 }
 
 

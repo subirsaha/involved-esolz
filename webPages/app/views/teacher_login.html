@@ -67,8 +67,8 @@
                     <li id="myInbox">
                         <a data-toggle="{{toggle_status_my_inbox}}" data-target="#sectionC" id="my_inbox"  ng-click="cancelClickTab('my_inbox');myInbox();" href='javascript:void(0);'>
                             My Inbox
-							 <sup id="myInboxUnreadMessageCount">20</sup>
-                           <!-- <sup id="myInboxUnreadMessageCount" ng-if="countUnreadMessage != 0 || countUnreadMessage != ''">{{countUnreadMessage}}</sup>-->
+							<!-- <sup id="myInboxUnreadMessageCount">20</sup>-->
+                            <sup id="myInboxUnreadMessageCount" ng-if="countUnreadMessage != 0 || countUnreadMessage != ''">{{countUnreadMessage}}</sup>
                         </a>
                     </li>
                     <li data-toggle="{{toggle_status_my_task}}" data-target="#sectionD" id="myTask" ng-click="myTask(1);" class="">
@@ -392,8 +392,9 @@
 								<input type="hidden" id="studentIds" value="">
 								<input type="hidden" id="classIds" value="">
 							</div>
-							
+				
 							<div id="noMsg" class="noMsgClass" style="text-align: center;margin-top: 10%;">Please select student to see the message history</div>
+							<div id="noParent" style="display:none">No parent Name.You caanot send any message.</div>
 							<div class="search-user-side-right" id="RHS_Section">
 								<div class="srch-userpad" id="rhs_section1">
 									<div class="side-top">
@@ -408,7 +409,7 @@
 									<ul class="side-list">
 										<li>
 											<h3>Attendance</h3>
-											<span ng-if="studentInboxAttendance != ''" ng-class="(studentInboxAttendanceTrend == true ? 'p-green' : (studentInboxAttendanceTrend == false ? 'p-red' : 'orange_text'))">{{studentInboxAttendance}}% <img src="images/side-arrw.png" alt="" /></span>
+											<span ng-if="studentInboxAttendance != ''" ng-class="(studentInboxAttendanceTrend == true ? 'p-green' : (studentInboxAttendanceTrend == false ? 'p-red' : 'orange_text'))">{{studentInboxAttendance}}% <span class="arrow_inbox"><img src="images/side-arrw.png" alt="" /></span></span>
 											<span ng-if="studentInboxAttendance == ''" ng-class="(studentInboxAttendanceTrend == true ? 'p-green' : (studentInboxAttendanceTrend == false ? 'p-red' : 'orange_text'))" >0% </span>
 										</li>
 										<li>
@@ -420,11 +421,12 @@
 										<li>
 											<h3>Grade</h3>
 											<!--<span>{{studentInboxLastGrade}} <img src="images/side-arrw.png" alt="" /></span>-->
-											<span ng-class="(studentInboxGradeTrend == true ? 'p-green' : (studentInboxGradeTrend == false ? 'p-red' : 'orange_text'))" ng-if="studentInboxLastGrade != ''">{{studentInboxLastGrade}}</span>
+											<span ng-class="(studentInboxGradeTrend == true ? 'p-green' : (studentInboxGradeTrend == false ? 'p-red' : 'orange_text'))" ng-if="studentInboxLastGrade != ''">{{studentInboxLastGrade}} <span class="arrow_inbox"><img src="images/side-arrw.png" alt="" /></span></span>
 											<span ng-class="(studentInboxGradeTrend == true ? 'p-green' : (studentInboxGradeTrend == false ? 'p-red' : 'orange_text'))" ng-if="studentInboxLastGrade == ''">-</span>
 										</li>
 									</ul>
 								</div>
+								
 								<div class="other-teacher"  id="rhs_section2">
 								   <!-- <a href="">Other Teachers: Miss Bunnet</a>-->
 									<a href="">Parent: {{ParentsNameInbox}}</a>

@@ -455,7 +455,7 @@
     }
     .modal-dialog{
         width: auto;
-        margin: 10px;
+        margin:110px 10px;
     }
     .modal_left, .modal_right{
         float: none;

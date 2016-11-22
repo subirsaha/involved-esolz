@@ -127,6 +127,7 @@
             $("#school").attr("placeholder","").removeClass('red_place');
             $("#postcode").attr("placeholder","").removeClass('red_place');
         });
+        
 
       
         $scope.bookDemoSubmit = function()
@@ -151,14 +152,14 @@
             }else{
                 $("#name").attr("placeholder","").removeClass('red_place');               
             }
-            if(name.length > 20)
-            {
-                $("#name").attr("placeholder","Name must not be more than 20 characters").addClass('red_place');
-                error++;
-                return false;
-            }else{
-                $("#name").attr("placeholder","").removeClass('red_place');  
-            }
+            //if(name.length > 50)
+            //{
+            //    $("#name").attr("placeholder","Character limit exceeded").addClass('red_place');
+            //    error++;
+            //    return false;
+            //}else{
+            //    $("#name").attr("placeholder","").removeClass('red_place');  
+            //}
             
             if( $('#job_title').val().toString().trim() == '' )
             {              
@@ -169,14 +170,14 @@
             }else{
                 $("#job_title").attr("placeholder","").removeClass('red_place');               
             }
-            if(job_title.length > 20)
-            {
-                $("#job_title").attr("placeholder","Job title must not be more than 20 characters").addClass('red_place');
-                error++;
-                return false;
-            }else{
-                $("#job_title").attr("placeholder","").removeClass('red_place');  
-            }
+            //if(job_title.length > 50)
+            //{
+            //    $("#job_title").attr("placeholder","Character limit exceeded").addClass('red_place');
+            //    error++;
+            //    return false;
+            //}else{
+            //    $("#job_title").attr("placeholder","").removeClass('red_place');  
+            //}
             
             if($('#email').val().toString().trim() == '' || email==0)
             {
@@ -239,14 +240,14 @@
             }else{
                 $("#school").attr("placeholder","").removeClass('red_place');               
             }
-            if(school.length > 20)
-            {
-                $("#school").attr("placeholder","School name must not be more than 20 characters").addClass('red_place');
-                error++;
-                return false;
-            }else{
-                $("#school").attr("placeholder","").removeClass('red_place');  
-            }
+            //if(school.length > 50)
+            //{
+            //    $("#school").attr("placeholder","Character limit exceeded").addClass('red_place');
+            //    error++;
+            //    return false;
+            //}else{
+            //    $("#school").attr("placeholder","").removeClass('red_place');  
+            //}
             
             
             if( $('#postcode').val().toString().trim() == '' )
