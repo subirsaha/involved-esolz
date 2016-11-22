@@ -683,7 +683,7 @@ img.remove_btn_class:hover {
 }
 .class_nav ul li a span, .class_nav ul li a sup, .user-noti
 {
-    border:1px solid #ffffff;
+/*    border:1px solid #ffffff;*/
 }
 .studSelect{
     background-color: rgba(157, 224, 242, 0.8);
@@ -701,13 +701,7 @@ color: #fff !important;
 border-radius: 25px !important;
 background-color: #1861aa !important;
 }
-.name_fld
-{
-   color: #111 !important; 
-}
-.blue_heading{
-    color: #2277cf !important; 
-}
+
 @media (max-width: 480px) {
 	#successMsg_modal1 .modal-dialog {
 	    width:90%;

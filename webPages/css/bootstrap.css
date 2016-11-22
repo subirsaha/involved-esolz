@@ -3060,7 +3060,7 @@ fieldset[disabled] a.btn {
 .btn-default:focus,
 .btn-default.focus {
   color: #333;
-  background-color:transparent;
+/*  background-color:transparent;*/
   border-color: #8c8c8c;
 }
 .btn-default:hover {

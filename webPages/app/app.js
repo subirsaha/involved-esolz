@@ -1,4 +1,4 @@
-    var postApp = angular.module("routerApp",['ui.router','ngSanitize','tagged.directives.infiniteScroll']);
+    var postApp = angular.module("routerApp",['ui.router','ngSanitize','tagged.directives.infiniteScroll', 'slick']);
         postApp.config(function($stateProvider,$urlRouterProvider, $locationProvider) {
             $stateProvider
                //.state('/', {

@@ -168,7 +168,7 @@ h3 {
     border-bottom: 2px solid rgba(232, 232, 232, 0.8);
     padding: 12px 0;
     position: fixed;
-    z-index: 999;
+    z-index: 9999;
     background: #fff;
     width: 100%;
 }
@@ -494,7 +494,7 @@ h3 {
     right: auto;
     top: 100%;
     width: 100%;
-    margin-top: -280px;
+    margin-top: -300px;
     text-align: center;
     z-index: 1;
 }
@@ -1204,6 +1204,20 @@ button.close.close_btn:hover {
     width: 99px; 
 }
 
+/*add css 21-11-16*/
 
+
+/*add css*/
+.addpanel .overlay{
+    position: fixed;
+    top:210px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    transition: all 0.4s ease-in-out 0s;
+    -webkit-transition: all 0.4s ease-in-out 0s;
+    -moz-transition: all 0.4s ease-in-out 0s;
+}
 
 

@@ -1237,7 +1237,7 @@ ul.side-list li span {
     float: left;
 }
 .text-box-l textarea{
-	height:60px;
+	height:105px;
 }
 .text-box-l .input-attach {
     cursor: pointer;
@@ -2414,7 +2414,7 @@ textarea.red_place::-moz-placeholder{ /* Mozilla Firefox 19+ */
 }
 input.red_place:-ms-input-placeholder,
 textarea.red_place:-ms-textarea-placeholder{ /* Internet Explorer 10+ */
-    color: #f70808;
+    color: #f70808 !important;
     opacity: 1;
 }
 

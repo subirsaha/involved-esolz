@@ -3,16 +3,16 @@
         var days = 1;
         var tomorrow = new Date(Date.now()+days*24*60*60*1000);
 
-               $( window ).load(function() {
+            $( window ).load(function() {
             // Run code
-            $('.screen_slider').slick({
-                infinite: true,
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                autoplay: true,
-                arrows:false,
-                responsive: true,
-            });
+//            $('.screen_slider').slick({
+//                infinite: true,
+//                slidesToShow: 1,
+//                slidesToScroll: 1,
+//                autoplay: true,
+//                arrows:false,
+//                responsive: true,
+//            });
           });
         $(document).ready(function() {
             $( "#datepicker" ).datepicker(
@@ -29,15 +29,67 @@
                     autoplay: true,
                     arrows:false
                 });
+                $('.nav').onePageNav();
+                $('.arrow_top').onePageNav();
+                $('.footer-nav').onePageNav();
+               
             },10);
             
+            
+//            $(window).load(function(){
+//                alert();
+//                setTimeout(function(){
+//                    
+//                
+//                $('.screen_slider').slick({
+//                    infinite: true,
+//                    slidesToShow: 1,
+//                    slidesToScroll: 1,
+//                    autoplay: true,
+//                    arrows:false
+//                });
+//                    }, 2000)
+//            })
+            
+            
+            $('#bookDemo').on('click', function(){
+                $('#myModal').find('form')[0].reset();
+                $('#bookDemoReset').click();
+                $( "#datepicker" ).datepicker('setDate', tomorrow);
+                
+                $("#name").attr("placeholder","").removeClass('red_place');
+                $("#job_title").attr("placeholder","").removeClass('red_place');
+                $("#email").attr("placeholder","").removeClass('red_place');
+                $("#contact_no").attr("placeholder","").removeClass('red_place');
+                $("#school").attr("placeholder","").removeClass('red_place');
+                $("#postcode").attr("placeholder","").removeClass('red_place');
+            });
+
         });
         /*HOME BUTTON CLICK*/
         var selector = '.nav li';
         $(selector).on('click', function(){
             $(selector).removeClass('active');
             $(this).addClass('active');
+            if (screen.width <= 676) {
+                $("body").removeClass("addpanel");
+                $('.navbar-collapse').collapse('toggle')
+            }
         });
+        
+        $scope.active_class = function(val){
+            if (val == 'home_section') {
+                $('.scrollSection').removeClass('current active');
+                $('#home_li').addClass('current active');
+            }else if (val == 'parent_section') {
+                $('.scrollSection').removeClass('current active');
+                $('#parent_li').addClass('current active');
+            }else if (val == 'schools_section') {
+                $('.scrollSection').removeClass('current active');
+                $('#schools_li').addClass('current active');
+            }
+            
+        }
         
         /*TEACHER LOGIN BTN CLICK*/
         $scope.redirectToLogin = function(){
@@ -65,14 +117,18 @@
         };
         
         $('#bookDemoCloseBTn').on('click', function(){
+            $('#myModal').find('form')[0].reset();
             $('#bookDemoReset').click();
+            $( "#datepicker" ).datepicker('setDate', tomorrow);
+            $("#name").attr("placeholder","").removeClass('red_place');
+            $("#job_title").attr("placeholder","").removeClass('red_place');
+            $("#email").attr("placeholder","").removeClass('red_place');
+            $("#contact_no").attr("placeholder","").removeClass('red_place');
+            $("#school").attr("placeholder","").removeClass('red_place');
+            $("#postcode").attr("placeholder","").removeClass('red_place');
         });
+
       
-      
-        $('#bookDemo').on('click', function(){
-        
-           $('#bookDemoReset').click();
-        });
         $scope.bookDemoSubmit = function()
         {
             
@@ -93,7 +149,7 @@
                 error++;
                 return false;
             }else{
-                $("#name").attr("placeholder","Enter your full name").removeClass('red_place');               
+                $("#name").attr("placeholder","").removeClass('red_place');               
             }
             if(name.length > 20)
             {
@@ -101,7 +157,7 @@
                 error++;
                 return false;
             }else{
-                $("#name").attr("placeholder","Enter your full name").removeClass('red_place');  
+                $("#name").attr("placeholder","").removeClass('red_place');  
             }
             
             if( $('#job_title').val().toString().trim() == '' )
@@ -111,7 +167,7 @@
                 error++;
                 return false;
             }else{
-                $("#job_title").attr("placeholder","Enter your job title").removeClass('red_place');               
+                $("#job_title").attr("placeholder","").removeClass('red_place');               
             }
             if(job_title.length > 20)
             {
@@ -119,7 +175,7 @@
                 error++;
                 return false;
             }else{
-                $("#job_title").attr("placeholder","Enter your job title").removeClass('red_place');  
+                $("#job_title").attr("placeholder","").removeClass('red_place');  
             }
             
             if($('#email').val().toString().trim() == '' || email==0)
@@ -130,7 +186,7 @@
                 return false;
             }
             else{
-                $("#email").attr("placeholder","Enter your email").removeClass('red_place');
+                $("#email").attr("placeholder","").removeClass('red_place');
             }
             if (!isValidEmailAddress(email))
             {
@@ -142,7 +198,7 @@
             }else{
                 
                 //$scope.emailErr = "";
-                $("#email").attr("placeholder","Enter your email").removeClass('red_place');
+                $("#email").attr("placeholder","").removeClass('red_place');
             }
             
             if( $('#contact_no').val().toString().trim() == '' )
@@ -152,7 +208,7 @@
                 error++;
                 return false;
             }else{
-                $("#contact_no").attr("placeholder","Enter contact number").removeClass('red_place');               
+                $("#contact_no").attr("placeholder","").removeClass('red_place');               
             }
              console.log(contact_no.length);
             if(parseInt(contact_no.length) != 11)
@@ -162,7 +218,7 @@
                 error++;
                 return false;
             }else{
-                $("#contact_no").attr("placeholder","Enter contact number").removeClass('red_place');  
+                $("#contact_no").attr("placeholder","").removeClass('red_place');  
             }
             if (is_number_invalid(contact_no))
             {
@@ -171,7 +227,7 @@
                 error++;
                 return false;
             }else{
-                $("#contact_no").attr("placeholder","Enter contact number").removeClass('red_place');  
+                $("#contact_no").attr("placeholder","").removeClass('red_place');  
             }
             
             if( $('#school').val().toString().trim() == '' )
@@ -181,7 +237,7 @@
                 error++;
                 return false;
             }else{
-                $("#school").attr("placeholder","Enter your school name").removeClass('red_place');               
+                $("#school").attr("placeholder","").removeClass('red_place');               
             }
             if(school.length > 20)
             {
@@ -189,7 +245,7 @@
                 error++;
                 return false;
             }else{
-                $("#school").attr("placeholder","Enter your school name").removeClass('red_place');  
+                $("#school").attr("placeholder","").removeClass('red_place');  
             }
             
             
@@ -200,7 +256,7 @@
                 error++;
                 return false;
             }else{
-                $("#postcode").attr("placeholder","Enter school postcode").removeClass('red_place');               
+                $("#postcode").attr("placeholder","").removeClass('red_place');               
             }
             //if(postcode.length > 10)
             //{
@@ -216,10 +272,10 @@
             if(error == 0)
             {
                  /////LOADER SHOW
-            $(window).scrollTop(0);
-            $("#status_right_content2").css("display", "block");
-            $("#preloader_right_content2").css("display", "block");
-            document.getElementById("bookDemoCloseBTn").disabled = true;
+                $(window).scrollTop(0);
+                $("#status_right_content2").css("display", "block");
+                $("#preloader_right_content2").css("display", "block");
+                document.getElementById("bookDemoCloseBTn").disabled = true;
                 
                 homeService.bookDemoSubmit(name,job_title,email,contact_no,school,postcode,date, function (response)
                 {

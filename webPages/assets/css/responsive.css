@@ -80,6 +80,10 @@
     .hvr_content{
         line-height: 16px;
     }
+     #successMsg_modal1 .modal-dialog{
+        width: 300px;
+        margin: 30px auto;
+    }
 }
 
 @media (max-width: 991px) {
@@ -271,7 +275,7 @@
     }
 */
     .parentsLF.parentsB > img{
-        width: 90px;
+        width: 75px;
     }
     .modal-dialog{
         width: 720px;
@@ -302,10 +306,6 @@
      #successMsg_modal1{
         width: 100%;
     }
-    #successMsg_modal1 .modal-dialog{
-        width: 220px;
-        margin: 30px auto;
-    }
      .sims_img {
         left: -25px;
         position: absolute;
@@ -320,9 +320,7 @@
         top:-3px;
         right: 80px;
     }
-    .header{
-        8px 0;
-    }
+   
     .navbar-toggle{
         border-radius: 0px;
         padding: 7px 10px;
@@ -393,12 +391,12 @@
         margin-top:-365px;
     }
     .parentsLF {
-        left: -118px;
-        width: 195px;
+        left: -95px;
+        width: 175px;
     }
     .parentsRA, .parentsRB{
         left: inherit;
-        right: -118px;
+        right: -95px;
     }
     .parentsLF.parentsB{
         width:100%;
@@ -491,6 +489,17 @@
     /*add css 17-11-16*/
     .container{
         width: auto;
+    }
+    .navbar-nav > li:hover a{
+        background-color: transparent!important;
+        color: #1861aa !important;
+    }
+    body.modal-open {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
     }
 }
 
@@ -730,12 +739,26 @@
     .clander_outr{
         margin-top: 10px;
     }
+
+/*
     #myModal.modal{
         position: absolute;
+        top: 50%;
+        height: 100vh;
+        overflow: auto;
+        bottom: inherit;
+        transform: translateY(-50%);
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
     }
-    #myModal.modal{
-        position: absolute;
+    */
+    .parentsLF_content:hover > a, .parentsLF:hover .parentsLF_content > a {
+        visibility: visible;
+        opacity: 1;
     }
+
+
 }
 
 @media (max-width:480px) {

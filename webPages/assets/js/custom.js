@@ -21,7 +21,11 @@ $(document).ready(function(){
         slidesToScroll: 1,
         autoplay: true,
         arrows:false
-    });
+    });    
+    $(window).resize(function(){
+        $('#myModal').css('overflow','auto');
+
+    })
     
 });
 
@@ -32,5 +36,7 @@ $(document).ready(function(){
         var t=1;setInterval(function(){$(".message").removeClass("activeMessage"),
         $(".message").eq(t).addClass("activeMessage"),t+1===$(".message").length?t=0:t++},6e3)
    }
+    
+    //////
                  
 });

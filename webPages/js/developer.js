@@ -139,16 +139,16 @@
         
     })(jQuery);
     
-    
-    
-    
-    $(document).on('click','.goTo', function(event) {
-        event.preventDefault();
-        var target = "#" + this.getAttribute('data-go-to');
-        $('html, body').animate({
-        scrollTop: $(target).offset().top
-        }, 1000);
-    });
+    //
+    //
+    //
+    //$(document).on('click','.goTo', function(event) {
+    //    event.preventDefault();
+    //    var target = "#" + this.getAttribute('data-go-to');
+    //    $('html, body').animate({
+    //    scrollTop: $(target).offset().top
+    //    }, 1000);
+    //});
 
       
 

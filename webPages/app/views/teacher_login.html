@@ -67,7 +67,8 @@
                     <li id="myInbox">
                         <a data-toggle="{{toggle_status_my_inbox}}" data-target="#sectionC" id="my_inbox"  ng-click="cancelClickTab('my_inbox');myInbox();" href='javascript:void(0);'>
                             My Inbox
-                            <sup>3</sup>
+							 <sup id="myInboxUnreadMessageCount">20</sup>
+                           <!-- <sup id="myInboxUnreadMessageCount" ng-if="countUnreadMessage != 0 || countUnreadMessage != ''">{{countUnreadMessage}}</sup>-->
                         </a>
                     </li>
                     <li data-toggle="{{toggle_status_my_task}}" data-target="#sectionD" id="myTask" ng-click="myTask(1);" class="">
@@ -364,7 +365,18 @@
 								
 								<div class="student_list content">
 									<div id="append_search_div"></div>
-									<div class="user_box top_border_user_box clearfix" ng-repeat="y in studentListInbox" ng-click="studentInboxPerformanceResponse(y.Id,y.ClassId,y.Firstname,y.Lastname,y.ParentsName,y.Image,y.ClassName,y.IsUnlocked);" id="msgstud{{y.Id}}" >
+									
+									<!--<div class="user_box top_border_user_box clearfix studSelect" id="msgstud{{Id}}{{ClassId}}'" ng-click="studentInboxPerformanceResponse(Id,ClassId,Firstname,Lastname,ParentsName,Image,ClassName,IsUnlocked)">
+										<label>
+											<div class="user_pic {{style_class}}"><img alt="" src="data:image/png;base64,{{Image}}"></div>
+											<div class="user_details">
+												<h3>{{Firstname}} {{Lastname}} ({{ClassName}})</h3>
+												<span>{{ClassName}}</span>
+											</div>
+										</label>
+									</div>-->
+									
+									<div class="user_box top_border_user_box clearfix" ng-repeat="y in studentListInbox" ng-click="studentInboxPerformanceResponse(y.Id,y.ClassId,y.Firstname,y.Lastname,y.ParentsName,y.Image,y.ClassName,y.IsUnlocked);" id="msgstud{{y.Id}}{{y.ClassId}}" >
 										<!--ng-class="{studSelect: $index === 0}"-->
 										<label>
 											<div ng-class="y.IsUnlocked == true ? 'outr_border' :''" class="user_pic"><img alt="" data-ng-src="data:image/png;base64,{{y.Image}}"></div>
@@ -373,15 +385,16 @@
 												<span>{{y.ClassName}}</span>
 											</div>
 										</label>
-										<span class="user-noti" ng-if="y.UnreadMessageCount != 0">{{y.UnreadMessageCount}}</span>
+										<span class="user-noti"  id="unreadMsg{{y.Id}}{{y.ClassId}}" ng-if="y.UnreadMessageCount != 0">{{y.UnreadMessageCount}}</span>
 									</div>
+									
 								</div>
 								<input type="hidden" id="studentIds" value="">
+								<input type="hidden" id="classIds" value="">
 							</div>
 							
 							<div id="noMsg" class="noMsgClass" style="text-align: center;margin-top: 10%;">Please select student to see the message history</div>
 							<div class="search-user-side-right" id="RHS_Section">
-								
 								<div class="srch-userpad" id="rhs_section1">
 									<div class="side-top">
 										<label for="student1">
@@ -395,15 +408,20 @@
 									<ul class="side-list">
 										<li>
 											<h3>Attendance</h3>
-											<span>{{studentInboxAttendance}}% <img src="images/side-arrw.png" alt="" /></span>
+											<span ng-if="studentInboxAttendance != ''" ng-class="(studentInboxAttendanceTrend == true ? 'p-green' : (studentInboxAttendanceTrend == false ? 'p-red' : 'orange_text'))">{{studentInboxAttendance}}% <img src="images/side-arrw.png" alt="" /></span>
+											<span ng-if="studentInboxAttendance == ''" ng-class="(studentInboxAttendanceTrend == true ? 'p-green' : (studentInboxAttendanceTrend == false ? 'p-red' : 'orange_text'))" >0% </span>
 										</li>
 										<li>
 											<h3>Target</h3>
-											<span>{{studentInboxTargetGrade}}</span>
+											<!--<span>{{studentInboxTargetGrade}}</span>-->
+											<span style="color:#000;" ng-if="studentInboxTargetGrade != ''">{{studentInboxTargetGrade}}</span>
+											<span style="color:#000;" ng-if="studentInboxTargetGrade == ''">-</span>
 										</li>
 										<li>
 											<h3>Grade</h3>
-											<span>{{studentInboxLastGrade}} <img src="images/side-arrw.png" alt="" /></span>
+											<!--<span>{{studentInboxLastGrade}} <img src="images/side-arrw.png" alt="" /></span>-->
+											<span ng-class="(studentInboxGradeTrend == true ? 'p-green' : (studentInboxGradeTrend == false ? 'p-red' : 'orange_text'))" ng-if="studentInboxLastGrade != ''">{{studentInboxLastGrade}}</span>
+											<span ng-class="(studentInboxGradeTrend == true ? 'p-green' : (studentInboxGradeTrend == false ? 'p-red' : 'orange_text'))" ng-if="studentInboxLastGrade == ''">-</span>
 										</li>
 									</ul>
 								</div>
@@ -422,7 +440,7 @@
 												<div class="conversation arrow_box">
 												  {{per.Content}}
 												</div>
-												<span>{{per.SentDate | date:"MMM. dd - h:mma"}}</span>
+												<span>{{per.SentDate | date:"dd MMM H:mm"}}</span>
 											</div>
 											<!--<div ng-if="per.SenderUserId == loggedInTeacherIdLoadMore" class="chat-convrstaion chat-rel">
 												<div class="conversation arrow_box">
@@ -439,7 +457,7 @@
 												<div class="conversation arrow_box">
 												  {{per.Content}}
 												</div>
-												<span>{{per.SentDate | date:"MMM. dd - h:mma"}}</span>
+												<span>{{per.SentDate | date:"dd MMM H:mm"}}</span>
 											</div>
 										
 										</span>

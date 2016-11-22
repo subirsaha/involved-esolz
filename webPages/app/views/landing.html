@@ -4,7 +4,7 @@
     
 	<meta charset="utf-8" />
 
-	<title>Involved</title>
+	<title>InvolvEd</title>
     
     <!--favicon-->    
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
@@ -14,51 +14,53 @@
     <meta name="description" content="" />
     <meta name="author" content="admin" />
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
      
     <!--    google fonts    -->
-    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'> 
+   <!-- <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'> 
         
-    <!--css file links-->    
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
     <link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css"/>
     <link href="assets/css/bootstrap-select.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/slick.css" rel="stylesheet" type="text/css" />
-    
-        
-    <!--custom css-->
+   
 	<link href="assets/css/custom.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/developer.css" rel="stylesheet" type="text/css" />
     <link href="assets/css/responsive.css" rel="stylesheet" type="text/css" />
 
-    
-    
-    <!--google fonts-->
-   <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">-->
+
+	<!--<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>-->
+	<!--<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>-->
+	
 
 </head>
 
 <body>
-
+	<div class="overlay"></div>
+		<div id="preloader_right_content2" style="display:none">
+			<div id="status_right_content2"></div>
+		</div>
 <!--header start-->
 <header class="header">
    <div class="container">
        
        <div class="navbar navbar-default">
             <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" id="collapse_btn" data-target=".navbar-collapse">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
               <div class="logo"><a href="landing.html"><img src="assets/images/logo.png" alt=""></a></div>
             </div>
-            <div class="teacher_login"><a href="javascript:void(0)" ng-click="redirectToLogin()">Teacher Login</a></div>
-            <div class="navbar-collapse collapse">
+            <div class="teacher_login"><a href="javascript:void(0)" ng-click="comingSoon()">Teacher Login</a></div>
+            <div class="navbar-collapse collapse" id="collapse_div">
               <ul class="nav navbar-nav navbar-right">
-                <li class="scrollSection"><a class="goTo" data-go-to="home_section" href="javascript:void(0)">Home</a></li>
-                <li  class="scrollSection"><a class="goTo" data-go-to="parent_section" href="javascript:void(0)">Parents</a></li>
-                <li  class="scrollSection"><a class="goTo" data-go-to="schools_section"href="javascript:void(0)">Schools</a></li>
-                <li  class="scrollSection"><a class="goTo" data-go-to="contactus_section" href="javascript:void(0)">Contact Us</a></li>
+                <li id="home_li" class="scrollSection"><a href="#home_section">Home</a></li>
+                <li id="parent_li" class="scrollSection"><a href="#parent_section">Parents</a></li>
+                <li id="schools_li" class="scrollSection"><a href="#schools_section">Schools</a></li>
+                <li  class="scrollSection"><a href="#contactus_section">Contact Us</a></li>
               </ul>
             </div>
           </div>
@@ -79,7 +81,9 @@
                     <span>Parental Engagement</span>
                 </h1>
                 <p>Keep parents informed, engaged and updated on their child’s education. Give parents and teachers an app to support student learning and improve attainment.</p>
-                <a class="global_btn btn-default" data-target="#myModal" data-toggle="modal" href="javascript:void(0);" id="bookDemo">Book a Demo</a>
+                <a class="global_btn btn-default" data-target="#myModal" data-toggle="modal" href="javascript:void(0);" id="bookDemo" data-keyboard="true"
+>Book a Demo</a>
+				 
             </div>
             <div class="col-md-6 col-sm-7">
                 <div class="pic_area">
@@ -88,6 +92,14 @@
                         <div class=""><img src="assets/images/slide6.png" alt=""></div>
                         <div class=""><img src="assets/images/slide4.png" alt=""></div>
                     </div>
+                    
+<!--
+                    <slick infinite=true slides-to-show=1 slides-to-scroll=1>
+                        <div>sgsg</div>
+                        <div>sfdf</div>
+                    </slick>
+-->
+                    
                     <img src="assets/images/mob_pic.png" alt="">
                     <div class="app_btn">
                         <a href="javascript:void(0)"><img src="assets/images/app_btn.png" alt=""></a>
@@ -134,11 +146,11 @@
  <!--feature part end-->
 
 <!--client part-->
-<div class="client_part goTo">
+<div class="client_part">
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1 col-sm-12">
-                <div class="client_pic"><span class="sims_img"><img src="assets/images/sims.png" alt=""></span><img src="assets/images/prof_pic.png" alt=""></div>
+                <div class="client_pic"><span class="sims_img"><img src="assets/images/sims.png" alt=""></span><img src="assets/images/prof_pic.JPG" alt=""></div>
                 <div class="client_comnt">
                     <p>As a teacher, the InvolvEd app gives me the ability to share responsibility of student development with parents. Not only does the teacher web app give me a clear and strategic view of my student’s progress, the easy to use features improve efficiency. Having used the app, it is evident that the team at InvolvEd have invested significant time and effort in making an excellent product for parents and teachers."</p>
                     <h4>Will Hough, Head of Biology at Secondary School</h4>
@@ -263,17 +275,18 @@
                         <div class="footer-colC">
                             <div class="location">
                                 <img src="assets/images/location-icon.png" alt=""/>
-                                <p>27 Old Gloucester Road <span>London</span> <span>WC1N 3AX</span></p>
+                                <p>27 Old Gloucester Street <span>London</span> <span>WC1N 3AX</span></p>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-2 col-xs-2">
                         <div class="footer-colD">
                             <ul class="footer-nav">
-                                <li><a class="goTo" data-go-to="home_section" href="javascript:void(0)">Home</a></li>
-                                <li><a class="goTo" data-go-to="parent_section" href="javascript:void(0)">Parents</a></li>
-                                <li><a class="goTo" data-go-to="schools_section" href="javascript:void(0)">Schools</a></li>
+                                <li><a href="#home_section" ng-click="active_class('home_section');">Home</a></li>
+                                <li><a href="#parent_section" ng-click="active_class('parent_section');">Parents</a></li>
+                                <li><a href="#schools_section" ng-click="active_class('schools_section');">Schools</a></li>
                                 <li><a href="javascript:void(0)" ng-click="comingSoon();">FAQ</a></li>
+								
                             </ul>
                         </div>
                     </div>
@@ -296,7 +309,9 @@
             <div class="footer-bottomIn clearfix">
                 <h2>Experience the feeling of being InvolvEd</h2>
 			
-                 <button data-target="#myModal" data-toggle="modal" class="btn btn-info btn-default" ng-click="bookDemo();">Book a Demo</button>
+                 <button data-target="#myModal" data-toggle="modal" class="btn btn-info btn-default" data-keyboard="true"
+ ng-click="bookDemo();">Book a Demo</button>
+				
             </div>
         </div>
     </div>
@@ -309,9 +324,9 @@
 <div id="myModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-			<div id="preloader_right_content2" style="display:none">
+			<!--<div id="preloader_right_content2" style="display:none">
 				<div id="status_right_content2"></div>
-			</div>
+			</div>-->
             <button type="button" id="bookDemoCloseBTn" class="close close_btn" data-dismiss="modal" aria-hidden="true"><img src="assets/images/cross_btn.png" alt=""></button>
             <div class="modal_inr clearfix">
 				<form>
@@ -322,34 +337,36 @@
 						   <div class="row">
 							   <div class="col-sm-6 col-xs-6">
 									<label>Name</label>
-									<input id="name" class="name_fld" type="text" placeholder="Enter your full name">
+									<input id="name" class="name_fld" type="text" >
 							   </div> 
 							   <div class="col-sm-6 col-xs-6">
 									<label>Job Title</label>
-									<input id="job_title" class="name_fld" type="text" placeholder="Enter your job title">
+									<input id="job_title" class="name_fld" type="text">
 							   </div> 
 							   <div class="col-sm-6 col-xs-6">
 									<label>Email</label>
-									<input id="email" class="name_fld" type="text" placeholder="Enter your email">
+									<input id="email" class="name_fld" type="text" >
 							   </div> 
 							   <div class="col-sm-6 col-xs-6">
 									<label>Contact Number</label>
-									<input id="contact_no" class="name_fld" type="text" placeholder="Enter contact number">
+									<input id="contact_no" class="name_fld" type="text">
 							   </div>
 							   <div class="col-sm-6 col-xs-6">
 									<label>School</label>
-									<input id="school" class="name_fld" type="text" placeholder="Enter your school name">
+									<input id="school" class="name_fld" type="text">
 							   </div> 
 							   <div class="col-sm-6 col-xs-6">
 									<label>Postcode</label>
-									<input id="postcode" class="name_fld" type="text" placeholder="Enter school postcode">
-							   </div> 
+									<input id="postcode" class="name_fld" type="text">
+							   </div>
+							  
 						   </div> 
 						</div>
+						<div class="row col-lm-6 book_demo_agree" style="padding-top: 10% !important;padding-left: 3%;">By clicking Book Demo, you agree to being contacted by InvolvEdTech.</div>
 					</div>
 					<div class="modal_right">
 						<div class="blnk_div">
-							<h4>Select a Date</h4>
+							<h4>Select a date</h4>
 							<div class="clander_outr">
 								<div id="datepicker"></div>
 								
@@ -384,5 +401,19 @@
 
 
 </body>
+<script>
+	$(document).ready(function() {
+		$( ".header .navbar-toggle" ).click(function() {
+			
+			$( "body").toggleClass( "addpanel" );
+		});
+		$(".overlay").click(function() {
+			
+			$("body").removeClass("addpanel");
+			$('.navbar-collapse').collapse('toggle')
+		});
+		
+});
 
+</script>
 </html>

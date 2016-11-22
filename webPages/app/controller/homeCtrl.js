@@ -107,7 +107,7 @@
                                 $("#status_right_content4").css("display", "none");
                                 $("#preloader_right_content4").css("display", "none");
                                 $("#confy1").click();
-                                $scope.msg = 'Server failed to respond';
+                                $scope.msg = 'Server failed to respond. Please check your internet connection.';
                                 $scope.myClasses = '';
                                 $scope.classListMessage = 'No Classes Found…';
                                 $scope.classListMessage1 = "Try:";
@@ -580,7 +580,7 @@
                         }      
                     } else if(response.msg == "ERR_INTERNET_DISCONNECTED") {//ERROR : 500 in api
                         $("#confy1").click();
-                        $scope.msg = 'Server failed to respond';
+                        $scope.msg = 'Server failed to respond. Please check your internet connection.';
                         $('.showStudentDiv').hide();
                         $scope.studentList = "";
                         $scope.noOfStudents = 0;
@@ -1165,7 +1165,7 @@
                         $("#status_right_content").hide();
                         $("#preloader_right_content").hide();
                         $("#confy1").click();
-                        $scope.msg = 'Server failed to respond';
+                        $scope.msg = 'Server failed to respond. Please check your internet connection.';
                         
                         $('.showStudentDiv').hide();
                         $('#noRecord3').addClass('noRecord');
@@ -1487,7 +1487,7 @@
                         } else if(response.msg == "ERR_INTERNET_DISCONNECTED") {//ERROR : 500 in api
                             $('.showStudentDiv').hide();
                             $("#confy1").click();
-                            $scope.msg = 'Server failed to respond';
+                            $scope.msg = 'Server failed to respond. Please check your internet connection.';
                             $scope.performanceList = '';
                             $scope.noOfStudents = 0;
                             //$scope.studentListMessagePerformance = "No Performance Data Found…… Try: 1. Reload the webpage. 2. If the problem persists, please submit your query to support@involvedtech.co.uk using your school email address.";
@@ -2577,15 +2577,21 @@
                     }
                 }
             });
+            
             /*ONCLICK ON SEARCH RESULT*/
             $scope.searchStudentSelected = function(Id,Firstname,Lastname,ParentsName,SubjectName,YearGroup,Image,IsUnlocked,ClassId,ClassName)
             {
-           
-                if (IsUnlocked == true) {
-                    var style_class = 'outr_border';
-                }else{
-                    var style_class = '';
-                }
+                
+                 $('.stdprof1').remove();
+                 $('#closediv1').css({'display':'none'});
+          
+                 
+                 console.log('Parents : '+ParentsName);
+                 if (IsUnlocked == true) {
+                     var style_class = 'outr_border';
+                 }else{
+                     var style_class = '';
+                 }
                  $scope.Id = Id;
                  $scope.ClassId = ClassId;
                  $scope.Firstname = Firstname;
@@ -2595,21 +2601,23 @@
                  $scope.ClassName = ClassName;
                  $scope.IsUnlocked = IsUnlocked;
                  
-                 //e.stopPropagation();
-                 //$('.stdprof1').remove();
-                 //document.getElementById('searchterm1').value="";
-                 //$('#closediv1').remove();
+                 if (ParentsName != null){ 
+                    ParentsName = ParentsName;
+                 }else{
+                    ParentsName = "";
+                 }
+                 var img="'"+Image+"'";
+                 var clnm="'"+ClassName+"'";
+                 var PName="'"+ParentsName+"'";
+                 var Fname="'"+Firstname+"'";
+                 var Lname="'"+Lastname+"'";
                  
                  
-                    
-        
-                $('.stdprof1').remove();
                 //$('.inner_content').click();
-                $('#closediv1').css({'display':'none'});
+                //$('#closediv1').css({'display':'none'});
            
                 
-                
-                
+                /*student id fetched from hidden field*/
                  var studentIdsInList = $('#studentIds').val();
                 
                  var str = studentIdsInList;
@@ -2623,8 +2631,22 @@
                  }
                  console.log('-----studentArr-----');
                  console.log(studentArr);
+                 console.log(Id);
+                 /*class id fetched from hidden field*/
+                 var classIdsInList = $('#classIds').val();
+                 var str2 = classIdsInList;
+                 var str2_array = str2.split(',');
+                 var classArr = Array();
+                 for(var i = 0; i < str2_array.length; i++)
+                 {
+                                  // Trim the excess whitespace.
+                                  str2_array[i] = str2_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+                                  classArr[i] = str2_array[i];
+                 }
+                 console.log('-----classArr-----');
+                 console.log(classArr);
 
-
+                 /*checking if selected student id is present in student list id */
                  function inArray(Id, studentArr)
                  {
                      var length = studentArr.length;
@@ -2632,32 +2654,43 @@
                      {
                          if(studentArr[i] == Id)
                          {
-                                  return 1;
+                            //console.log("position="+i);
+                            var studentArrIndex = i;
+                            if(classArr[studentArrIndex]==ClassId)
+                            {
+                                  return studentArrIndex;
+                            }
+                 
                          }
                      }
-                     return 0;
+                     return -1;
                  }
-              
-                 if (inArray(Id, studentArr) == 1) {
-                                  $('#msgstud'+Id).addClass('studSelect');
+                 var returnArrayResult = inArray(Id, studentArr);
+                 var classArrCheck = classArr[returnArrayResult];
+                 
+                 if ((returnArrayResult != -1) || (classArrCheck == ClassId)) {
+                                
+                                  $('#msgstud'+Id+ClassId).addClass('studSelect');
                  }else{
-                                       //$('#append_search_div').prepend('<div class="user_box top_border_user_box clearfix studSelect" id="msgstud'+Id+'" ng-click="studentInboxPerformanceResponse(Id,ClassId,Firstname,Lastname,ParentsName,Image,ClassName,IsUnlocked);"><label><div class="user_pic '+style_class+'"><img alt="" src="data:image/png;base64,'+Image+'"></div><div class="user_details"><h3>'+Firstname+' '+Lastname+' ('+ClassName+')</h3><span>'+ClassName+'</span></div></label></div>');
-                          
-                          
-                                  var divTemplate = '<div class="user_box top_border_user_box clearfix studSelect" id="msgstud'+Id+'" ng-click="studentInboxPerformanceResponse(Id,ClassId,Firstname,Lastname,ParentsName,Image,ClassName,IsUnlocked);"><label><div class="user_pic '+style_class+'"><img alt="" src="data:image/png;base64,'+Image+'"></div><div class="user_details"><h3>'+Firstname+' '+Lastname+' ('+ClassName+')</h3><span>'+ClassName+'</span></div></label></div>';
-                                  var temp = $compile(divTemplate)($scope); 
+                              
+                                  //$('#append_search_div').prepend('<div class="user_box top_border_user_box clearfix studSelect ng-scope" id="msgstud'+Id+'" ng-click="studentInboxPerformanceResponse(Id,ClassId,Firstname,Lastname,ParentsName,Image,ClassName,IsUnlocked);"><label><div class="user_pic '+style_class+'"><img alt="" src="data:image/png;base64,'+Image+'"></div><div class="user_details"><h3>'+Firstname+' '+Lastname+' ('+ClassName+')</h3><span>'+ClassName+'</span></div></label></div>');
+                  
+                                  var divTemplate = '<div class="user_box top_border_user_box clearfix studSelect" id="msgstud'+Id+ClassId+'" ng-click="studentInboxPerformanceResponse('+Id+','+ClassId+','+Fname+','+Lname+','+PName+','+img+','+clnm+','+IsUnlocked+')"><label><div class="user_pic '+style_class+'"><img alt="" src="data:image/png;base64,'+Image+'"></div><div class="user_details"><h3>'+Firstname+' '+Lastname+' ('+ClassName+')</h3><span>'+ClassName+'</span></div></label></div>';
+                                  
+                                  var temp = $compile(divTemplate)($scope);
+                                  
                                   //Then append it to the HTML:
-                                  
                                   angular.element(document.getElementById('append_search_div')).prepend(temp);
-                                  //You can also bind the event to the div as following:
                                   
-                                   var div = angular.element('msgstud'+Id);
-                                   div.bind('click', $scope.studentInboxPerformanceResponse(Id,ClassId,Firstname,Lastname,ParentsName,Image,ClassName,IsUnlocked));
-                          
+                                  //You can also bind the event to the div as following:
+                                  var div = angular.element('msgstud'+Id+ClassId);
+                                  div.bind('click', $scope.studentInboxPerformanceResponse(Id,ClassId,Firstname,Lastname,ParentsName,Image,ClassName,IsUnlocked));
+                            
                                   /*id is pushed into existing array*/
                                   studentArr.push(Id);
                                   $('#studentIds').val(studentArr.toString());
-                          
+                                  classArr.push(ClassId);
+                                  $('#classIds').val(classArr.toString());
                  }
                 
                 $scope.studentInboxPerformanceResponse(Id,ClassId,Firstname,Lastname,ParentsName,Image,ClassName,IsUnlocked);
@@ -3569,7 +3602,7 @@
                       
                         $('.showStudentDivPopup').hide();
                         $("#confy1").click();
-                        $scope.msg = 'Server failed to respond';
+                        $scope.msg = 'Server failed to respond. Please check your internet connection.';
                         $(".setTaskPopBtn").attr('disabled');
                         $scope.studentList = '';
                         $scope.noOfStudents = 0;
@@ -3649,278 +3682,335 @@
         $("#status_right_content").fadeOut();
         $("#preloader_right_content").delay(200).fadeOut("fast");
     };
+    
+    /*MY INBOX*/
     $scope.myInbox = function ()
     {
-                 $('#append_search_div').html('');
-                 $('#sendMessageInboxReset').click();
-                 $('#RHS_Section').hide();
-                $('#LHS_Section').css("border-right","1px solid #d7d7d7");
-                $('#noMsg').show();
+        $('#append_search_div').html('');
+        $('#sendMessageInboxReset').click();
+        $('#RHS_Section').hide();
+        $('#LHS_Section').css("border-right","1px solid #d7d7d7");
+        $('#noMsg').show();
 
         setOnlyCookie("tab", "myInbox", 60 * 60 * 60);
         
-        $timeout(function() {
+                 $timeout(function()
+                 {
+                     $scope.studentInboxPerformanceResponse = function(studentId,classId,Firstname,Lastname,ParentsName,Image,ClassName,IsUnlocked)
+                     {
+                                  /*UPDATE MESSAGE COUNT ON CLICK ON STUDENT*/
                  
-            $scope.studentInboxPerformanceResponse = function(studentId,classId,Firstname,Lastname,ParentsName,Image,ClassName,IsUnlockedInbox)
-            {
-                 $('#RHS_Section').show();
-                 $('#LHS_Section').css("border-right","none");
-                 $('#noMsg').hide();
-         
-                $('#append_dummy_div').html('');
-              
-                $scope.FirstnameInbox   = Firstname;
-                $scope.LastnameInbox    = Lastname;
-                $scope.ParentsNameInbox = ParentsName;
-                $scope.ClassNameInbox   = ClassName;
-                $scope.ImageInbox       = Image;
-                
-                homeService.studentInboxPerformanceResponse(access_token,studentId,classId,function (response)
-                {
-                    //alert('1');
-                    console.log('STUD INBOX PERFORMANCE');
-                    console.log(response);
-                    if(response.status)
-                    { 
-                        if(response != '')
-                        {
-                            $scope.studentInboxAttendance= response.Attendance;
-                            $scope.studentInboxAttendanceTrend= response.AttendanceTrend;
-                            $scope.studentInboxGradeTrend= response.GradeTrend;
-                            $scope.studentInboxLastGrade= response.LastGrade;
-                            $scope.studentInboxTargetGrade= response.TargetGrade;
-                            $scope.studentInboxstatus= response.status;
-                            $('.user_box').removeClass('studSelect');
-                            $('#msgstud'+studentId).addClass('studSelect');
-                            $timeout(function() {
+                                  var countUnreadMessage    = $.trim($('#myInboxUnreadMessageCount').html());
+                                  console.log("val  ="+countUnreadMessage);
+                                  if (countUnreadMessage!="") {
+                                      
+                                       $scope.countUnreadMessage = countUnreadMessage - 1;
+                                  }else{
+                                       
+                                       $scope.countUnreadMessage = 0;         
+                                  }
+                                 
+                                  $('#unreadMsg'+studentId+classId).val('');
+                                      
+                         
+                          $('#RHS_Section').show();
+                          $('#LHS_Section').css("border-right","none");
+                          $('#noMsg').hide();
+                  
+                         $('#append_dummy_div').html('');
+                       
+                         $scope.FirstnameInbox   = Firstname;
+                         $scope.LastnameInbox    = Lastname;
+                         $scope.ParentsNameInbox = ParentsName;
+                         $scope.ClassNameInbox   = ClassName;
+                         $scope.ImageInbox       = Image;
+                        
+                         
+                         homeService.studentInboxPerformanceResponse(access_token,studentId,classId,function (response)
+                         {
+                             //alert('1');
+                             console.log('STUD INBOX PERFORMANCE');
+                             console.log(response);
+                             if(response.status)
+                             { 
+                                 if(response != '')
+                                 {
+                                  
+                                  $scope.studentInboxAttendance= response.Attendance;
+                                  $scope.studentInboxAttendanceTrend= response.AttendanceTrend;
+                                  $scope.studentInboxGradeTrend= response.GradeTrend;
+                                  $scope.studentInboxLastGrade= response.LastGrade;
+                                  $scope.studentInboxTargetGrade= response.TargetGrade;
+                                  $scope.studentInboxstatus= response.status;
+                                  //if (response.GradeTrend == true) {
+                                  //     $scope.plotcolor = "#5BD9A4";
+                                  //}else if (response.GradeTrend == false) {
+                                  //     $scope.plotcolor = "#FF5958";
+                                  //}else{
+                                  //     $scope.plotcolor = "orange";
+                                  //}
+                                     
+                                  $('.user_box').removeClass('studSelect');
+                                  $('#msgstud'+studentId+classId).addClass('studSelect');
+                                  
+                                  $timeout(function() {
+                                   
+                                     $("#chat_box").mCustomScrollbar("scrollTo","bottom");
+                                        document.getElementById("chat_box").addEventListener("wheel", myFunction);
+                                             function myFunction(event) {
+                                                 console.log(event);
+                                                 var offset = $("#mCSB_5_container" ).offset();
+                                                 var Top=offset.top;
+                                                 //alert(Top);
+                                                 if (Top==245) {
+                                                    $scope.getMore(); 
+                                                 }
+                                             }
+                                      },100);  
+                                  } else {
+                                     $scope.studentInboxAttendance= "";
+                                     $scope.studentInboxAttendanceTrend= "";
+                                     $scope.studentInboxGradeTrend= "";
+                                     $scope.studentInboxLastGrade= "";
+                                     $scope.studentInboxTargetGrade= "";
+                                     $scope.studentInboxstatus= "";
+                                 }      
+                             } else if(response.msg == "ERR_INTERNET_DISCONNECTED") {//ERROR : 500 in api
+                                     $scope.studentInboxAttendance= "";
+                                     $scope.studentInboxAttendanceTrend= "";
+                                     $scope.studentInboxGradeTrend= "";
+                                     $scope.studentInboxLastGrade= "";
+                                     $scope.studentInboxTargetGrade= "";
+                                     $scope.studentInboxstatus= "";
+                             } else {
+                                     $scope.studentInboxAttendance= "";
+                                     $scope.studentInboxAttendanceTrend= "";
+                                     $scope.studentInboxGradeTrend= "";
+                                     $scope.studentInboxLastGrade= "";
+                                     $scope.studentInboxTargetGrade= "";
+                                     $scope.studentInboxstatus= "";
+                             }
+                         });
+                         var userid = getOnlyCookie("userid");
+                         
+                         /*LOAD MESSAGE HISTORY*/
+                         homeService.InboxMessageHistoryResponse(access_token,studentId,classId, function (response1)
+                         {
+                         
+                             if(response1.status)
+                             { 
+                                 if(response1 != '')
+                                 {
+                                     console.log('MESSAGE HISTORY');
+                                     console.log(response1);
+                                     $scope.InboxMessageHistory = response1;
+                                     $scope.noChatFound = "";
+                                     $scope.loggedInTeacherId = userid;
+                                     $scope.latestmessagetime = response1[response1.length - 1].SentDate;
+                                     $scope.loggedInTeacherIdLoadMore = userid;
+                            
+                                     $("#append_chat_div").mCustomScrollbar("scrollTo","bottom",{scrollInertia:0});
+                                      
+                                     $scope.fetching = false;
+                                     $scope.disabled = false;
+                                     var latestmessagetime = $("#latestmessagetime").val();
+                                     $scope.getMore = function()
+                                     {
+                                        //alert('scroll') 
+                                         var latestmessagetime1 = $("#latestmessagetime").val();
+                      
+                                         // Block fetching until the AJAX call returns
+                                         homeService.InboxMessageHistoryLoadMoreResponse(access_token,studentId,classId,latestmessagetime1,function (response2)
+                                         {
+                                             if(response2.status)
+                                             { 
+                                                 console.log('MESSAGE HISTORY LOAD MORE');
+                                                 console.log(response2);
+                                                 $scope.InboxMessageHistoryLoadMore = response2;
+                                                 $scope.loggedInTeacherIdLoadMore = userid;
+                                                 if (response2 != null){ 
+                                                     $("#latestmessagetime").val(response2[response2.length - 1].SentDate);
+                                                 }
+                                             }else{
+                                                  $scope.disabled = true; 
+                                             }
+                                         });
+                                     };
+                                 } else {
+                                     console.log('MESSAGE HISTORY');
+                                     console.log(response1);
+                                     $scope.InboxMessageHistory = "";
+                                     $scope.noChatFound = "";
+                                     //$scope.noChatFound = "No Active Chats Found…";
+                                     $scope.loggedInTeacherId = userid;
+                                     $scope.latestmessagetime = "";
+                                 }      
+                             } else if(response.msg == "ERR_INTERNET_DISCONNECTED") {//ERROR : 500 in api
+                                 console.log('MESSAGE HISTORY');
+                                 console.log(response1);
+                                 $("#confy1").click();
+                                 $scope.msg = 'Server failed to respond. Please check your internet connection.';
+                                 $scope.InboxMessageHistory = "";
+                                 $scope.noChatFound = "";
+                                 //$scope.noChatFound = "No Active Chats Found…";
+                                 $scope.loggedInTeacherId = userid;
+                                 $scope.latestmessagetime = "";
+                             } else {
+                                 console.log('MESSAGE HISTORY');
+                                 console.log(response1);
+                                 $scope.InboxMessageHistory = "";
+                                 $scope.noChatFound = "";
+                                 //$scope.noChatFound = "No Active Chats Found…";
+                                 $scope.loggedInTeacherId = userid;
+                                 $scope.latestmessagetime = "";
+                             }
+                         });
+                        
+                         
+                         /*SEND MESSAGE INBOX*/
+                         $scope.sendMessageInbox = function()
+                         {
+                             $scope.noChatFound = "";
+                             var content = $.trim($("#content1").val());
+                             var error = 0;
+                             if( $('#content1').val().toString().trim() == '' )
+                             {              
+                                 $('#content1').val('');    
+                                 $("#content1").attr("placeholder","Please enter your message").addClass('red_place');
+                                 error++;
+                                 return false;
+                             }else{                          
+                                 $("#content1").attr("placeholder","Type a message here...").removeClass('red_place');  
+                             }
+                             if(content.length > 500)
+                             {                           
+                                 $("#content1").attr("placeholder","Your message must not be more than 500 characters").addClass('red_place');
+                                 error++;
+                                 return false;
+                             }else{
+                                 $("#content1").attr("placeholder","Type a message here...").removeClass('red_place');  
+                             }
+                             
+                             if(error == 0)
+                             {
+                                 homeService.studentInboxMessageSend(access_token,studentId,classId,content,function (response3)
+                                 {
+                                     console.log('INBOX MESSAGE SEND');
+                                     console.log(response3);
+                                     document.getElementById("sendMessageInbox").disabled = false;
+                                        
+                                     if(response3)
+                                     {
+                                         document.getElementById("sendMessageInbox").disabled = true;
+                                         $scope.response3 = response3;
+                                         var SenderName = response3.SenderName;
+                                         var Content = response3.Content;
+                                         var SentDate = $filter('date')(response3.SentDate, "dd MMM H:mm");  // for type="date" binding
+                                         $('#append_dummy_div').append('<span class="clearfix" style="display: block;"><div class="chat-convrstaion chat-rel"><div class="conversation arrow_box">'+Content+'</div><span>'+SentDate+'</span></div></span>');
+                                         $("#content1").val('');
+                                         $timeout(function() {
+                                             //$("#chat_box").mCustomScrollbar({
+                                             //    axis: "y",
+                                             //    theme: "3d",
+                                             //    scrollInertia: 550,
+                                             //    scrollbarPosition: "outside"
+                                             //});
+                                             $("#chat_box").mCustomScrollbar("scrollTo","bottom");
+                                         },100); 
+                                         
+                                     }else{
+                                       
+                                     }
+                                 });
+                             }
+                             };
+                         };
+                         
+                                  if (teacherId != undefined)
+                                  {
+                         
+                                      homeService.studentListInboxResponse(access_token, teacherId, function (response)
+                                      {
+                                          /*RESET STUDENT IDS IN HIDDEN FILED*/
+                                          $('#studentIds').val('');
+                                          
+                                          console.log('STUDENT LIST INBOX');
+                                          console.log(response);
+                                          if(response.status)
+                                          { 
+                                              if(response != '')
+                                              {
+                                                  $scope.studentListInbox = response;
+                                                  
+                                                  /*COUNT OF UNREAD MESSAGES IN MY INBOX*/
+                                                   var countUnreadMessage = 0;
+                                                   for(var j=0; j<response.length; j++)
+                                                   {
+                                                       if(response[j].UnreadMessageCount != 0){
+                                                           countUnreadMessage++;
+                                                       }
+                                                   }
+                                                   console.log("countUnreadMessage-->--->"+countUnreadMessage);
+                                                  
+                                                   $scope.countUnreadMessage = parseInt(countUnreadMessage);
+                                                   
+                                                   var studentIds = Array();
+                                                   var classIds   = Array();
+                                                   for (var i=0;i<response.length; i++){
+                                                      studentIds[i] = response[i].Id;
+                                                      classIds[i] = response[i].ClassId;
+                                                   }
+                                                  
+                                                   $scope.noStudentMsg = "";
+                                                   //LOADER HIDE
+                                                   $(window).scrollTop(0);
+                                                   $("#status_right_content8").css("display", "none");
+                                                   $("#preloader_right_content8").css("display", "none");
+                                                   //$scope.studentInboxPerformanceResponse(response[0].Id,response[0].ClassId,response[0].Firstname,response[0].Lastname,response[0].ParentsName,response[0].Image,response[0].ClassName,response[0].IsUnlocked);
+                                              }else{
+                                                  $scope.studentListInbox = "";
+                                                  $scope.noStudentMsg = "No student found";
+                                                  //LOADER HIDE
+                                                  $(window).scrollTop(0);
+                                                  $("#status_right_content8").css("display", "none");
+                                                  $("#preloader_right_content8").css("display", "none");
+                                              }      
+                                          } else if(response.msg == "ERR_INTERNET_DISCONNECTED") {//ERROR : 500 in api
+                                              $scope.studentListInbox = "";
+                                              $scope.noStudentMsg = "No student found";
+                                              //LOADER HIDE
+                                              $(window).scrollTop(0);
+                                              $("#status_right_content8").css("display", "none");
+                                              $("#preloader_right_content8").css("display", "none");
+                                              $("#confy1").click();
+                                              $scope.msg = 'Server failed to respond. Please check your internet connection.';
+                                          } else {
+                                              $scope.studentListInbox = "";
+                                              $scope.noStudentMsg = "No student found";
+                                              //LOADER HIDE
+                                              $(window).scrollTop(0);
+                                              $("#status_right_content8").css("display", "none");
+                                              $("#preloader_right_content8").css("display", "none");
+                                          }
+                                          console.log(studentIds);
+                                          /*STORE STUDENT IDS & RESPECTIVE CLASS IDS IN HIDDEN FILED*/
+                                          $('#studentIds').val(studentIds.toString());
+                                          $('#classIds').val(classIds.toString());
+                                          
+                                      });
+                        
+                                  }else{
+                                      $scope.noStudentMsg = "No student found";
+                                  }
                           
-                            $("#chat_box").mCustomScrollbar("scrollTo","bottom");
-                               document.getElementById("chat_box").addEventListener("wheel", myFunction);
-                                    function myFunction(event) {
-                                        console.log(event);
-                                        var offset = $("#mCSB_5_container" ).offset();
-                                        var Top=offset.top;
-                                        //alert(Top);
-                                        if (Top==245) {
-                                           $scope.getMore(); 
-                                        }
-                                    }
-                             },100);  
-                        } else {
-                            $scope.studentInboxAttendance= "";
-                            $scope.studentInboxAttendanceTrend= "";
-                            $scope.studentInboxGradeTrend= "";
-                            $scope.studentInboxLastGrade= "";
-                            $scope.studentInboxTargetGrade= "";
-                            $scope.studentInboxstatus= "";
-                        }      
-                    } else if(response.msg == "ERR_INTERNET_DISCONNECTED") {//ERROR : 500 in api
-                            $scope.studentInboxAttendance= "";
-                            $scope.studentInboxAttendanceTrend= "";
-                            $scope.studentInboxGradeTrend= "";
-                            $scope.studentInboxLastGrade= "";
-                            $scope.studentInboxTargetGrade= "";
-                            $scope.studentInboxstatus= "";
-                    } else {
-                            $scope.studentInboxAttendance= "";
-                            $scope.studentInboxAttendanceTrend= "";
-                            $scope.studentInboxGradeTrend= "";
-                            $scope.studentInboxLastGrade= "";
-                            $scope.studentInboxTargetGrade= "";
-                            $scope.studentInboxstatus= "";
-                    }
-                });
-                var userid = getOnlyCookie("userid");
-                
-                /*LOAD MESSAGE HISTORY*/
-                homeService.InboxMessageHistoryResponse(access_token,studentId,classId, function (response1)
-                {
-                 //alert(classId +' ### '+studentId+' ### '+Firstname);
-                    //alert('2');
-                
-                    if(response1.status)
-                    { 
-                        if(response1 != '')
-                        {
-                            console.log('MESSAGE HISTORY');
-                            console.log(response1);
-                            $scope.InboxMessageHistory = response1;
-                            $scope.noChatFound = "";
-                            $scope.loggedInTeacherId = userid;
-                            $scope.latestmessagetime = response1[response1.length - 1].SentDate;
-                            $scope.loggedInTeacherIdLoadMore = userid;
-                   
-                            $("#append_chat_div").mCustomScrollbar("scrollTo","bottom",{scrollInertia:0});
-                             
-                            $scope.fetching = false;
-                            $scope.disabled = false;
-                            var latestmessagetime = $("#latestmessagetime").val();
-                            $scope.getMore = function()
-                            {
-                               //alert('scroll') 
-                                var latestmessagetime1 = $("#latestmessagetime").val();
-             
-                                // Block fetching until the AJAX call returns
-                                homeService.InboxMessageHistoryLoadMoreResponse(access_token,studentId,classId,latestmessagetime1,function (response2)
-                                {
-                                    if(response2.status)
-                                    { 
-                                        console.log('MESSAGE HISTORY LOAD MORE');
-                                        console.log(response2);
-                                        $scope.InboxMessageHistoryLoadMore = response2;
-                                        $scope.loggedInTeacherIdLoadMore = userid;
-                                        if (response2 != null){ 
-                                            $("#latestmessagetime").val(response2[response2.length - 1].SentDate);
-                                        }
-                                    }else{
-                                         $scope.disabled = true; 
-                                    }
-                                });
-                            };
-                        } else {
-                            console.log('MESSAGE HISTORY');
-                            console.log(response1);
-                            $scope.InboxMessageHistory = "";
-                            $scope.noChatFound = "No Active Chats Found…";
-                            $scope.loggedInTeacherId = userid;
-                            $scope.latestmessagetime = "";
-                        }      
-                    } else if(response.msg == "ERR_INTERNET_DISCONNECTED") {//ERROR : 500 in api
-                        console.log('MESSAGE HISTORY');
-                        console.log(response1);
-                        $("#confy1").click();
-                        $scope.msg = 'Server failed to respond';
-                        $scope.InboxMessageHistory = "";
-                        $scope.noChatFound = "No Active Chats Found…";
-                        $scope.loggedInTeacherId = userid;
-                        $scope.latestmessagetime = "";
-                    } else {
-                        console.log('MESSAGE HISTORY');
-                        console.log(response1);
-                        $scope.InboxMessageHistory = "";
-                        $scope.noChatFound = "No Active Chats Found…";
-                        $scope.loggedInTeacherId = userid;
-                        $scope.latestmessagetime = "";
-                    }
-                });
-               
-                
-                /*SEND MESSAGE INBOX*/
-                $scope.sendMessageInbox = function()
-                {
-                    var content = $.trim($("#content1").val());
-                    var error = 0;
-                    if( $('#content1').val().toString().trim() == '' )
-                    {              
-                        $('#content1').val('');    
-                        $("#content1").attr("placeholder","Please enter your message").addClass('red_place');
-                        error++;
-                        return false;
-                    }else{                          
-                        $("#content1").attr("placeholder","Type a message here...").removeClass('red_place');  
-                    }
-                    if(content.length > 500)
-                    {                           
-                        $("#content1").attr("placeholder","Your message must not be more than 500 characters").addClass('red_place');
-                        error++;
-                        return false;
-                    }else{
-                        $("#content1").attr("placeholder","Type a message here...").removeClass('red_place');  
-                    }
-                    
-                    if(error == 0)
-                    {
-                        homeService.studentInboxMessageSend(access_token,studentId,classId,content,function (response3)
-                        {
-                            console.log('INBOX MESSAGE SEND');
-                            console.log(response3);
-                            document.getElementById("sendMessageInbox").disabled = false;
-                               
-                            if(response3)
-                            {
-                                document.getElementById("sendMessageInbox").disabled = true;
-                                $scope.response3 = response3;
-                                var SenderName = response3.SenderName;
-                                var Content = response3.Content;
-                                var SentDate = $filter('date')(response3.SentDate, "MMM. dd - h:mma");  // for type="date" binding
-                                $('#append_dummy_div').append('<span class="clearfix" style="display: block;"><div class="chat-convrstaion chat-rel"><div class="conversation arrow_box">'+Content+'</div><span>'+SentDate+'</span></div></span>');
-                                $("#content1").val('');
-                                $timeout(function() {
-                                    //$("#chat_box").mCustomScrollbar({
-                                    //    axis: "y",
-                                    //    theme: "3d",
-                                    //    scrollInertia: 550,
-                                    //    scrollbarPosition: "outside"
-                                    //});
-                                    $("#chat_box").mCustomScrollbar("scrollTo","bottom");
-                                },100); 
-                                
-                            }else{
-                              
-                            }
-                        });
-                    }
-                }
-            };
-            if (teacherId != undefined)
-            {
-                homeService.studentListInboxResponse(access_token, teacherId, function (response)
-                {
-                    /*RESET STUDENT IDS IN HIDDEN FILED*/
-                    $('#studentIds').val('');
-                    
-                    console.log('STUDENT LIST INBOX');
-                    console.log(response);
-                    if(response.status)
-                    { 
-                        if(response != '')
-                        {
-                            $scope.studentListInbox = response;
-                            var studentIds = Array();
-                            for (var i=0;i<response.length; i++){
-                               studentIds[i] = response[i].Id;
-                            }
-                             
-                            $scope.noStudentMsg = "";
-                            //LOADER HIDE
-                            $(window).scrollTop(0);
-                            $("#status_right_content8").css("display", "none");
-                            $("#preloader_right_content8").css("display", "none");
-                            //$scope.studentInboxPerformanceResponse(response[0].Id,response[0].ClassId,response[0].Firstname,response[0].Lastname,response[0].ParentsName,response[0].Image,response[0].ClassName,response[0].IsUnlocked);
-                        }else{
-                            $scope.studentListInbox = "";
-                            $scope.noStudentMsg = "No student found";
-                            //LOADER HIDE
-                            $(window).scrollTop(0);
-                            $("#status_right_content8").css("display", "none");
-                            $("#preloader_right_content8").css("display", "none");
-                        }      
-                    } else if(response.msg == "ERR_INTERNET_DISCONNECTED") {//ERROR : 500 in api
-                        $scope.studentListInbox = "";
-                        $scope.noStudentMsg = "No student found";
-                        //LOADER HIDE
-                        $(window).scrollTop(0);
-                        $("#status_right_content8").css("display", "none");
-                        $("#preloader_right_content8").css("display", "none");
-                        $("#confy1").click();
-                        $scope.msg = 'Server failed to respond';
-                    } else {
-                        $scope.studentListInbox = "";
-                        $scope.noStudentMsg = "No student found";
-                        //LOADER HIDE
-                        $(window).scrollTop(0);
-                        $("#status_right_content8").css("display", "none");
-                        $("#preloader_right_content8").css("display", "none");
-                    }
-                    console.log(studentIds);
-                    /*STORE STUDENT IDS IN HIDDEN FILED*/
-                    $('#studentIds').val(studentIds.toString());
-                });
-            }else{
-                $scope.noStudentMsg = "No student found";
-            }
-         },100); 
+                         
+                  },100);
+            
     };
+    $scope.myInbox();
+    $scope.countUnreadMessage = 0;
+    
+    /*MY TASK*/
     $scope.myTask = function (check_date)
     {
         /////LOADER SHOW
@@ -4437,7 +4527,7 @@
                             $("#status_right_content5").css("display", "none");
                             $("#preloader_right_content5").css("display", "none");
                             $("#confy1").click();
-                            $scope.msg = 'Server failed to respond';
+                            $scope.msg = 'Server failed to respond. Please check your internet connection.';
                             $('#noRecord6').addClass('noRecord');
                             $scope.weeklyTaskMessage = "No Tasks Due this week.";
                             $scope.weeklyTaskMessage1="Click on ";
@@ -4534,7 +4624,7 @@
                             $("#status_right_content5").css("display", "none");
                             $("#preloader_right_content5").css("display", "none");
                             $("#confy1").click();
-                            $scope.msg = 'Server failed to respond';
+                            $scope.msg = 'Server failed to respond. Please check your internet connection.';
                             $('#noRecord6').addClass('noRecord');
                             $scope.myTaskList = '';
                             $scope.weeklyTaskMessage = "No Tasks Due this week.";
@@ -4642,7 +4732,7 @@
                             $("#status_right_content5").css("display", "none");
                             $("#preloader_right_content5").css("display", "none");
                             $("#confy1").click();
-                            $scope.msg = 'Server failed to respond';
+                            $scope.msg = 'Server failed to respond. Please check your internet connection.';
                             $('#noRecord6').addClass('noRecord');
                             $scope.weeklyTaskMessage = "No Tasks Due this week.";
                             $scope.weeklyTaskMessage1="Click on ";
@@ -4767,7 +4857,7 @@
                             $("#status_right_content5").css("display", "none");
                             $("#preloader_right_content5").css("display", "none");
                             $("#confy1").click();
-                            $scope.msg = 'Server failed to respond';
+                            $scope.msg = 'Server failed to respond. Please check your internet connection.';
                             $('#noRecord6').addClass('noRecord');
                             $scope.weeklyTaskMessage = "No Tasks Due this week.";
                             $scope.weeklyTaskMessage1="Click on ";
@@ -5592,7 +5682,7 @@
                         $scope.studentList = "";
                         $scope.noOfStudents = 0;
                         $("#confy1").click();
-                        $scope.msg = 'Server failed to respond';
+                        $scope.msg = 'Server failed to respond. Please check your internet connection.';
                         $scope.noOfStudents = 0;
                         $scope.nodesc1 = "No Students Found… ";
                         $scope.nodesc2="Try: ";

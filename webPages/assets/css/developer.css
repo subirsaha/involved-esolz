@@ -1,0 +1,98 @@
+#successMsg_modal1{
+    position: fixed;
+    top: 40%;
+    bottom: inherit;
+    left: 50%;
+    z-index: 1050;
+    display: none;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    outline: 0;
+    transform: translate(-50%, -50%);
+    -webkit-moz--transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: auto;
+     
+}
+#successMsg_modal1 .modal-dialog{
+    width: 40%;  
+}
+#successMsg_modal1 .modal-content{
+    background:#848d8f;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    weight: 200px;
+    text-align: center;
+}
+@media (max-width: 480px) {
+	#successMsg_modal1 .modal-dialog {
+	    width:90%;
+	    top:50%;
+		transform:translateY(-50%);
+		-webkit-transform:translateY(-50%);
+		-moz-transform:translateY(-50%);
+}
+}
+.name_fld:focus
+{
+   color: #111; 
+}
+.blue_heading{
+    color: #2277cf !important; 
+}
+
+#preloader_right_content2{
+	background: rgba(255,255,255,0.8);
+	bottom: 0;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 9999999;
+	top:0;
+	position: absolute;
+}
+#status_right_content2{
+    background-image:url(../images/loader2.gif);
+	background-position: center center;
+    background-repeat: no-repeat;
+	background-size:100%;
+	width:80px;
+    height:80px;
+    left: 50%;
+	top: 50%;
+	transform:translate(-50%,-50%);
+	-webkit-transform:translate(-50%,-50%);
+	-moz-transform:translate(-50%,-50%);
+	-os-transform:translate(-50%,-50%);
+    position: absolute;
+}
+.name_fld{
+    color: #111;
+}
+
+.red_place input[placeholder], [placeholder], *[placeholder],
+.red_place textarea[placeholder], [placeholder], *[placeholder]{
+   opacity: 1;
+}
+input.red_place::-webkit-input-placeholder,
+textarea.red_place::-webkit-input-placeholder { /* WebKit browsers */
+    color: #f70808;
+    opacity: 1;
+}
+input.red_place:-moz-placeholder,
+textarea.red_place:-moz-placeholder{ /* Mozilla Firefox 4 to 18 */
+    color: #f70808;
+    opacity: 1;
+}
+input.red_place::-moz-placeholder,
+textarea.red_place::-moz-placeholder{ /* Mozilla Firefox 19+ */
+    color: #f70808;
+    opacity: 1;
+}
+input.red_place:-ms-input-placeholder,
+textarea.red_place:-ms-textarea-placeholder{ /* Internet Explorer 10+ */
+    color: #f70808;
+    opacity: 1;
+}

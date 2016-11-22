@@ -1,3 +1,33 @@
+(function($){
+    
+    
+    
+//    $(window).load(function(){
+//        setTimeout(function(){
+//        $('.screen_slider').slick({
+//		infinite: true,
+//		slidesToShow: 1,
+//		slidesToScroll: 1,
+//		autoplay: true,
+//		arrows:false
+//	    });
+//    }, 3000)
+//    })
+    
+    
+    
+			
+    $(".content").mCustomScrollbar({
+        axis:"y",
+        theme:"3d",
+        scrollInertia:550,
+        scrollbarPosition:"outside"
+    });
+    
+})(jQuery);
+
+
+
 
 ////add class
 $(document).on('click','.search_area',function() {
@@ -8,6 +38,12 @@ $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip({
         html: true
     });
+    
+//    alert();
+//    $(window).resize(function(){
+//        alert();
+//        $('#myModal').css('overflow','auto');
+//    })
 
 
 
@@ -36,20 +72,7 @@ $(document).ready(function(){
 });
 
 $(window).on("load",function(){
-	    $('.screen_slider').slick({
-		infinite: true,
-		slidesToShow: 1,
-		slidesToScroll: 1,
-		autoplay: true,
-		arrows:false
-	    });
-			
-    $(".content").mCustomScrollbar({
-        axis:"y",
-        theme:"3d",
-        scrollInertia:550,
-        scrollbarPosition:"outside"
-    });
+	    
 
 });
 
@@ -60,6 +83,8 @@ $(window).load(function() {
 	$("#preloader").delay(350).fadeOut("slow");
 });
 $(window).load(function() {
+    
+    
 	$(window).scrollTop(0);
 	$("#status_create_task_modal").fadeOut();
 	$("#preloader_create_task_modal").delay(350).fadeOut("slow");
@@ -76,6 +101,9 @@ $(window).load(function() {
 
 $(function() {
 $( ".datepicker" ).datepicker();
+    ////
+    
+    
 });
 
 
@@ -83,13 +111,13 @@ $( ".datepicker" ).datepicker();
 //**************************
 		//go to top//
 		
-		$(document).on('click','.goTo', function(event) {
-			event.preventDefault();
-			var target = "#" + this.getAttribute('data-go-to');
-			$('html, body').animate({
-			scrollTop: $(target).offset().top
-			}, 1000);
-		});
+//		$(document).on('click','.goTo', function(event) {
+//			event.preventDefault();
+//			var target = "#" + this.getAttribute('data-go-to');
+//			$('html, body').animate({
+//			scrollTop: $(target).offset().top
+//			}, 700);
+//		});
 		
 //**************************	
 
