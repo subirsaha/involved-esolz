@@ -26,9 +26,9 @@
 		<link href="css/circle.css" rel="stylesheet" type="text/css" />
            <script>
 		var cururl=window.location;
-		var whiteUrls = ['/','http://involvedtech.co.uk/'];
+		var whiteUrls = ['/','http://involvedtech.co.uk/','http://www.involvedtech.co.uk/'];
 		
-			if (cururl=="http://involvedtech.co.uk/") {
+			if (cururl=="http://involvedtech.co.uk/" || cururl=="http://www.involvedtech.co.uk/") {
 			$("head").append('<link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css"/>').append('<link href="assets/css/bootstrap-select.css" rel="stylesheet" type="text/css"/>').append('<link href="assets/css/custom.css" rel="stylesheet" type="text/css"/>').append('<link href="assets/css/developer.css" rel="stylesheet" type="text/css"/>').append('<link href="assets/css/responsive.css" rel="stylesheet" type="text/css"/>');
 			}else{
 			  $("head").append('<link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>').append('<link href="css/bootstrap-select.css" rel="stylesheet" type="text/css"/>').append('<link href="css/custom.css" rel="stylesheet" type="text/css"/>').append('<link href="css/developer.css" rel="stylesheet" type="text/css"/>').append('<link href="css/responsive.css" rel="stylesheet" type="text/css"/>');	
@@ -150,7 +150,7 @@
         <!-- custom js -->
 	 <script>
 		
-			if (cururl=="http://involvedtech.co.uk/") {
+			if (cururl=="http://involvedtech.co.uk/" || cururl=="http://www.involvedtech.co.uk/") {
 			document.writeln('<script src="assets/js/custom.js" type="text/javascript"></sc'+'ript>');
 			}else{
 			  document.writeln('<script src="assets/js/custom.js" type="text/javascript"></sc'+'ript>');
