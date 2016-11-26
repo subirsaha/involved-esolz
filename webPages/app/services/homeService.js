@@ -59,7 +59,7 @@
         }
         /*STUDENT LIST FOR INBOX*/
         service.studentListInboxResponse = function (access_token,teacherId,callback) {
-            //alert(teacherId);
+          // console.log("studentListInboxResponse===="+api_base_url+'api/teachers/'+teacherId+'/inboxstudents');
             $http({
                     method: 'GET',
                     url: api_base_url+'api/teachers/'+teacherId+'/inboxstudents',
@@ -80,7 +80,8 @@
         
         /*STUDENT INBOX PERFORMANCE DATA*/
         service.studentInboxPerformanceResponse = function (access_token,studentId,classId,callback) {
-            //alert(teacherId);
+           // console.log('PERFORMANCE URL =>');
+           // console.log(api_base_url+'api/students/'+studentId+'/performance/classid='+classId);
             $http({
                     method: 'GET',
                     url: api_base_url+'api/students/'+studentId+'/performance/classid='+classId,
@@ -488,6 +489,7 @@
         
         ///*W17 - SEARCH STUDENT (MY INBOX)*/
         service.studentSearchInboxResponse = function (access_token,teacherId,searchterm,callback) {
+            console.log('studentSearchInboxResponse ==='+api_base_url+'api/search/students/teacherid='+teacherId+'&text='+searchterm);
             if (searchterm == "") {
                 searchterm = "%20";
             }

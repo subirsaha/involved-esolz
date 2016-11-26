@@ -1,13 +1,13 @@
     postApp.service('loginService',function ($http,$location) {
         var service = {};
 
-        service.loginResponse = function (grant_type,email,password,clientid,callback) {
+        service.loginResponse = function (grant_type,email,password,clientid,devicetoken,callback) {
             //alert(grant_type+"##"+username+"##"+password+"##"+clientid);
-            
+            console.log("grant_type="+grant_type+"&username="+email+"&clientid="+clientid+"&password="+password+"&devicetoken="+devicetoken);
             $http({
                     method: 'POST',
                     url: api_base_url+'token',
-                    data: "grant_type="+grant_type+"&username="+email+"&clientid="+clientid+"&password="+password,
+                    data: "grant_type="+grant_type+"&username="+email+"&clientid="+clientid+"&password="+password+"&devicetoken="+devicetoken,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).success(function(data, status, headers, config){
                     data.status=true;

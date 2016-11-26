@@ -340,7 +340,7 @@
 							<div class="search-user-side" id="LHS_Section">
 								<div class="top_border_user_box">
 									<div class="search_area clearfix" id="searchdiv1">
-										<input type="text" id="searchterm1" placeholder="Search or start a new chat: Enter student name" >
+										<input type="text" id="searchterm1" placeholder="Search or start a new chat: Enter student name" autocomplete="off">
 										<button id="srch1"><i class="fa fa-search" aria-hidden="true"></i></button>
 										
 										<div class="search-task search_reasult1">
@@ -351,8 +351,8 @@
 													<a href="javascript:void(0)" ng-click="searchStudentSelected(res.Id,res.Firstname,res.Lastname,res.ParentsName,res.SubjectName,res.YearGroup,res.Image,res.IsUnlocked,res.ClassId,res.ClassName)" class="active" id="search_div_anchor1{{$index}}">
 														<div ng-class="res.IsUnlocked == true ? 'outr_border' :''" class="user_pic"><img data-ng-src="data:image/png;base64,{{res.Image}}" alt="performance-pic"></div>
 														<div class="user_details">
-															<h3>{{res.Firstname}} {{res.Lastname}}</h3>
-															<span>{{res.ClassName}}</span>
+															<h3>{{res.Firstname}} {{res.Lastname}} <span> ({{res.ClassName}})</span></h3>
+															<span>{{res.ParentsName}}</span>
 														</div>
 													</a>
 												</div>
@@ -375,14 +375,14 @@
 											</div>
 										</label>
 									</div>-->
-									
-									<div class="user_box top_border_user_box clearfix" ng-repeat="y in studentListInbox" ng-click="studentInboxPerformanceResponse(y.Id,y.ClassId,y.Firstname,y.Lastname,y.ParentsName,y.Image,y.ClassName,y.IsUnlocked);" id="msgstud{{y.Id}}{{y.ClassId}}" >
+									<div ng-if="studentListInbox == ''" class="noMsgClass" >No Active Chats Found…</div>
+									<div class="user_box top_border_user_box clearfix" ng-repeat="y in studentListInbox" ng-click="studentInboxPerformanceResponse(y.Id,y.ClassId,y.Firstname,y.Lastname,y.ParentsName,y.Image,y.ClassName,y.IsUnlocked,y.SubjectName);" id="msgstud{{y.Id}}{{y.ClassId}}" >
 										<!--ng-class="{studSelect: $index === 0}"-->
 										<label>
 											<div ng-class="y.IsUnlocked == true ? 'outr_border' :''" class="user_pic"><img alt="" data-ng-src="data:image/png;base64,{{y.Image}}"></div>
 											<div class="user_details">
-												<h3>{{y.Firstname}} {{y.Lastname}} ({{y.ClassName}})</h3>
-												<span>{{y.ClassName}}</span>
+												<h3>{{y.Firstname}} {{y.Lastname}} <span>({{y.ClassName}})</span></h3>
+												<span>{{y.ParentsName}}</span>
 											</div>
 										</label>
 										<span class="user-noti"  id="unreadMsg{{y.Id}}{{y.ClassId}}" ng-if="y.UnreadMessageCount != 0">{{y.UnreadMessageCount}}</span>
@@ -393,16 +393,30 @@
 								<input type="hidden" id="classIds" value="">
 							</div>
 				
-							<div id="noMsg" class="noMsgClass" style="text-align: center;margin-top: 10%;">Please select student to see the message history</div>
+							<!--<div id="noMsg" class="noMsgClass" style="text-align: center;margin-top: 10%;">Please select student to see the message history</div>-->
 							<div id="noParent" style="display:none">No parent Name.You caanot send any message.</div>
-							<div class="search-user-side-right" id="RHS_Section">
-								<div class="srch-userpad" id="rhs_section1">
+							<div class="search-user-side-right">
+								<div class="enagagedSec" id="noMsg" >
+									<div class="enagaged-inner">
+									    <div class="enagaged-inner1">
+										<div class="enagaged-inner2">
+										    <img src="images/picA1.png" alt=""/>
+										</div>
+									    </div>
+									</div>
+									<div class="engagedText">
+									    <h2>Keep parents engaged and informed</h2>
+									    <p>Please select a student chat to see message <br> history and communicate with parents.</p>
+									</div>
+								    </div>
+								<!--<div class="srch-userpad" id="rhs_section1"  >-->
+								<div class="srch-userpad RHS_Section">
 									<div class="side-top">
 										<label for="student1">
 											<div ng-class="IsUnlockedInbox == true ? 'outr_border' :''" class="user_pic"><img alt="" data-ng-src="data:image/png;base64,{{ImageInbox}}" class="mCS_img_loaded"></div>
 											<div class="user_details">
 												<h3>{{FirstnameInbox}} {{LastnameInbox}}</h3>
-												<span>{{ClassNameInbox}}</span>
+												<span>{{ClassNameInbox}}({{SubjectName}})</span>
 											</div>
 										</label> 
 									</div>
@@ -427,13 +441,13 @@
 									</ul>
 								</div>
 								
-								<div class="other-teacher"  id="rhs_section2">
+								<div class="other-teacher RHS_Section"  id="rhs_section2">
 								   <!-- <a href="">Other Teachers: Miss Bunnet</a>-->
 									<a href="">Parent: {{ParentsNameInbox}}</a>
 								</div>
 								<input type="hidden" id="latestmessagetime" value="{{latestmessagetime}}">
 								
-					
+							<div class="chatDiv">
 								<div id="chat_box" class="content chat-box " infinite-scroll-container='getMore()' tagged-infinite-scroll-disabled="fetching || disabled" infinite-scroll-parent="true" >
 									<input type="hidden" id="noChatFound" value="{{noChatFound}}">
 										<span  class="clearfix" ng-repeat="per in InboxMessageHistoryLoadMore">
@@ -452,7 +466,7 @@
 											</div>-->
 										</span>
 										
-										<span ng-if="InboxMessageHistory == ''"  >No Active Chats Found…</span>
+										<!--<span ng-if="InboxMessageHistory == ''"  >No Active Chats Found…</span>-->
 										<span class="clearfix" style="display: block;" ng-repeat="per in InboxMessageHistory">
 											<h3  ng-if="(per.SenderName != InboxMessageHistory[$index - 1].SenderName) && (per.SenderUserId != loggedInTeacherId)">{{per.SenderName}}</h3>
 											<div ng-class="(per.SenderUserId == loggedInTeacherId ? 'chat-convrstaion chat-rel' : 'chat-convrstaion')">
@@ -483,6 +497,7 @@
 										<a href="javascript:void(0)"  id="sendMessageInbox" ng-click="sendMessageInbox()"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
 									</div>
 								</div>
+							</div>
 	
 							</div>
 						</div>

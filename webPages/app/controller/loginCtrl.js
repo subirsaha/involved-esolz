@@ -4,7 +4,27 @@
         $scope.password = getOnlyCookie("password");
         var access_token = getOnlyCookie("access_token");
         var userid = getOnlyCookie("userid");
-        
+
+            
+        $scope.get_browser=function() {
+            var ua=navigator.userAgent,tem,M=ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || []; 
+            if(/trident/i.test(M[1])){
+                tem=/\brv[ :]+(\d+)/g.exec(ua) || []; 
+                return {name:'IE',version:(tem[1]||'')};
+                }   
+            if(M[1]==='Chrome'){
+                tem=ua.match(/\bOPR|Edge\/(\d+)/)
+                if(tem!=null)   {return {name:'Opera', version:tem[1]};}
+                }   
+            M=M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+            if((tem=ua.match(/version\/(\d+)/i))!=null) {M.splice(1,1,tem[1]);}
+            return {
+              name: M[0],
+              version: M[1]
+            };
+         }
+        var browser=$scope.get_browser();
+        console.log(browser);
         $scope.init = function ()
         {
             //if( (userid != undefined || userid !='') && (access_token != undefined || access_token != '') )
@@ -16,8 +36,10 @@
            
         }
         $scope.init();
+
         
-        
+       // var devicetoken = Request.UserHostAddress;
+        //var hostname = Request.UserHostName;
         /***ClientId is combination of device type (3: Browser, 1: iOS, 2:Android) + _ (underscore) + browser type (1: IE, 2: Chrome, 3: Firefox).
         Note that clientid will be of format _
         APPTYPE values are...
@@ -37,12 +59,16 @@
         if(isIE == true)
         {
             var clientid = "3"+"_"+"1";
+            var devicetoken="3"+"_"+"1"+"_"+browser.version;
         }else if(isChrome == true){
             var clientid = "3"+"_"+"2";
+            var devicetoken="3"+"_"+"2"+"_"+browser.version;
         }else if(isFirefox == true){
             var clientid = "3"+"_"+"3";
+            var devicetoken="3"+"_"+"3"+"_"+browser.version;
         }else{
-            var clientid = "3"+"_"+"1";
+            var clientid = "3"+"_"+"4";
+            var devicetoken="3"+"_"+"4"+"_"+browser.version;
         }
         
         
@@ -55,7 +81,11 @@
         
         /*SIGN IN BUTTON CLICK*/
         $scope.loginSubmit = function () {
-            
+            //networkinterface.getIPAddress(function (ip) { 
+            //    alert(ip); 
+            //});
+            //console.log(ip);
+            //var devicetoken="";
             var grant_type = $('#grant_type').val();
             var email = $('#email').val();
             var password = $('#password').val();
@@ -101,7 +131,7 @@
             if(error == 0)
             {
                 //alert(grant_type+"##"+username+"##"+password+"##"+clientid);
-                loginService.loginResponse(grant_type,email,password,clientid,function(response) {
+                loginService.loginResponse(grant_type,email,password,clientid,devicetoken,function(response) {
                
                     if(response.status){ //USER SUCCESFULLY LOGGED IN
                             console.log(response);
@@ -111,14 +141,16 @@
                             var expires_in = response.expires_in;
                             var userid = response.userid;
                             var usertype = response.usertype;
-                            //alert($('#remember').prop('checked'));
+                            //alert($('#remember').prop('checked')); 
                             /*REMEMBER ME CHECKED , THEN COOKIE WILL BE STORED*/
                             if($('#remember').prop('checked') == true){
                                 setOnlyCookie("email",email,60*60*60);
                                 setOnlyCookie("password",password,60*60*60);   
                             } else {
-                                setOnlyCookie('email','',1);
-                                setOnlyCookie('password','',1);  
+                                //setOnlyCookie('email','',1);
+                                //setOnlyCookie('password','',1);
+                                removeItem("email");
+                                removeItem("password");
                             }
                             
                             setOnlyCookie("access_token",access_token,60*60*60);
@@ -135,7 +167,7 @@
                         }else if(response.message == "Server failed to respond!") {
                             $("#confy1").click();
                             $scope.msg = 'Server failed to respond!';
-                            $scope.msg1='Check your internet connection';
+                            //$scope.msg1='Check your internet connection';
                         }
                       
                     }                  
@@ -159,9 +191,8 @@
             //validation of email field
             var email = jQuery("#femail").val();
             var error = 0;
-                                  
-            //if ($.trim(email) == "" ) {    //if email field is blank
-            if($('#femail').val().toString().trim() == '' || email==0){
+     
+            if($('#femail').val().toString().trim() == '' || email==0){ //if email field is blank
                 $('#femail').val('');
                 $("#femail").attr("placeholder","Please enter email").addClass('red_place');
                 error++;
@@ -188,23 +219,21 @@
                 
                 loginService.forgetPasswordResponse(email,clientid,function(response) {
                     console.log(response);
-                   // $('.loader').css({'display':'none'});
+                    // $('.loader').css({'display':'none'});
                     if(response==true){ //USER SUCCESFULLY LOGGED IN
-                        console.log('FORGET PWD RESPONSE 1');
-                        console.log(response);
                         $('.loader').removeClass('loaderSpin');
                         $('.loader').html('A new temporary password has been sent to '+email+'.');
                         $('#femail').val('');
                     }else if (response.Message=="ERROR_INCOMPATIBLE_CLIENT") {
-                        console.log('FORGET PWD RESPONSE 2');
-                        console.log(response);
                         $('.loader').removeClass('loaderSpin');
                         $('.loader').html('Please enter valid teacher login email to reset password.');
-                    }else{//ERROR LOGIN
-                        console.log('FORGET PWD RESPONSE 3');
-                        console.log(response.message);
+                    }else if (response.Message=="ERROR_NOTFOUND_ACCOUNT") { //ERROR LOGIN
                         $('.loader').removeClass('loaderSpin');
                         $('.loader').html('Email address entered is not registered with InvolvEd.');
+                    }else if(response.msg == "Server failed to respond!"){ //no internet connection
+                        $('.loader').removeClass('loaderSpin');
+                        $("#confy1").click();
+                        $scope.msg = 'Server failed to respond';
                     }
                     
                     $('#resset_pass').prop('disabled', false);
@@ -215,8 +244,8 @@
         
         
         $scope.clear = function () {
-                $scope.passwordErr = '';
-            };
+            $scope.passwordErr = '';
+        };
         
 
     });

@@ -2,15 +2,15 @@
 
     (function ($) {
         $(document).ready(function(){
-            function scrollToBottom()
-            {
-                $("#chat_box").mCustomScrollbar({
-                    axis:"y",
-                    theme:"3d",
-                    scrollInertia:550,
-                    scrollbarPosition:"outside"}).mCustomScrollbar("scrollTo","bottom",{scrollInertia:0
-                });
-            }
+            //function scrollToBottom()
+            //{
+            //    $("#chat_box").mCustomScrollbar({
+            //        axis:"y",
+            //        theme:"3d",
+            //        scrollInertia:550,
+            //        scrollbarPosition:"outside"}).mCustomScrollbar("scrollTo","bottom",{scrollInertia:0
+            //    });
+            //}
            
         });
         $(window).on("load", function () {

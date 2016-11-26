@@ -708,3 +708,14 @@ background-color: #1861aa !important;
 	    top:50%;
 	}
 }
+.student_list .user_details span
+{
+    display: inline-block;
+}
+.user_details span{
+    display: inline-block;
+}
+.noMsgClass{
+    margin-left: 28%;
+    margin-top: 40%;
+}
