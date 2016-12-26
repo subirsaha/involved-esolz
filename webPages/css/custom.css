@@ -1087,6 +1087,7 @@ button:hover {
 
 .student_list .user_box {
     padding: 10px 45px 10px 25px;
+    cursor:pointer;
 }
 
 .student_list [type="checkbox"]:not(:checked) + label::before,
@@ -1175,7 +1176,8 @@ textarea {
 }
 
 .comnt_outr {
-    height: 145px;
+    /*height: 145px;*/
+    height: 282px;
     margin: 12px 0;
     border-bottom: 1px solid #dedede;
 }
@@ -1312,6 +1314,7 @@ textarea {
 
 .side-top label {
     float: left;
+    width: 300px;
 }
 
 ul.side-list {
@@ -1319,6 +1322,7 @@ ul.side-list {
     padding: 0;
     list-style: none;
     text-align: center;
+    float: right;
 }
 
 ul.side-list li {
@@ -1381,18 +1385,21 @@ ul.side-list li span {
 }
 
 .srch-userpad {
-    padding: 15px 20px;
+    /*padding: 15px 20px;*/
+     padding: 3px 16px;
     /*    border-left: 1px solid #eeeeee;*/
 }
 
-.other-teacher {}
+.other-teacher {
+	border-bottom: 1px solid #ffffff;
+}
 
 .other-teacher a {
     background: #f4f4f4;
     font-size: 15px;
     color: #8e8e8e;
     display: block;
-    padding: 10px 20px;
+    padding: 4px 20px;
     margin-bottom: 1px;
 }
 
@@ -1406,7 +1413,7 @@ ul.side-list li span {
 }
 
 .chat-box h3 {
-    color: #54c9e8;
+    /*color: #54c9e8;*/
     font-size: 12px;
     margin-bottom: 11px;
 }
@@ -1421,11 +1428,12 @@ ul.side-list li span {
     margin-left: 15px;
     border-radius: 4px;
     font-size: 14px;
+    word-break:break-all;
 }
 
 .conversation.arrow_box:after {
     right: 100%;
-    top: 30%;
+    top: 50%;
     border: solid transparent;
     content: " ";
     height: 0;
@@ -1468,6 +1476,7 @@ ul.side-list li span {
     margin-left: 0;
     margin-right: 18px;
     padding: 3px 5px;
+    word-break:break-all;
 }
 
 .chat-convrstaion.chat-rel .conversation.arrow_box:after {
@@ -1493,8 +1502,9 @@ ul.side-list li span {
 .text-box-l {
     /* border-top: 1px solid #ccc;*/
     padding: 8px 0 15px 20px;
-    width: 450px;
+    width: 475px;
     float: left;
+    
 }
 
 .chat-box.content {
@@ -2219,7 +2229,7 @@ ul.side-list li span {
 }
 
 .orange_text {
-    font-size: 16px;
+    font-size: 14px;
     color: #ff7800;
 }
 
@@ -2337,7 +2347,8 @@ ul.side-list li span {
 }
 
 #preloader_right_content2,
-#preloader_right_content3 {
+#preloader_right_content3,
+#preloader_right_content9{
     background: rgba(255, 255, 255, 0.8);
     bottom: 0;
     left: 0;
@@ -2386,7 +2397,8 @@ ul.side-list li span {
 }
 
 #preloader_right_content2,
-#preloader_right_content3 {
+#preloader_right_content3,
+#preloader_right_content9{
     top: 0;
 }
 
@@ -2403,7 +2415,8 @@ ul.side-list li span {
 #preloader_right_content5,
 #preloader_right_content6,
 #preloader_right_content7,
-#preloader_right_content8 {
+#preloader_right_content8,
+#preloader_right_content9{
     position: absolute;
 }
 
@@ -2442,7 +2455,8 @@ ul.side-list li span {
 
 #status_right_content1,
 #status_right_content2,
-#status_right_content3 {
+#status_right_content3,
+#status_right_content9{
     background-image: url(../images/loader2.gif);
     background-position: center center;
     background-repeat: no-repeat;
@@ -2973,7 +2987,21 @@ textarea.red_place:-ms-textarea-placeholder {
 }
 
 .search-user-side-right {
-    border-left: 1px solid #dedede;
+    /*border-left: 1px solid #dedede;*/
+}
+.enagagedSec {
+    text-align: center;
+    margin: 60px auto 0;
+}
+.enagaged-inner {
+    border: 1px solid #d7d7d7;
+    border-radius: 500%;
+    width: 400px;
+    height: 400px;
+    /* padding: 55px; */
+    margin: 0px auto 25px;
+    text-align: center;
+    line-height: 400px;
 }
 
 #task .inner_left,
@@ -3193,11 +3221,11 @@ ul.week_drp {
 }
 
 .chat-rel span {
-    margin-right: 15px;
+    margin-right:18px;
 }
 
 #sectionC .text-box-l textarea {
-    /*width: 100%;*/
+    width: 100%;
 }
 
 .text-box-r {
@@ -3253,9 +3281,9 @@ ul.week_drp {
     /*background: none;*/
 }
 
-.user_box.active .user_pic {
+/*.user_box.active .user_pic {
     border-color: #06cc30;
-}
+}*/
 
 .new_search.content {
     max-height: 305px;
@@ -3351,7 +3379,7 @@ ul.side-list li span.arrow_inbox {
 /*25-11-16*/
 
 .enagagedSec {
-    padding: 70px 0;
+    /*padding: 70px 0;*/
     text-align: center;
 }
 
@@ -3453,4 +3481,160 @@ ul.side-list li span.arrow_inbox {
 #sectionC .p-red .arrow_inbox:after {
     border-top: 10px solid red;
     border-bottom: none;
+}
+#sectionC .p-green:after {
+    border-bottom: 10px solid #6BC04B;
+    border-top: none;
+}
+
+#sectionC .p-red:after {
+    border-top: 10px solid red;
+    border-bottom: none;
+}
+
+
+/*****add css 29-11-16****/
+
+.ed_outr{
+    text-align: center;
+    margin-bottom: 20px;
+}
+.ed_outr span{
+    display: block;
+    font-size: 14px;
+    color: #8d8c8c;
+}
+.ed_outr span a{
+    display: block;
+    color: #8d8c8c;
+}
+.ed_outr span a:hover{
+    color: #54c9e8;
+}
+.email_rowd{
+    padding-bottom: 20px;
+}
+.email_rowd ul{
+    padding: 0px;
+    margin: 0px;
+}
+.email_rowd li{
+    float: none;
+    list-style: none;
+}
+.email_rowd li a{
+   border-top: 1px solid #f8f8f8;
+   padding: 12px 25px;
+   font-size:16px;
+   color: #161718;
+   display:block;
+}
+.setting_d .inner_left{
+    background: #fff;
+    padding: 40px 0 0;
+}
+
+/*.email_rowd li a:hover{
+    color: #54c9e8;
+}*/
+.email_rowd li:hover{
+    background-color: rgba(84, 201, 232, 0.2);
+}
+
+/*radio css*/
+
+.email_rowd li input[type=radio]{
+  position: absolute;
+  visibility: hidden;
+}
+
+.email_rowd li label{
+  display: block;
+  position: relative;
+  font-weight: 300;
+  font-size:12px;
+  padding:0px 25px 0px 32px;
+  margin:2px auto;
+  height: 30px;
+  z-index: 9;
+  cursor: pointer;
+  -webkit-transition: all 0.25s linear;
+}
+
+
+.email_rowd li .check{
+  display: block;
+  position: absolute;
+  border:1px solid #cccccc;
+  border-radius:25px;
+  height: 22px;
+  width:40px;
+  top:0px;
+  left: 20px;
+	z-index: 5;
+	transition: border .25s linear;
+	-webkit-transition: border .25s linear;
+}
+
+
+input[type=radio]:checked ~ .check {
+  border:1px solid #54c9e8;
+}
+
+input[type=radio]:checked ~ .check{
+  background: #54c9e8;
+}
+
+input[type=radio]:checked ~ label{
+  color: #fff;
+}
+.email_rowd .radio_left{
+    position: relative;
+    display: block;
+    float: right;
+    width: 45px;
+}
+.attach_scrn{
+	/*height:155px;*/
+	margin:12px 0;
+}
+#setting .modal-content{
+    padding-bottom: 0;
+}
+.send_feed{
+    font-size: 16px;
+    color: #161718;
+    margin: 30px 8px;
+}
+.pswrd{
+    width: 365px;
+}
+.task-description#pswrd .modal-dialog{
+   width: 365px; 
+}
+.pswrd_inr{
+    padding:22px 25px;
+}
+#pswrd input{
+    padding: 15px 10px;
+    font-size: 14px;
+    color: #919191;
+    font-size: 14px;
+    color: #919191;
+    margin-bottom:25px;
+}
+.check:hover{
+	background-color:#54c9e8 !important;
+}
+
+/*add css 9-12-16*/
+
+.red_place{
+    color:red;
+}
+.print_btn{
+    background: #c2c2c2;
+}
+.dropdown-menu{
+    height: 60px;
 }

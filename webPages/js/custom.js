@@ -67,6 +67,9 @@ $(document).ready(function(){
       $('.task_hd .search-cross').fadeToggle(0);
       $('.task_hd .header-search-wrap button').fadeToggle(0);
     });
+	$('#pswrd').on('show.bs.modal', function(){
+		$('#setting').modal('hide');
+	});
 
 
 });
@@ -132,7 +135,7 @@ $(document).ready(function(){
     //    autoplay: true,
     //    arrows:false
     //});
-    
+
 });
 
 ////

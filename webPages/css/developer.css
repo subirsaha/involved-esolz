@@ -35,6 +35,7 @@ width: 265px;
 }
 .task_inr_label .performance-table-th:nth-child(2){
 	  padding-left: 8px;
+      padding-left: 30px\0;
 }
 
 #logout_modal .modal-body span {
@@ -420,7 +421,8 @@ div#createTaskMessage p {
 
 .p-red
 {
-    color: #ff3c1f;
+   /* color: #ff3c1f;*/
+    color: red;
 }
     
 .p-green
@@ -501,6 +503,8 @@ i.fa.fa-caret-down{
 
 .task_inr_label .performance-table-th:nth-child(3){
     padding-left: 23px;
+    padding-left:32px\0;
+    width: 17%\0;
 }
 /*.prof{
     background-color: rgba(84, 201, 232,0.8);
@@ -656,7 +660,9 @@ img.remove_btn_class:hover {
 /*****************/
 .task_inr_label .performance-table-th:nth-child(4){
    width: 18%;
+   width:20%\0;
    padding-left: 0;
+   padding-left:55px\0;
 }
 
 .pdf_left span:hover{
@@ -716,6 +722,214 @@ background-color: #1861aa !important;
     display: inline-block;
 }
 .noMsgClass{
-    margin-left: 28%;
+  
     margin-top: 40%;
+}
+.no_chat1{
+    font-size: x-large;
+    text-align: center;
+}
+.no_chat2{
+    text-align: center;
+}
+.load_more_chat{
+    text-align: center;
+    cursor: pointer;
+    color: white;
+    background-color: gray;
+    padding-top:5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    margin-bottom: 5px;
+}
+.load_more_chat:hover {
+    background-color: gray;
+}
+.msgcht{
+    background-color: #edd5c1;
+}
+/*for message area*/
+/*.conversation textarea {
+    background-color: #edd5c1;
+    border: 2px solid #edd5c1;
+    border-radius: 3px;
+    height: inherit;
+    padding: 0 8px;
+    resize: none;
+    text-align: left;
+    width: 100%;min-height: 85px;
+    overflow: visible;
+}
+.conversation.arrow_box{
+        padding: 0;
+        background-color: transparent;
+    }
+    
+    .conversation textarea:-webkit-scrollbar { display:none}*/
+.chat-convrstaion{
+    max-width:80% !important;
+}
+.recver{
+    background-color:#edd5c1;
+}
+.sender{
+    background-color:#deedd8;
+}
+.studRow{
+    cursor:pointer;
+}
+.search-user-side{
+    width:44% !important;
+    border-right: 1px solid rgb(215, 215, 215) !important;
+}
+.search-user-side-right{
+    width:56% !important;
+    
+}
+.extRght{
+    height: 556px;
+}
+.enagagedSec{
+    height: 100%;
+}
+/*.on_off_btn_class:hover{
+    background-color:#edd5c1;
+}*/
+#query{
+    height: 260px;
+}
+.red_dot{
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    background: red;
+    margin-top: 10px;
+    border-radius: 50%;
+}
+.chat-convrstaion{
+    position: relative;
+}
+.red_dot1{
+    left: -16px;
+}
+.red_dot2{
+   right: -16px; 
+}
+.color_red{
+    color: #FF00FF;
+}
+.color_blue{
+    color: #54c9e8;
+}
+.color_yellow{
+    color: #F8CF5B;
+}
+.color_green{
+    color: #59FF3D;
+}
+.slider {
+  max-width: 300px;
+  height: 200px;
+  position: relative;
+}
+.slide1,.slide2,.slide3,.slide4,.slide5 {
+  position: absolute;
+}
+.slide1 {
+     /* background-size: cover;*/
+    animation:fade 8s infinite;
+-webkit-animation:fade 8s infinite;
+
+} 
+.slide2 {
+     /* background-size: cover;*/
+    animation:fade2 8s infinite;
+-webkit-animation:fade2 8s infinite;
+}
+.slide3 {
+      /*background-size: cover;*/
+    animation:fade3 8s infinite;
+-webkit-animation:fade3 8s infinite;
+}
+.slide4 {
+      /*background-size: cover;*/
+    animation:fade3 8s infinite;
+-webkit-animation:fade3 8s infinite;
+}
+.slide5 {
+      /*background-size: cover;*/
+    animation:fade3 8s infinite;
+-webkit-animation:fade3 8s infinite;
+}*/
+@keyframes fade
+{
+  0%   {opacity:1}
+  33.333% { opacity: 0}
+  66.666% { opacity: 0}
+  100% { opacity: 1}
+}
+@keyframes fade2
+{
+  0%   {opacity:0}
+  33.333% { opacity: 1}
+  66.666% { opacity: 0 }
+  100% { opacity: 0}
+}
+@keyframes fade3
+{
+  0%   {opacity:0}
+  33.333% { opacity: 0}
+  66.666% { opacity: 1}
+  100% { opacity: 0}
+}
+@keyframes fade4
+{
+  0%   {opacity:0}
+  33.333% { opacity: 0}
+  66.666% { opacity: 0}
+  100% { opacity: 1}
+}
+@keyframes fade5
+{
+  0%   {opacity:1}
+  33.333% { opacity: 0}
+  66.666% { opacity: 0}
+  100% { opacity: 0}
+}
+.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar
+{
+background-color: #54c9e8 !important;
+
+}
+.mCSB_scrollTools .mCSB_draggerRail
+{
+/*width: 8px !important;*/
+background-color:#f9f9f9 !important;
+}
+#preloader_right_inbox {
+    background-color: #27a9e3;
+    bottom: 0;
+    position: absolute;
+    z-index: 9999999;
+    top: 37px;
+    width: 57% !important;
+}
+#status_right_inbox {
+    background-image: url(../images/loader.gif);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    width: 80px;
+    height: 80px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -os-transform: translate(-50%, -50%);
+    position: absolute;
+}
+.performance-pic img{
+    border-radius: 50% !important;
 }

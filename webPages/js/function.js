@@ -1,8 +1,8 @@
 //CONSTANTS DEFINED FOR JS PAGES
-//var base_url        = "http://localhost:64948/";
 var base_url        = "http://esolz.co.in/lab3/involved/";
 var PhysicalPath    = "/var/www/esolz.co.in/public/lab3/involved/";
 var api_base_url    = "http://server.involvedtech.co.uk/";
+var MODE = 1;  /*Note that for development purpose, there is an additional property in request object “Mode”. Its value value can be passed as 0 to send push notifications in Development mode. For production mode the value is 1. If you do not specify this property itself then the mode would be Production by default.*/
 
 
 function setSession(name,value, hours)
