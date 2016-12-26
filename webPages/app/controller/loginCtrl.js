@@ -58,26 +58,36 @@
         
         if(isIE == true)
         {
-            var clientid = "3"+"_"+"1";
-            var devicetoken="3"+"_"+"1"+"_"+browser.version;
+            var clientid = "3"+"_"+"3";
+            var devicetoken="1"+"_"+browser.version;
         }else if(isChrome == true){
-            var clientid = "3"+"_"+"2";
-            var devicetoken="3"+"_"+"2"+"_"+browser.version;
+            var clientid = "3"+"_"+"3";
+            var devicetoken="2"+"_"+browser.version;
         }else if(isFirefox == true){
             var clientid = "3"+"_"+"3";
-            var devicetoken="3"+"_"+"3"+"_"+browser.version;
+            var devicetoken="3"+"_"+browser.version;
         }else{
-            var clientid = "3"+"_"+"4";
-            var devicetoken="3"+"_"+"4"+"_"+browser.version;
+            var clientid = "3"+"_"+"3";
+            var devicetoken="4"+"_"+browser.version;
         }
         
-        
+        var platform = navigator.platform +'_'+ navigator.appVersion;
+        //alert(navigator.platform +' ### '+ navigator.appVersion);
         
 
         var isValidEmailAddress = function (emailAddress) {
             var pattern = new RegExp(/^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i);
             return pattern.test(emailAddress);
         };
+        
+        $( "#email" ).on("keypress",function() {
+            $("#email").removeClass('red_place');
+            $("#email").attr("class","");
+          });
+         $( "#password" ).on("keypress",function() {
+            $("#password").removeClass('red_place');
+            $("#password").attr("class","");
+          });
         
         /*SIGN IN BUTTON CLICK*/
         $scope.loginSubmit = function () {
@@ -131,7 +141,7 @@
             if(error == 0)
             {
                 //alert(grant_type+"##"+username+"##"+password+"##"+clientid);
-                loginService.loginResponse(grant_type,email,password,clientid,devicetoken,function(response) {
+                loginService.loginResponse(grant_type,email,password,clientid,devicetoken,platform,function(response) {
                
                     if(response.status){ //USER SUCCESFULLY LOGGED IN
                             console.log(response);
@@ -175,6 +185,11 @@
             }
         };
         
+        $("#femail").keypress(function() {
+            $("#femail").removeClass('red_place');
+            $("#femail").attr("class","");
+        });
+        
         /*FORGOT PASSWORD CLICK*/
         $scope.forget_password = function(){
             var URL = base_url+'forgetpassword';
@@ -182,7 +197,7 @@
         };
         /*BACK TO SIGN IN CLICK IN FORGET PASSWORD PAGE*/
         $scope.backToLogin = function(){
-            var URL = base_url;
+            var URL = base_url+'login';
             window.location = URL;
         };
         
@@ -191,7 +206,7 @@
             //validation of email field
             var email = jQuery("#femail").val();
             var error = 0;
-     
+            
             if($('#femail').val().toString().trim() == '' || email==0){ //if email field is blank
                 $('#femail').val('');
                 $("#femail").attr("placeholder","Please enter email").addClass('red_place');
@@ -241,12 +256,16 @@
             }
         };
         
-        
-        
         $scope.clear = function () {
             $scope.passwordErr = '';
         };
         
+          $scope.removeClass = function () {
+            $("#email").attr("class","");
+            $("#password").attr("class","");
+        };
+        
+
 
     });
     

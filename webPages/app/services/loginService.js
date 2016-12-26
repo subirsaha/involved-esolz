@@ -1,9 +1,9 @@
     postApp.service('loginService',function ($http,$location) {
         var service = {};
 
-        service.loginResponse = function (grant_type,email,password,clientid,devicetoken,callback) {
+        service.loginResponse = function (grant_type,email,password,clientid,devicetoken,platform,callback) {
             //alert(grant_type+"##"+username+"##"+password+"##"+clientid);
-            console.log("grant_type="+grant_type+"&username="+email+"&clientid="+clientid+"&password="+password+"&devicetoken="+devicetoken);
+            console.log("grant_type="+grant_type+"&username="+email+"&clientid="+clientid+"&password="+password+"&devicetoken="+devicetoken+"&platform="+platform);
             $http({
                     method: 'POST',
                     url: api_base_url+'token',

@@ -5,7 +5,7 @@
 <div id="preloader_right_content1" style="display:none">
 	<div id="status_right_content1"></div>
 </div>
-	
+
 	
 <div class="outter_wrap">
 <!--header start-->
@@ -18,25 +18,27 @@
                 <button id="srch"><i class="fa fa-search" aria-hidden="true" ></i></button>
 				<!--<div id="search_cross" class="search-cross"><img src="images/search-cross.png" alt="search-cross" /></div>-->
                 <div class="search_reasult">
-			<div class="user_box clearfix" id="errordiv" style="text-align: center;padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;">
-			</div>
-			<div class="srch_data">
-				<div class="user_box clearfix stdprof move" ng-repeat="res in searchResList" id="search_div{{$index}}">
-					<a data-target="#student_pop" data-toggle="modal" href="javascript:void(0);" class="active" ng-click="studentProfile(res.Id,res.Firstname,res.Lastname,res.YearGroup,res.Image,res.IsUnlocked)" >
-						<div ng-class="res.IsUnlocked == true ? 'outr_border' :''" class="user_pic"><img data-ng-src="data:image/png;base64,{{res.Image}}" alt="performance-pic"></div>
-						<div class="user_details">
-							<h3>{{res.Firstname}} {{res.Lastname}}</h3>
-							<span>{{res.YearGroup}}</span>
+					<div class="user_box clearfix" id="errordiv" style="text-align: center;padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;display: none">
+					</div>
+					<div class="srch_data">
+						<!--<div>{{searchResListErr}}</div>-->
+						<div class="user_box clearfix stdprof move" ng-repeat="res in searchResList" id="search_div{{$index}}">
+							<a data-target="#student_pop" data-toggle="modal" href="javascript:void(0);" class="active" ng-click="studentProfile(res.Id,res.Firstname,res.Lastname,res.YearGroup,res.Image,res.IsUnlocked)" id="search_div_anchor{{$index}}">
+								<div ng-class="res.IsUnlocked == true ? 'outr_border' :''" class="user_pic"><img data-ng-src="data:image/png;base64,{{res.Image}}" alt="performance-pic"></div>
+								<div class="user_details">
+									<h3>{{res.Firstname}} {{res.Lastname}}</h3>
+									<span>{{res.YearGroup}}</span>
+								</div>
+							</a>
 						</div>
-					</a>
-				</div>
-			</div>
-			<div class="user_box clearfix" id="closediv" style="text-align: center;cursor: pointer;color: white;background-color: gray; padding-top:5px;padding-right: 5px;padding-bottom: 5px;padding-left: 5px;"><b>Clear search</b></div>
+					</div>
+					<input type="hidden" id="hover_div" value="-1">
+					<div class="user_box clearfix" id="closediv" style="text-align: center;cursor: pointer;color: white;background-color: gray; padding-top:5px;padding-right: 5px;padding-bottom: 5px;padding-left: 5px;"><b>Clear search</b></div>
                 </div>
 		
             </div>
             <div class="setting_right">
-            	<a href="#"><img src="images/settiing_icon.png" alt=""></a>
+            	<a href="javascript:void(0);" data-toggle="modal" data-target="#setting" ng-click="settings();"><img src="images/settiing_icon.png" alt=""></a>
                 <a href="javascript:void(0);" data-toggle="modal" data-target="#logout_modal"><img src="images/logout_icon.png" alt=""></a>
             </div>
         </div>
@@ -65,7 +67,9 @@
                     <li id="myInbox">
                         <a data-toggle="{{toggle_status_my_inbox}}" data-target="#sectionC" id="my_inbox"  ng-click="cancelClickTab('my_inbox');myInbox();" href='javascript:void(0);'>
                             My Inbox
-                            <sup>3</sup>
+							
+                           <sup id="myInboxUnreadMessageCount" ng-if="UnreadInboxCount != 0 || UnreadInboxCount != ''">{{UnreadInboxCount}}</sup>
+					
                         </a>
                     </li>
                     <li data-toggle="{{toggle_status_my_task}}" data-target="#sectionD" id="myTask" ng-click="myTask(1);" class="">
@@ -314,236 +318,210 @@
                         <div class="panel_left">My Timetable </div>
                     </div>
                     <div class="inr_content">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      Coming Soon
                     </div>
                 </div>
 				<!--MY TIMETABLE SECTION end-->
 				
 				<!--MY INBOX SECTION start-->
                 <div id="sectionC" class="tab-pane tabcustomheight fade">
+					
                     <div class="sky_head clearfix">
                         <div class="panel_left">Parent Messaging</div>
                     </div>
-                    <div class="search-user scrl_inr clearfix">
-                        <div class="search-user-side">
-                            <div class="search_area clearfix">
-                                <input name="" placeholder="Search a student" type="text">
-                                <button><i class="fa fa-search" aria-hidden="true"></i></button>
-                            </div>
-			    <div class="active_chat">Active Chat</div>
-                            <div class="student_list content">
-                                <div class="user_box active clearfix">
-                                    <label>
-                                        <div class="user_pic active"><img alt="" src="images/prof_pic1.png"></div>
-                                        <div class="user_details">
-                                            <h3>Jhon Smith</h3>
-                                            <span>Mr. Smith & Mrs. Smith</span>
-                                        </div>
-                                    </label>
-                                    <span class="user-noti">1</span>
-                                </div>
-				<div class="active_chat">Start New Chat</div>
-                                <div class="user_box clearfix">
-                                    <label>
-                                        <div class="user_pic"><img src="images/prof_pic2.png" alt=""></div>
-                                        <div class="user_details">
-                                            <h3>Angelina Joly</h3>
-                                            <span>Mr. A Joly & Mrs. Jolly</span>
-                                        </div>
-                                    </label>
-                                </div>
-                                <div class="user_box clearfix">
-                                    <label>
-                                        <div class="user_pic active"><img src="images/prof_pic3.png" alt=""></div>
-                                        <div class="user_details">
-                                            <h3>Stacey Jonson</h3>
-                                        </div>
-                                    </label>
-                                    <span class="user-noti">2</span>
-                                </div>
-                                <div class="user_box clearfix">
-                                    <label>
-                                        <div class="user_pic"><img src="images/prof_pic4.png" alt=""></div>
-                                        <div class="user_details">
-                                            <h3>Erik Kingbard</h3>
-                                            <span>Mr. Kingbard & Mrs. Kingbard</span>
-                                        </div>
-                                    </label>
-                                </div>
-                                <div class="user_box clearfix">
-                                    <label>
-                                        <div class="user_pic"><img src="images/prof_pic3.png" alt=""></div>
-                                        <div class="user_details">
-                                            <h3>Stacey Jonson</h3>
-                                            <span>Mr. Jonson & Mrs. Jonson</span>
-                                        </div>
-                                    </label>
-                                </div>
-                                <div class="user_box clearfix">
-                                    <label>
-                                        <div class="user_pic active"><img src="images/prof_pic3.png" alt=""></div>
-                                        <div class="user_details">
-                                            <h3>Stacey Jonson</h3>
-                                        </div>
-                                    </label>
-                                    <span class="user-noti">4</span>
-                                </div>
-                                <div class="user_box clearfix">
-                                    <label>
-                                        <div class="user_pic"><img src="images/prof_pic4.png" alt=""></div>
-                                        <div class="user_details">
-                                            <h3>Erik Kingbard</h3>
-                                            <span>Mr. Kingbard & Mrs. Kingbard</span>
-                                        </div>
-                                    </label>
-                                </div>
-                                 <div class="user_box clearfix">
-                                    <label>
-                                        <div class="user_pic active"><img alt="" src="images/prof_pic1.png"></div>
-                                        <div class="user_details">
-                                            <h3>Jhon Smith</h3>
-                                            <span>Mr. Smith & Mrs. Smith</span>
-                                        </div>
-                                    </label>
-                                    <span class="user-noti">1</span>
-                                </div>
-                                <div class="user_box clearfix">
-                                    <label>
-                                        <div class="user_pic"><img src="images/prof_pic2.png" alt=""></div>
-                                        <div class="user_details">
-                                            <h3>Angelina Joly</h3>
-                                            <span>Mr. A Joly & Mrs. Jolly</span>
-                                        </div>
-                                    </label>
-                                </div>
-                                <div class="user_box clearfix">
-                                    <label>
-                                        <div class="user_pic active"><img src="images/prof_pic3.png" alt=""></div>
-                                        <div class="user_details">
-                                            <h3>Stacey Jonson</h3>
-                                        </div>
-                                    </label>
-                                    <span class="user-noti">2</span>
-                                </div>
-                                <div class="user_box clearfix">
-                                    <label>
-                                        <div class="user_pic"><img src="images/prof_pic4.png" alt=""></div>
-                                        <div class="user_details">
-                                            <h3>Erik Kingbard</h3>
-                                            <span>Mr. Kingbard & Mrs. Kingbard</span>
-                                        </div>
-                                    </label>
-                                </div>
-                                <div class="user_box clearfix">
-                                    <label>
-                                        <div class="user_pic"><img src="images/prof_pic3.png" alt=""></div>
-                                        <div class="user_details">
-                                            <h3>Stacey Jonson</h3>
-                                            <span>Mr. Jonson & Mrs. Jonson</span>
-                                        </div>
-                                    </label>
-                                </div>
-                                <div class="user_box clearfix">
-                                    <label>
-                                        <div class="user_pic active"><img src="images/prof_pic3.png" alt=""></div>
-                                        <div class="user_details">
-                                            <h3>Stacey Jonson</h3>
-                                        </div>
-                                    </label>
-                                    <span class="user-noti">4</span>
-                                </div>
-                                <div class="user_box clearfix">
-                                    <label>
-                                        <div class="user_pic"><img src="images/prof_pic4.png" alt=""></div>
-                                        <div class="user_details">
-                                            <h3>Erik Kingbard</h3>
-                                            <span>Mr. Kingbard & Mrs. Kingbard</span>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-                            
-                        </div>
-                        <div class="search-user-side-right">
-                            <div class="srch-userpad">
-                                <div class="side-top">
-                                    <label for="student1">
-                                        <div class="user_pic active"><img alt="" src="images/prof_pic1.png" class="mCS_img_loaded"></div>
-                                        <div class="user_details">
-                                            <h3>Jhon Smith</h3>
-                                            <span>7MA - SC (Maths)</span>
-                                        </div>
-                                    </label> 
-                                </div>
-                                <ul class="side-list">
-                                    <li>
-                                        <h3>Attendance</h3>
-                                        <span class="inbox_arrow">75%</span>
-                                    </li>
-                                    <li>
-                                        <h3> Target</h3>
-                                        <span>5C</span>
-                                    </li>
-                                    <li>
-                                        <h3>Grade</h3>
-                                        <span class="inbox_arrow">6A </span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="other-teacher">
-                                <!--<a href="">Other Teachers: Miss Bunnet</a>-->
-                                <a href="">Parent: Mr. Smith & Mrs. Smith</a>
-                            </div>
-                            <div class="chat-box content">
-                                <h3>Miss Bunnet</h3>
-                                <div class="chat-convrstaion">
-                                    <div class="conversation arrow_box">
-                                       This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh
-                                    </div>
-                                    <span>Jun. 20 - 11:30am</span>
-                                </div>
-                                <div class="chat-convrstaion chat-rel">
-                                    <div class="conversation arrow_box">
-                                       This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh
-                                    </div>
-                                    <span>Jun. 20 - 11:30am</span>
-                                </div>
-                                <div class="chat-convrstaion">
-                                    <div class="conversation arrow_box">
-                                       This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh
-                                    </div>
-                                    <span>Jun. 20 - 11:30am</span>
-                                </div>
-                                <div class="chat-convrstaion chat-rel">
-                                    <div class="conversation arrow_box">
-                                       This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh
-                                    </div>
-                                    <span>Jun. 20 - 11:30am</span>
-                                </div>
-                                <div class="chat-convrstaion">
-                                    <div class="conversation arrow_box">
-                                       This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh
-                                    </div>
-                                    <span>Jun. 20 - 11:30am</span>
-                                </div>
-                            </div>
-                            <div class="text-box">
-                                <div class="text-box-l">
-                                   <textarea name="" class="content" placeholder="Type a message here ..."  cols="" rows=""></textarea>
-                                    <!--<div class="input-attach">
-                                        <div class="fileUpload clearfix">
-                                            <span><img src="images/attach_pic.png" alt="" class="mCS_img_loaded"></span>
-                                            <input type="file" class="upload">
-                                         </div>
-                                    </div>-->
-                                </div>
-                               <div class="text-box-r inbox_send_btn">
-                                    <a href="javascript:void(0)"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
+					
+					<form>
+						<div class="search-user scrl_inr clearfix myNoINnernet"></div>
+						<div class="search-user scrl_inr clearfix myInINnernet">
+							<div id="preloader_right_content8" style="display:none">
+								<div id="status_right_content8"></div>
+							</div>
+							
+							<input type="hidden" id="noStudentMsg" value="{{noStudentMsg}}">
+							
+							<div class="search-user-side" id="LHS_Section">
+								<div class="top_border_user_box">
+									<div class="search_area clearfix" id="searchdiv1">
+										<input type="text" id="searchterm1" placeholder="Search or start a new chat: Enter student name" autocomplete="off">
+										<button id="srch1"><i class="fa fa-search" aria-hidden="true"></i></button>
+										
+										<div class="search-task search_reasult1">
+											<div class="user_box clearfix" id="errordiv1" style="text-align: center;padding-top: 10px;padding-right: 10px;padding-bottom: 10px;padding-left: 10px;display: none">
+											</div>
+											<div class="new_search content">
+												<div class="user_box clearfix stdprof1 move1" ng-repeat="res in searchResList1" id="search_div1{{$index}}">
+													<a href="javascript:void(0)" ng-click="searchStudentSelected(res.Id,res.Firstname,res.Lastname,res.ParentsName,res.SubjectName,res.YearGroup,res.Image,res.IsUnlocked,res.ClassId,res.ClassName)" class="active" id="search_div_anchor1{{$index}}">
+														<div ng-class="res.IsUnlocked == true ? 'outr_border' :''" class="user_pic"><img data-ng-src="data:image/png;base64,{{res.Image}}" alt="performance-pic"></div>
+														<div class="user_details">
+															<h3>{{res.Firstname}} {{res.Lastname}} <span> ({{res.ClassName}})</span></h3>
+															<span>{{res.ParentsName}}</span>
+														</div>
+													</a>
+												</div>
+										   </div>
+										   <input type="hidden" id="hover_div1" value="-1">
+										   <div class="clear_search" id="closediv1" style="text-align: center;cursor: pointer;color: white;background-color: gray; padding-top:5px;padding-right: 5px;padding-bottom: 5px;padding-left: 5px;"><b>Clear Search</b></div>
+										</div>
+									</div>
+								</div>
+								
+								<div class="student_list content">
+									<div id="append_search_div"></div>
+									
+									<!--<div class="user_box top_border_user_box clearfix studSelect" id="msgstud{{Id}}{{ClassId}}'" ng-click="studentInboxPerformanceResponse(Id,ClassId,Firstname,Lastname,ParentsName,Image,ClassName,IsUnlocked)">
+										<label>
+											<div class="user_pic {{style_class}}"><img alt="" src="data:image/png;base64,{{Image}}"></div>
+											<div class="user_details">
+												<h3>{{Firstname}} {{Lastname}} ({{ClassName}})</h3>
+												<span>{{ClassName}}</span>
+											</div>
+										</label>
+									</div>-->
+									<div ng-if="studentListInbox == ''" class="noMsgClass" id="noMsgClass">
+										<div class="no_chat1">No Active Chats Found…</div>
+										<div class="no_chat2">Start a new chat with a parent using the search bar under Parent Messaging.</div>
+									</div>
+									<div class="user_box top_border_user_box clearfix msgstud" ng-repeat="y in studentListInbox" ng-click="studentInboxPerformanceResponse(y.Id,y.ClassId,y.Firstname,y.Lastname,y.ParentsName,y.Image,y.ClassName,y.IsUnlocked,y.SubjectName);" id="msgstud{{y.Id}}{{y.ClassId}}" UnreadMessageCount="{{y.UnreadMessageCount}}"
+										 ng-class="param==0?{studSelect: $index === 0}:''">
+										<!--ng-class="{studSelect: $index === 0}"-->
+										<label class="studRow">
+											<div ng-class="y.IsUnlocked == true ? 'outr_border' :''" class="user_pic"><img alt="" data-ng-src="data:image/png;base64,{{y.Image}}"></div>
+											<div class="user_details">
+												<h3>{{y.Firstname}} {{y.Lastname}} <span>({{y.ClassName}})</span></h3>
+												<span>{{y.ParentsName}}</span>
+											</div>
+										</label>
+									
+										<span class="user-noti" id="unreadMsg{{y.Id}}{{y.ClassId}}" UnreadMessageCount="{{y.UnreadMessageCount}}" ng-if="(y.UnreadMessageCount != 0)">{{y.UnreadMessageCount}}</span>
+									</div>
+									
+								</div>
+								<input type="hidden" id="studentIds" value="">
+								<input type="hidden" id="classIds" value="">
+							</div>
+				
+							<!--<div id="noMsg" class="noMsgClass" style="text-align: center;margin-top: 10%;">Please select student to see the message history</div>-->
+							<div id="noParent" style="display:none">No parent Name.You cannot send any message.</div>
+							<div class="search-user-side-right noInernet">
+							</div>
+							
+							<div class="search-user-side-right extRght">
+								<div id="preloader_right_inbox" style="display:none">
+									<div id="status_right_inbox"></div>
+								</div>
+								<div class="enagagedSec" id="noMsg" >
+									<div class="enagaged-inner">
+									    <div class="enagaged-inner1">
+										<div class="enagaged-inner2">
+										    <img src="images/picA1.png" alt=""/>
+										</div>
+									    </div>
+									</div>
+									<div class="engagedText">
+									    <h2>Keep parents engaged and informed</h2>
+									    <p>Please select a student chat to see message <br> history and communicate with parents.</p>
+									</div>
+								    </div>
+								<!--<div class="srch-userpad" id="rhs_section1">-->
+								<div class="srch-userpad RHS_Section clearfix">
+									<div class="side-top">
+										<label for="student1">
+											<div ng-class="IsUnlockedInbox == true ? 'outr_border' :''" class="user_pic"><img alt="" data-ng-src="data:image/png;base64,{{ImageInbox}}" class="mCS_img_loaded"></div>
+											<div class="user_details">
+												<h3>{{FirstnameInbox}} {{LastnameInbox}}</h3>
+												<span>{{ClassNameInbox}}({{SubjectName}})</span>
+											</div>
+										</label> 
+									</div>
+									<ul class="side-list">
+										<li>
+											<h3>{{studentInboxAttendanceHeader}}</h3>
+											<span ng-if="studentInboxAttendance != '' && studentInboxAttendanceTrend == 1" class="p-green">{{studentInboxAttendance}}% <img src="images/side-arrw.png" alt="" /></span>
+											<span ng-if="studentInboxAttendance != '' && studentInboxAttendanceTrend == 3 " class="p-red">{{studentInboxAttendance}}% <img src="images/red-side-arrw.png" alt="" /></span>
+											<span ng-if="studentInboxAttendance != '' && studentInboxAttendanceTrend == 2" class="orange_text" >{{studentInboxAttendance}}% </span>
+											<span ng-if="studentInboxAttendance == ''" class="(studentInboxAttendanceTrend == 1 ? 'p-green' : (studentInboxAttendanceTrend == 3 ? 'p-red' : 'orange_text'))" >{{studentInboxAttendance}}{{studentInboxAttendanceUnit}} </span>
+										</li>
+										<li>
+											<h3>{{studentInboxTargetHeader}}</h3>
+											<!--<span>{{studentInboxTargetGrade}}</span>-->
+											<span style="color:#000;" ng-if="studentInboxTargetGrade != ''">{{studentInboxTargetGrade}}{{studentInboxTargetUnit}}</span>
+											<span style="color:#000;" ng-if="studentInboxTargetGrade == ''">-</span>
+										</li>
+										<li>
+											<h3>{{studentInboxGradeHeader}}</h3>
+											<span ng-if="studentInboxGradeTrend == 1" class="p-green">{{studentInboxLastGrade}}{{studentInboxGradeUnit}} <img src="images/side-arrw.png" alt="" /></span>
+											<span ng-if="studentInboxGradeTrend == 3 " class="p-red">{{studentInboxLastGrade}}{{studentInboxGradeUnit}} <img src="images/red-side-arrw.png" alt="" /></span>
+											<span ng-if="studentInboxGradeTrend == 2 " class="orange_text">{{studentInboxLastGrade}}{{studentInboxGradeUnit}}</span>
+											<span ng-class="(studentInboxGradeTrend == 1 ? 'p-green' : (studentInboxGradeTrend == 3 ? 'p-red' : 'orange_text'))" ng-if="studentInboxLastGrade == ''">-</span>
+										</li>
+									</ul>
+								</div>
+								
+								<div class="other-teacher RHS_Section"  id="rhs_section2">
+								   <!-- <a href="">Other Teachers: Miss Bunnet</a>-->
+									<a href="">{{ParentsNameInbox}}</a>
+								</div>
+								<input type="hidden" id="latestmessagetime" value="{{latestmessagetime}}">
+								
+							<div class="chatDiv">
+								<div id="chat_box" class="content chat-box">
+									
+								    <!--<div id="chat_box" class="content chat-box">
+									<div class="user_box clearfix load_more_chat" id="getMore" ng-click="getMore();"><b>Load more</b></div>-->
+									<img id="loader10"  style="display: none;height: 40px;text-align: center;margin: 0px auto;display: block;" src='images/spinningwheel.gif'>
+									<input type="hidden" id="dummy_top_div">
+									
+									<span id="load_more_div">
+										<span class="clearfix" ng-repeat="per in InboxMessageHistoryLoadMore">
+											<h3 ng-if="(per.SenderName != InboxMessageHistoryLoadMore[$index - 1].SenderName) && (per.SenderUserId != loggedInTeacherId)"
+											ng-class="getColor(per.SenderUserId);"">{{per.SenderName}}</h3>
+											<div ng-class="(per.SenderUserId == loggedInTeacherIdLoadMore ? 'chat-convrstaion chat-rel' : 'chat-convrstaion')">
+												<div ng-class="((per.IsRead == false) || (per.SenderUserId == loggedInTeacherId) ?'red_dummy red_dot red_dot2':'')"></div>
+												<div class="conversation arrow_box" ng-bind-html="stripAddr(per.Content)"></div>
+												<span>{{per.SentDate | date:"dd MMM HH:mm"}}</span>
+											</div>
+										</span>
+									</span>
+									
+									<input type="hidden" id="noChatFound" value="{{noChatFound}}" style="position: absolute; top: 200;">
+								
+									<!--<span ng-if="InboxMessageHistory == ''"  >No Active Chats Found…</span>-->
+									<span id="chat_div">
+										<span class="clearfix" style="display: block;" ng-repeat="per in InboxMessageHistory" id="msg{{per.Id}}">
+									<!--		<input type="text" value="{{per.SenderUserId}}"> --- <input type="text" value="{{InboxMessageHistory[0].SenderUserId}}">-->
+											<h3 ng-if="(per.SenderName != InboxMessageHistory[$index - 1].SenderName) && (per.SenderUserId != loggedInTeacherId)"
+												ng-class="getColor(per.SenderUserId);">{{per.SenderName}}</h3>
+											<div ng-class="(per.SenderUserId == loggedInTeacherId ? 'chat-convrstaion chat-rel' : 'chat-convrstaion')" >
+												<div ng-class="((per.IsRead == false) || (per.SenderUserId == loggedInTeacherId) ?'red_dummy red_dot red_dot2':'')"></div>
+												<div class="conversation arrow_box" ng-bind-html="stripAddr(per.Content)"></div>    <!--<span>{{per.IsRead}}</span>-->
+												<span>{{per.SentDate | date:"dd MMM HH:mm"}}</span>
+											</div>
+										</span>
+									</span>
+									<div id="append_dummy_div"></div>
+								</div>
+								
+								
+								<div class="text-box" id="rhs_section3">
+									<div class="text-box-l">
+									   <textarea id="content1" class="content" placeholder="Type a message here..."  cols="" rows="" maxlength="1000"></textarea>
+										<div class="input-attach">
+											<div class="fileUpload">
+											   <!-- <span><img src="images/attach_pic.png" alt="" class="mCS_img_loaded"></span>-->
+												<input type="file" class="upload">
+											 </div>
+										</div>
+									</div>
+									<input type="reset" id="sendMessageInboxReset" style="display:none">
+								    <div class="text-box-r">
+										<a href="javascript:void(0)"  id="sendMessageInbox" ng-click="sendMessageInbox()" ng-disabled="isDisabled" ng-model="isDisabled"><i class="fa fa-paper-plane" aria-hidden="true"></i></a>
+									</div>
+								</div>
+							</div>
+	
+							</div>
+						</div>
+					</form>
                 </div>
 				<!----MY INBOX SECTION end---->
 				
@@ -682,7 +660,7 @@
 				<div id="sectionE" class="tab-pane fade tabcustomheight">
 					 <div class="table_outter">
 						<div class="right_content">
-						   <div class="inr_task">
+						   <div class="inr_task new_task">
 								<div class="back_class">
 									<a href="javascript:void(0);" data-toggle="{{toggle_status_back_btn}}" data-target="#sectionA" id="back_btn" ng-click="cancelClickTab('back_btn');myClassesResponse();">
 										<i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -690,7 +668,7 @@
 									</a>
 									<!--<span id="performance_print_span" style="display:none"><input class="print_btn" type="button" value="Print" id="performance_print" ng-click="performance_screenshot();"></span>-->
 									<span id="performance_print_span">
-										<input class="print_btn" type="button" value="Print" id="performance_print" onclick="printDiv('performance')" >
+										<input class="print_btn" type="button" value="Print" id="performance_print" ng-click="printPerformance();"  >
 									</span>
 								</div>
 								<div class="post_text">
@@ -732,7 +710,7 @@
 										</li>
 									</ul>
 								</div>
-								<div class="tab-content task-tab-content tabcustomheight">
+								<div class="tab-content task-tab-content tabcustomheight" >
 									
 									
 	<!---------------------------PERFORMANCE begins--------------------------------------------->
@@ -745,42 +723,50 @@
 						<div>{{studentListMessagePerformance2}} </div>
 						<div>{{studentListMessagePerformance3}} <a href="#">{{studentListMessagePerformance4}}</a></div>
 				</div>
-				<div class="performance-table-wrap content showStudentDiv">
-					<div class="performance-table">
-						<div class="performance-table-tr">
+				<div class="performance-table showStudentDiv">
 							<div class="performance-table-th">
 								Student
 							</div>
 							<div class="performance-table-th">
-								Attendance
+								{{performanceList[0].Performance.Column1.Header}}
 							</div>
 							<div class="performance-table-th">
-								Target
+								{{performanceList[0].Performance.Column2.Header}}
 							</div>
 							<div class="performance-table-th">
-								Grade
+								{{performanceList[0].Performance.Column3.Header}}
 							</div>
-						</div>
-						<a href="javascript:void(0)" data-target="#student_performance" data-toggle="modal" class="performance-table-tr performance-active performance_class2" ng-repeat="per in performanceList" id="studentPerformance{{per.Id}}" ng-click="studentPerformance(per.Id,per.Firstname,per.Lastname,per.Image,per.Attendance,per.TargetGrade,per.LastGrade,per.AttendanceTrend,per.GradeTrend,per.IsUnlocked);">
+				</div>
+				<div class="performance-table-wrap content showStudentDiv">
+					<div class="performance-table">
+						<a href="javascript:void(0)" data-target="#student_performance" data-toggle="modal" class="performance-table-tr performance-active performance_class2" ng-repeat="per in performanceList" id="studentPerformance{{per.Id}}" ng-click="studentPerformance(per.Id,per.Name,per.Image,per.Performance.Column1.Value,per.Performance.Column2.Value,per.Performance.Column3.Value,per.Performance.Column1.Trend,per.Performance.Column2.Trend,per.Performance.Column3.Trend,per.Performance.Column1.Unit,per.Performance.Column2.Unit,per.Performance.Column3.Unit,per.IsUnlocked,performanceList[0].Performance.Column1.Header,performanceList[0].Performance.Column2.Header,performanceList[0].Performance.Column3.Header);">
 							<div class="performance-table-td">
 								<div ng-class="per.IsUnlocked == true ? 'outr_border' :''" class="user_pic">
 									<img data-ng-src="data:image/png;base64,{{per.Image}}" alt="" />
 								</div>
-								<span class="performance-name"><div>{{per.Firstname}} {{per.Lastname}}</div></span>
+								<span class="performance-name"><div>{{per.Name}}</div></span>
 							</div>
 							<div class="performance-table-td" >
-								<span ng-if="per.Attendance != ''" ng-class="(per.AttendanceTrend == true ? 'p-green' : (per.AttendanceTrend == false ? 'p-red' : 'orange_text'))" >{{per.Attendance}}% </span>
-								
-								<span ng-if="per.Attendance == ''" ng-class="(per.AttendanceTrend == true ? 'p-green' : (per.AttendanceTrend == false ? 'p-red' : 'orange_text'))" >0% </span>
+								<span ng-if="per.Performance.Column1.Value != ''"
+									  ng-class="(per.Performance.Column1.Trend == 1 ? 'p-green' : (per.Performance.Column1.Trend == 3 ? 'p-red' : (per.Performance.Column1.Trend ? 'orange_text':'')))" >
+									{{per.Performance.Column1.Value}}{{per.Performance.Column1.Unit}} </span>
+								<span ng-if="per.Performance.Column1.Value == ''"
+									   ng-class="(per.Performance.Column1.Trend == 1 ? 'p-green' : (per.Performance.Column1.Trend == 3 ? 'p-red' : (per.Performance.Column1.Trend ? 'orange_text':'')))" >
+									0{{per.Performance.Column1.Unit}} </span>
 							</div>
+							
 							<div class="performance-table-td">
-								<span class="p-gray" ng-if="per.TargetGrade != ''">{{per.TargetGrade}}</span>
-								<span class="p-gray" ng-if="per.TargetGrade == ''">-</span>
+								<span class="p-gray"
+									  ng-if="per.Performance.Column2.Value != ''"
+									  ng-class="(per.Performance.Column2.Trend == 1 ? 'p-green' : (per.Performance.Column2.Trend == 3 ? 'p-red' : (per.Performance.Column2.Trend ? 'orange_text':'')))">{{per.Performance.Column2.Value}}{{per.Performance.Column2.Unit}}</span>
+								<span class="p-gray"
+									  ng-if="per.Performance.Column2.Value == ''"
+									  ng-class="(per.Performance.Column2.Trend == 1 ? 'p-green' : (per.Performance.Column2.Trend == 3 ? 'p-red' : (per.Performance.Column2.Trend ? 'orange_text':'')))">-</span>
 							</div>
-						
+						 <!--None(0)/Up(1)/Same(2)/Down(3).-->
 							<div class="performance-table-td">
-								<span ng-class="(per.GradeTrend == true ? 'p-green' : (per.GradeTrend == false ? 'p-red' : 'orange_text'))" ng-if="per.LastGrade != ''">{{per.LastGrade}}</span>
-								<span ng-class="(per.GradeTrend == true ? 'p-green' : (per.GradeTrend == false ? 'p-red' : 'orange_text'))" ng-if="per.LastGrade == ''">-</span>
+								<span ng-class="(per.Performance.Column3.Trend == 1 ? 'p-green' : (per.Performance.Column3.Trend == 3 ? 'p-red' : (per.Performance.Column3.Trend == 2 ?'orange_text':'')))" ng-if="per.Performance.Column3.Value != ''">{{per.Performance.Column3.Value}}{{per.Performance.Column3.Unit}}</span>
+								<span ng-class="(per.Performance.Column3.Trend == 1 ? 'p-green' : (per.Performance.Column3.Trend == 3 ? 'p-red' : (per.Performance.Column3.Trend == 2 ?'orange_text':'')))" ng-if="per.Performance.Column3.Value == ''">-</span>
 							</div>
 						</a>
 					</div>
@@ -845,7 +831,7 @@
 						<!--<div id="tasktitleErr" style="color: red;">{{tasktitleErr}}</div>-->
 					</div>
 					<div class="comnt_outr" id="content-2">
-						<textarea placeholder="Description" id="description1" maxlength="500"></textarea>
+						<textarea placeholder="Description" id="description1" maxlength="2000"></textarea>
 						<!--<div id="taskdescErr" style="color: red;">{{taskdescErr}}</div>-->
 					</div>
 					<div class="fileUpload clearfix" style="cursor: pointer;" ng-click="attach()">
@@ -992,24 +978,30 @@
 				<!--<div id="noRecord9" class="noRecordClass">{{studentListMessage}}</div>-->
 				<form id="messageForm">
 					<div class="textarea-wrapper">
-						<textarea  class="type_msg" placeholder="Type Message here" id="message1" spellcheck="true"></textarea>
+						<textarea  class="type_msg {{error_class}}" placeholder="Type Message here" id="message1" spellcheck="true" maxlength="1000"></textarea>
 						<div class="textarea-clone"></div>
 					</div>
-					<div class="fileUpload clearfix pick_photo">
+					<!--<div class="fileUpload clearfix pick_photo">
 						<div class="file_name">Attach photo</div>
 						<span><img src="images/attach_pic.png" alt=""></span>
 						<input type="file" class="upload" onChange="readURL(this);" />
-						<!--<img src="#" alt="" />-->
-					</div>
-					<!--<div class="up_photo">
-						<a href="#" data-toggle="modal" data-target="#attachPhoto">
-						   <img id="blah" src="images/bird_pic.png" alt="">
-						</a>
 					</div>-->
+					<br>
+					<label style="font-weight:500">Template Messages</label>
+					<div class="up_photo">
+						<div class="pre_msg content" id="pre_msg">
+							<ul>
+								<li ng-repeat="(key, value) in predefinedMessages" ng-click="predefinedMessageDisplay(value);" style="cursor: pointer">{{value}} </li>
+								
+							</ul>
+						</div>
+						<div>{{errorMsg}}</div>
+					</div>
+					
+					<input type="hidden" id="studentIdsForMessage">
 					<input type="reset" id="messageReset" style="display:none">
-					<input type="hidden" id="studentIdsForMessage" >
 					<div class="set_task">
-						<button id="setTaskBtnMsg" ng-click="setTaskMsg();">Send Message</button>
+						<button id="sendMessageBtn" ng-click="sendMessageBtnClick();">Send Message</button>
 					</div>
 				</form>
 				</div>
@@ -1099,19 +1091,26 @@
             <div class="modal-body clearfix">
 				
                 <div class="task_inr clearfix">
-                    <div class="inner_left">
+					<div id="noRecord13" class="noRecordClass">
+							<div><b>{{nodesc1}}</b></div>
+							<div>{{nodesc2}}</div>
+							<div>{{nodesc3}} </div>
+							<div>{{nodesc4}} <a href="#">{{nodesc5}}</a></div>
+						</div>
+                    <div class="inner_left showStudentDiv">
                     	<div class="select_area">
                         	<div ng-class="(taskType == 'Homework' ? 'orange_text' : (taskType == 'Class Test'? 'magenta_text' :(taskType == 'Project'? 'purple_text' : 'grey_text')))">{{taskType}}</div>
                             <div class="select_sub_text">
                             	{{className}}  <span>({{SubjectName}})</span>
                             </div>
                         </div>
+						
 						<form>
 							<div class="select_hd clearfix">
 								<div class="student_left">Students ({{selectedStudentCount}} Selected) </div>
 							</div>
 							<div class="student_list content" id="content-1">
-								<div class="user_box clearfix taskDesUser" ng-repeat="x in studentList" id="studentListInTaskDescPopup{{x.Id}}" ng-class="isExist(x.Id)!=-1? 'active' :''">
+								<div class="user_box clearfix taskDesUser" ng-repeat="x in studentList" ng-class="isExist(x.Id)!=-1? 'active' :''">
 									<input  class="checkbox1 studentListInTaskDesccheckbox" type="checkbox"
                                             ng-if="x.IsUnlocked == true"
 											id="studentTaskDescPopup{{x.Id}}"
@@ -1127,6 +1126,7 @@
 										</div>
 									</label>
 								</div>
+								
 							</div>
 							<input type="reset" id="studentsReset3" style="display:none">
 						</form>
@@ -1156,7 +1156,7 @@
 							
                         </div>
                         <div class="comnt_outr" id="content-2">
-                            <textarea  placeholder="Description" disabled>{{Description}}</textarea>
+                            <textarea  placeholder="Description" maxlength="2000" disabled>{{Description}}</textarea>
                         </div>
                         <div class="fileUpload  clearfix">
                             <div class="file_name">Attachment</div>
@@ -1167,8 +1167,10 @@
                            <!-- <div class="attach_text">{{AttachmentCount}} Attachments</div>-->
                             <div class="pdf_pic clearfix"  ng-repeat="x in Attachments">
                                 <div class="pdf_left" >
-                                	<a class='vcard-hyperlink' ng-click="downloadAttachment(x.Id);" href="http://server.involvedtech.co.uk:80/api/files/insecuretaskattachment={{x.Id}}">
-										<!--<img src="data:image/png;base64,{{fileAttachementRes}}" />-->
+									<a class='vcard-hyperlink' ng-click="downloadAttachment(x.Id);" href="javascript:void(0)">
+                                	<!--<a class='vcard-hyperlink' ng-click="downloadAttachment(x.Id);"
+									   href="http://server.involvedtech.co.uk:80/api/files/insecuretaskattachment={{x.Id}}">-->
+									
                                         <img src="images/push-pin.png" alt="">
                                         <span>{{x.Name | limitTo : 10}}...</span>
                                     </a>
@@ -1248,7 +1250,7 @@
 								</div>
 							</div>
 							<div class="student_list content showStudentDivPopup" id="content-1">
-								<div class="user_box clearfix studentListInTaskPopup" ng-repeat="x in studentList" id="studentListInTaskPopup{{x.Id}}"  ng-class="{active: isExist(x.Id)!=-1}">
+								<div class="user_box clearfix studentListInTaskPopup" ng-repeat="x in studentList" id="studentListInTaskPopup{{x.Id}}" ng-class="{active: isExist(x.Id)!=-1}">
 									<input  class="checkbox2 studentIdTaskPopupCheckbox" type="checkbox"
                                             ng-if="x.IsUnlocked == true"
 											id="studentTaskPopup{{x.Id}}"
@@ -1280,11 +1282,11 @@
 							<div id="tasktypeErr2" style="color: red;">{{tasktypeErr2}}</div>
                         </div>
                         <div class="title_outr">
-                            <input type="text" placeholder="Title" id="title2"  maxlength="50">
+                            <input type="text" placeholder="Title" id="title2" maxlength="50">
 							<!--<div id="tasktitleErr2" style="color: red;">{{tasktitleErr2}}</div>-->
                         </div>
                         <div class="comnt_outr" id="content-2">
-                            <textarea placeholder="Description" id="description2" maxlength="500"></textarea>
+                            <textarea placeholder="Description" id="description2" maxlength="2000"></textarea>
 							<!--<div id="taskdescErr2" style="color: red;">{{taskdescErr2}}</div>-->
                         </div>
                         <div class="fileUpload clearfix" style="cursor: pointer;" ng-click="attach2()">
@@ -1412,7 +1414,13 @@
             </div>
             <div class="modal-body clearfix">
                <div class="task_inr clearfix">
-                    <div class="inner_left">
+				<div id="noRecord14" class="noRecordClass">
+							<div><b>{{nodesc1}}</b></div>
+							<div>{{nodesc2}}</div>
+							<div>{{nodesc3}} </div>
+							<div>{{nodesc4}} <a href="#">{{nodesc5}}</a></div>
+						</div>
+                    <div class="inner_left showStudentDiv">
                     	<div class="select_area">
                         	<div ng-class="(taskType == 'Homework' ? 'orange_text' : (taskType == 'Class Test'? 'magenta_text' :(taskType == 'Project'? 'purple_text' : 'grey_text')))">{{taskType}}</div>
                             <div class="select_sub_text">
@@ -1427,7 +1435,7 @@
                             </div>
                         </div>
                         <div class="student_list content" id="content-1">
-                            <div  ng-repeat="x in studentList" id="studentListInEditPopup{{x.Id}}" class="user_box clearfix editcall" ng-class="{active: isExist(x.Id)!=-1}">
+                            <div  ng-repeat="x in studentList track by x.Id" id="studentListInEditPopup{{x.Id}}" class="user_box clearfix editcall" ng-class="{active: isExist(x.Id)!=-1}">
                                 <input  class="checkbox1 studentListInEditPopupCheckbox" type="checkbox"
                                         ng-if="x.IsUnlocked == true"
 										id="studentEditPopup{{x.Id}}"
@@ -1459,7 +1467,7 @@
 							<!--<div id="tasktitleErr3" style="color: red;">{{tasktitleErr3}}</div>-->
                         </div>
                         <div class="comnt_outr" id="content-2">
-                            <textarea  placeholder="Description" id="description3"  maxlength="500">{{Description}}</textarea>
+                            <textarea  placeholder="Description" id="description3" maxlength="2000">{{Description}}</textarea>
 							<!--<div id="taskdescErr3" style="color: red;">{{taskdescErr3}}</div>-->
                         </div>
 						
@@ -1477,9 +1485,8 @@
 							<!-----FOR OLD UPLOADED FILES------->
                             <div class="pdf_pic clearfix attachmentEdit w3attachedit"  name="attachmentEdit[]" id="attachmentDivOld{{x.Id}}" attachmentId="{{x.Id}}" attachmentName="{{x.Name}}" noOfAttachments="{{Attachments.length}}" ng-repeat="x in Attachments">
                                 <div class="pdf_left">
-									<a class='vcard-hyperlink' ng-click="downloadAttachment(x.Id);" href="http://server.involvedtech.co.uk:80/api/files/insecuretaskattachment={{x.Id}}">
-                                	<!--<a class='vcard-hyperlink' ng-click="downloadAttachment(x.Id);" href="http://server.involvedtech.co.uk:80/api/files/insecuretaskattachment={{x.Id}}">-->
-										<!--<img src="data:image/png;base64,{{fileAttachementRes}}" />-->
+									<a class='vcard-hyperlink' ng-click="downloadAttachment(x.Id);" href="javascript:void(0)">
+									<!--<a class='vcard-hyperlink' ng-click="downloadAttachment(x.Id);" href="http://server.involvedtech.co.uk:80/api/files/insecuretaskattachment={{x.Id}}">-->
                                         <img src="images/push-pin.png" alt="">					
                                         <span>{{x.Name | limitTo : 10}}...</span>
                                     </a>
@@ -1622,9 +1629,111 @@
 </div>
 <!--logout pop end-->
 
+<!--setting modal area-->
+  <div class="modal fade attach_photo task-description" id="setting" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+			
+			<div id="preloader_right_content9" style="display:none">
+					<div id="status_right_content9"></div>
+			</div>
+			
+			
+            <div class="modal-header">
+                <button id="settings_close" type="button" class="close" data-dismiss="modal" aria-label="Close" ><span aria-hidden="true"><img src="images/popup-cross.png" alt="popup-cross" /></span></button>
+                <h3>Settings</h3>
+            </div>
+            <div class="modal-body clearfix">
+                <div class="task_inr setting_d clearfix">
+                    <div class="inner_left">
+                      <div class="ed_outr">
+                        <img src="images/ed_pic.png" alt="">
+                        <span>Version 1.0</span>
+                        <span>© 2016 InvolvEdTech. All Rights Reserved.</span>
+                        <span><a href="http://www.involvedtech.co.uk">www.involvedtech.co.uk</a></span>
+                      </div> 
+                      <div class="email_rowd">
+                        <ul>
+                            <li>
+                                <a href="javascript:void(0)">
+                                    Email Notifications
+                                    <span class="radio_left" ng-click="on_off_btn(0);">
+                                       <input type="radio" id="s-option" name="selector" class="on_off_btn_class" >
+                                       <label for="s-option">Off</label>
+                                       <div class="check"><div class="inside"></div></div>
+                                    </span>
+                                    <span class="radio_left" ng-click="on_off_btn(1);">
+                                        <input type="radio" id="f-option" name="selector" class="on_off_btn_class">
+                                        <label for="f-option">On</label>
+                                        <div class="check"></div>
+                                    </span>
+                                </a>
+                            </li> 
+                            <li><a href="javascript:void(0)" ng-click="comingSoon();">Terms of use and Privacy Policy</a></li>
+                            <li><a href="javascript:void(0)" ng-click="comingSoon();">FAQs</a></li>
+                            <li><a href="javascript:void(0)" data-toggle="modal" data-target="#pswrd" ng-click="change_pwd();reset_change_pwd();" style="border-bottom: 1px solid #f8f8f8;">Change Password</a></li>
+                        </ul>  
+                      </div>
+                    </div>
+                    
+                    <div class="inner_right">
+                        <div class="send_feed">Contact Us/Send Feedback</div>
+                        <div class="comnt_outr" id="content-2">
+                            <textarea id="query" placeholder="Please enter query information" maxlength="2000"></textarea>
+                        </div>
+						
+						<!--file upload for contact us----------->
+                        <div class="fileUpload attach_scrn" style="cursor: pointer;border-bottom: none;" ng-click="attach4()">
+                            <!--<textarea  placeholder="Attach Screenshot"></textarea>-->
+							<div class="file_name" style="cursor: pointer;">Attach Screenshot</div>
+							<span style="cursor: pointer;float:right;" >
+								<img id="attach_pic4" src="images/attach_pic.png" alt="">
+								<img id="add_more4" class="add_more" src="images/add_more.png" style="display: none;" alt="">
+							</span>
+							
+                        </div>
+						<div class="outter clearfix" id="adddiv4"></div>
+						<input type="hidden" name="fileNum4" id="fileNum4" value="0">
+						<input type="hidden" name="file_size4" id="file_size4" value="0">
+						
+					
+                        <div class="set_task">
+                            <button id="contact_us_submit" ng-click="contact_us_submit();">Submit</button>
+                        </div>
+                    </div>
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--setting end-->
+    
+<!--change password modal-->
+<div class="modal fade attach_photo task-description" id="pswrd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="change_pwd_close" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><img src="images/popup-cross.png" alt="popup-cross" /></span></button>
+                <h3>Change Password</h3>
+            </div>
+            <div class="modal-body clearfix">
+                <div class="pswrd_inr">
+					<input type="password" id="currentPwd"   placeholder="Current Password" maxlength="20">
+					<input type="password" id="newPwd"       placeholder="New Password" maxlength="20">
+					<input type="password" id="retypeNewPwd" placeholder="Re-type New Password" maxlength="20">
+					<div class="set_task">
+					    <button id="change_pwd_submit" ng-click="change_pwd_submit();">Submit</button>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--------------------------->
 
-<input id="confy" type="button" data-toggle="modal" data-target="#settaskconfirm_modal" style="display:none">
 <!--settaskconfirm pop up-->
+<input id="confy" type="button" data-toggle="modal" data-target="#settaskconfirm_modal" style="display:none">
+
 <div class="modal fade attach_photo" id="settaskconfirm_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -1765,17 +1874,17 @@
                                     Student
                                 </div>
                                 <div class="performance-table-th">
-                                    Attendance
+                                    {{HeaderCol1}}
                                 </div>
                                 <div class="performance-table-th">
-                                    Target
+                                    {{HeaderCol2}}
                                 </div>
                                 <div class="performance-table-th">
-                                    Grade
+                                    {{HeaderCol3}}
                                 </div>
-								<div class="print_div">
+								<!--<div class="print_div">
 									<input class="print_btn" type="button" value="Print" id="screenshot" ng-click="graph_screenshot();">
-								</div>
+								</div>-->
                         </div>
                     </div>
                     <div class="student_grade_hd clearfix" id="modal_horizontal_line">
@@ -1784,7 +1893,7 @@
                                     <div class="performance-table-td">
                                         <div class="student_pic {{IsUnlocked}}" ><img alt="" data-ng-src="data:image/png;base64,{{Image}}"></div>
                                         <div class="student_title_area">
-                                            <h2>{{Firstname}} {{Lastname}}</h2>
+                                            <h2>{{Name}}</h2>
                                             <span class="psub">{{SubjectName}}</span>
                                         </div>
                                     </div>
@@ -1794,9 +1903,9 @@
 										<!---SVG IMAGE for attendance begin--------------------->
 										<div class="performance-table-td perfGraph" id="Attendance_circle">
 										<div class="rating_outter backcolor_class">
-											<div class="value_area p-green" ng-if="AttendanceTrend == true"><i class="fa fa-caret-up pop-col" aria-hidden="true"></i> {{Attendance}}%</div>
-											<div class="value_area p-red" ng-if="AttendanceTrend == false">{{Attendance}}% <i class="fa fa-caret-down" aria-hidden="true"></i></div>
-											<div class="value_area orange_text" ng-if="AttendanceTrend == null">{{Attendance}}%</div>
+											<div class="value_area p-green" ng-if="AttendanceTrend == 1"><i class="fa fa-caret-up pop-col" aria-hidden="true"></i>{{Attendance}}{{AttendanceUnit}}</div>
+											<div class="value_area p-red" ng-if="AttendanceTrend == 3">{{Attendance}}{{AttendanceUnit}}<i class="fa fa-caret-down" aria-hidden="true"></i></div>
+											<div class="value_area orange_text" ng-if="AttendanceTrend == 2">{{Attendance}}{{AttendanceUnit}}</div>
 											<svg xmlns="http://www.w3.org/2000/svg" width="297mm" height="210mm" viewBox="0 0 1052.3622 744.09448">
 												<g color="#000" fill="none" stroke-width="24">
 													<path id="carbs1" style="isolation:auto;mix-blend-mode:normal" d="M874.322 370.115a350.75 350.75 0 0 1-350.75 350.75 350.75 350.75 0 0 1-350.752-350.75 350.75 350.75 0 0 1 350.75-350.75 350.75 350.75 0 0 1 350.752 350.75z" overflow="visible" solid-color="#000000" stroke="#b981d1"/>
@@ -1812,7 +1921,7 @@
 										<!---SVG IMAGE for TargetGrade begin--------------------->
 										<div class="performance-table-td perfGraph" id="TargetGrade_circle">
 										<div class="rating_outter trGrd">
-											<div class="value_area">{{TargetGrade}}</div>        
+											<div class="value_area">{{TargetGrade}}{{TargetUnit}}</div>        
 											<svg xmlns="http://www.w3.org/2000/svg" width="297mm" height="210mm" viewBox="0 0 1052.3622 744.09448">
 												<g color="#000" fill="none" stroke-width="24">
 													<path id="proteins" style="isolation:auto;mix-blend-mode:normal" d="M874.322 370.115a350.75 350.75 0 0 1-350.75 350.75 350.75 350.75 0 0 1-350.752-350.75 350.75 350.75 0 0 1 350.75-350.75 350.75 350.75 0 0 1 350.752 350.75z" overflow="visible" solid-color="#000000" stroke="#48CAE5"/>
@@ -1826,14 +1935,14 @@
 										<!---SVG IMAGE for TargetGrade begin--------------------->
 										<div class="performance-table-td perfGraph" id="LastGrade_circle">
 										<div class="rating_outter grd">
-											<div class="value_area last_cell_d p-green" ng-if="GradeTrend == true"><i class="fa fa-caret-up pop-col" aria-hidden="true"></i> {{LastGrade}}</div>
-											<div class="value_area last_cell_d p-red" ng-if="GradeTrend == false">{{LastGrade}} <i class="fa fa-caret-down" aria-hidden="true"></i></div>
-											<div class="value_area last_cell_d orange_text" ng-if="GradeTrend == null">{{LastGrade}}</div>
+											<div class="value_area last_cell_d p-green" ng-if="GradeTrend == 1"><i class="fa fa-caret-up pop-col" aria-hidden="true"></i>{{LastGrade}}{{GradeUnit}}</div>
+											<div class="value_area last_cell_d p-red" ng-if="GradeTrend == 3">{{LastGrade}}{{GradeUnit}}<i class="fa fa-caret-down" aria-hidden="true"></i></div>
+											<div class="value_area last_cell_d orange_text" ng-if="GradeTrend == 2">{{LastGrade}}{{GradeUnit}}</div>
 											<svg xmlns="http://www.w3.org/2000/svg" width="297mm" height="210mm" viewBox="0 0 1052.3622 744.09448">
 												<g color="#000" fill="none" stroke-width="24">
-													<path  ng-if="GradeTrend == true" id="fat1" style="isolation:auto;mix-blend-mode:normal" d="M874.322 370.115a350.75 350.75 0 0 1-350.75 350.75 350.75 350.75 0 0 1-350.752-350.75 350.75 350.75 0 0 1 350.75-350.75 350.75 350.75 0 0 1 350.752 350.75z" overflow="visible" solid-color="#000000" stroke="#6bc04b"/>
-													<path ng-if="GradeTrend == false" id="fat2" style="isolation:auto;mix-blend-mode:normal" d="M874.322 370.115a350.75 350.75 0 0 1-350.75 350.75 350.75 350.75 0 0 1-350.752-350.75 350.75 350.75 0 0 1 350.75-350.75 350.75 350.75 0 0 1 350.752 350.75z" overflow="visible" solid-color="#000000" stroke="#ff3c1f"/>
-													<path ng-if="GradeTrend == null" id="fat3" style="isolation:auto;mix-blend-mode:normal" d="M874.322 370.115a350.75 350.75 0 0 1-350.75 350.75 350.75 350.75 0 0 1-350.752-350.75 350.75 350.75 0 0 1 350.75-350.75 350.75 350.75 0 0 1 350.752 350.75z" overflow="visible" solid-color="#000000" stroke="#ff7800"/>
+													<path  ng-if="GradeTrend == 1" id="fat1" style="isolation:auto;mix-blend-mode:normal" d="M874.322 370.115a350.75 350.75 0 0 1-350.75 350.75 350.75 350.75 0 0 1-350.752-350.75 350.75 350.75 0 0 1 350.75-350.75 350.75 350.75 0 0 1 350.752 350.75z" overflow="visible" solid-color="#000000" stroke="#6bc04b"/>
+													<path ng-if="GradeTrend == 3" id="fat2" style="isolation:auto;mix-blend-mode:normal" d="M874.322 370.115a350.75 350.75 0 0 1-350.75 350.75 350.75 350.75 0 0 1-350.752-350.75 350.75 350.75 0 0 1 350.75-350.75 350.75 350.75 0 0 1 350.752 350.75z" overflow="visible" solid-color="#000000" stroke="#ff3c1f"/>
+													<path ng-if="GradeTrend == 2" id="fat3" style="isolation:auto;mix-blend-mode:normal" d="M874.322 370.115a350.75 350.75 0 0 1-350.75 350.75 350.75 350.75 0 0 1-350.752-350.75 350.75 350.75 0 0 1 350.75-350.75 350.75 350.75 0 0 1 350.752 350.75z" overflow="visible" solid-color="#000000" stroke="#ff7800"/>
 												</g>
 											</svg>
 										</div>
@@ -1853,8 +1962,6 @@
 							<div id="status_right_content7"></div>
 						</div>	
 							
-							
-							
 						</div>
 					</div>
                </div>
@@ -1864,6 +1971,23 @@
 </div>
 <!---student_performance end--->
 
+
+<input id="confy1" type="button" data-toggle="modal" data-target="#settaskconfirm_modal_login" style="display:none">
+<!--NO INTERNER CONNECTION pop up-->
+<div class="modal fade attach_photo" id="settaskconfirm_modal_login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog loginMod" role="document">
+        <div class="modal-content">
+            <div class="modal-body clearfix">
+               <span id="msg_text">{{msg}}</span>
+               <div class="delete_btn">  	
+                    <a href="javascript:void(0)" class="yes_bg"  aria-label="Close" data-dismiss="modal" aria-label="Close">OK</a>
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--NO INTERNER CONNECTION pop end-->
+
 <!---student profile pop------->
 <div class="modal fade attach_photo" id="student_pop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -1872,7 +1996,7 @@
 				<div id="status_right_content6"></div>
 			</div>
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><img src="images/popup-cross.png" alt="popup-cross" /></span></button>
+                <button type="button" class="close" ng-click="performance_graph_close();" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><img src="images/popup-cross.png" alt="popup-cross" /></span></button>
                 <div class="student_pic {{IsUnlocked}}"><img data-ng-src="data:image/png;base64,{{Image}}" alt="student-pic"></div>
                 <div class="student_title_area">
                 	<h2>{{Name}}</h2>
@@ -1894,13 +2018,13 @@
                                     Class
                                 </div>
                                 <div class="performance-table-th">
-                                    Attendance
+                                       {{profileperlist[0].Performance.Column1.Header}}
                                 </div>
                                 <div class="performance-table-th">
-                                    Target
+                                      {{profileperlist[0].Performance.Column2.Header}}
                                 </div>
                                 <div class="performance-table-th">
-                                    Grade
+                                     {{profileperlist[0].Performance.Column3.Header}}
                                 </div>
                            </div>
                         </div>
@@ -1908,27 +2032,29 @@
                     	<div class="performance-table-wrap content showStudentDiv">
                             <div class="performance-table">
 							   <div class="noRecordClass">{{studentprofileMessage}}</div>
-                               <div class="performance-table-tr prof" ng-repeat="profileper in profileperlist" id="prof{{profileper.Id}}" ng-click="graphstudentPerformanceSubjectwise(profileper.Id,profileper.GradeTrend,profileper.SubjectName);">
+                               <div class="performance-table-tr prof" ng-repeat="profileper in profileperlist" id="prof{{profileper.Id}}"  ng-click="graphstudentPerformanceSubjectwise(profileper.Id,profileper.GradeTrend,profileper.SubjectName,profileperlist[0].Performance.Column3.Header);">
                                     <div class="performance-table-td">
                                         <div class="performance-pic" ng-class="profileper.IsUnlocked == true ? 'outr_border' :''">
-                                            <img alt="performance-pic" data-ng-src="data:image/png;base64,{{profileper.Image}}" class="mCS_img_loaded">
+											<div class="slider">
+													<img ng-class="({{profileper.ClassTeachers.length}} > 1)?'slide{{$index+1}}':''" alt="performance-pic" data-ng-src="data:image/png;base64,{{profileperimg.Image}}" class="mCS_img_loaded"  ng-repeat="profileperimg in profileper.ClassTeachers">
+											</div>
                                         </div>
                                         <span class="performance-name">
                                             <a href="#" class="sub_name">{{profileper.SubjectName}}</a>
-                                            <span class="student_category">{{profileper.Title}} {{profileper.Firstname}} {{profileper.Lastname}}</span>
+                                            <span class="student_category">{{profileper.Title}} {{profileper.ClassTeachers[0].Name}} </span>
                                         </span>
                                     </div>
                                     <div class="performance-table-td">
-                                        <span ng-class="(profileper.AttendanceTrend == true ? 'p-green' : (profileper.AttendanceTrend == false ? 'p-red' : 'orange_text'))" ng-if="profileper.Attendance!=''">{{profileper.Attendance}}%</span>
-										<span ng-class="(profileper.AttendanceTrend == true ? 'p-green' : (profileper.AttendanceTrend == false ? 'p-red' : 'orange_text'))" ng-if="profileper.Attendance==''">0%</span>
+                                        <span ng-class="(profileper.Performance.Column1.Trend == 1 ? 'p-green' : (profileper.Performance.Column1.Trend == 3 ? 'p-red' : (profileper.Performance.Column1.Trend == 1 ?'orange_text':'')))" ng-if="profileper.Performance.Column1.Value!=''">{{profileper.Performance.Column1.Value}}{{profileper.Performance.Column1.Unit}}</span>
+										<span ng-class="(profileper.Performance.Column1.Trend == 1 ? 'p-green' : (profileper..Performance.Column1.Trend == 3 ? 'p-red' : (profileper.Performance.Column1.Trend == 1 ?'orange_text':'')))" ng-if="profileper.Performance.Column1.Value==''">0{{profileper.Performance.Column1.Unit}}</span>
                                     </div>
                                     <div class="performance-table-td">
-                                        <span class="p-gray" ng-if="profileper.TargetGrade!=''">{{profileper.TargetGrade}}</span>
-										<span class="p-gray" ng-if="profileper.TargetGrade==''">-</span>
+                                        <span class="p-gray" ng-if="profileper.Performance.Column2.Value!=''">{{profileper.Performance.Column2.Value}}</span>
+										<span class="p-gray" ng-if="profileper.Performance.Column2.Value==''">-</span>
                                     </div>
                                     <div class="performance-table-td">
-                                        <span ng-class="(profileper.GradeTrend == true ? 'p-green' : (profileper.GradeTrend == false ? 'p-red' : 'orange_text'))" ng-if="profileper.LastGrade!=''">{{profileper.LastGrade}}</span>
-										<span ng-class="(profileper.GradeTrend == true ? 'p-green' : (profileper.GradeTrend == false ? 'p-red' : 'orange_text'))" ng-if="profileper.LastGrade==''">-</span>
+                                        <span ng-class="(profileper.Performance.Column3.Trend == 1 ? 'p-green' : (profileper.Performance.Column3.Trend == 3 ? 'p-red' : (profileper.Performance.Column3.Trend == 2 ?'orange_text':'')))" ng-if="profileper.Performance.Column3.Value!=''">{{profileper.Performance.Column3.Value}}</span>
+										<span ng-class="(profileper.Performance.Column3.Trend == 1 ? 'p-green' : (profileper.Performance.Column3.Trend == 3 ? 'p-red' : (profileper.Performance.Column3.Trend == 2 ?'orange_text':'')))" ng-if="profileper.Performance.Column3.Value==''">-</span>
                                     </div>
                               </div>
                            </div>
@@ -1937,7 +2063,7 @@
                     <div class="inner_right">
 					<div id="noRecord11" class="noRecordClass">
 							<div><b>{{studentPerformanceData1}}</b></div>
-							<div>{{studentPerformanceData2}} </div>
+							<div>{{studentPerformanceData2}}</div>
 							<div>{{studentPerformanceData3}}</div>
 							<div>{{studentPerformanceData4}}</div>
 					</div>

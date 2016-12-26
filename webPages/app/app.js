@@ -1,5 +1,5 @@
     var postApp = angular.module("routerApp",['ui.router','ngSanitize','tagged.directives.infiniteScroll', 'slick']);
-        postApp.config(function($stateProvider,$urlRouterProvider, $locationProvider) {
+        postApp.config(function($stateProvider,$urlRouterProvider, $locationProvider,$httpProvider) {
             $stateProvider
                //.state('/', {
                //      url: '/', 
@@ -82,7 +82,16 @@ angular.module("selectBox", []).directive('selectBox', function() {
    });
   }
  };
-}); 
+});
+
+
+
+
+postApp.config(function($httpProvider) {
+  $httpProvider.defaults
+    .headers.common['Cache-Control'] = 'no-cache';
+});
+ 
         
              
         

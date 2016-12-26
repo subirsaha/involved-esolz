@@ -1,11 +1,12 @@
     postApp.service('homeService',function ($http,$location) {
         var service = {};
+        
         /*LOGGED IN TEACHER DEATILS*/
         service.teacherDetailsResponse = function (access_token,userid,callback) {
-            //alert('homeservice > userId ='+userid);
             $http({
                     method: 'GET',
-                    url: api_base_url+'api/teachers/userid='+userid,
+                   // url: api_base_url+'api/teachers/userid='+userid,
+                    url: api_base_url+'api/teachers',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','Authorization':'Bearer '+access_token},    
                 }).success(function(data, status, headers, config){                  
                     data.status=true;
@@ -16,12 +17,13 @@
                 });
 
         }
+        
         /*CLASS LIST OF TEACHER*/
         service.myClassesResponse = function (access_token,teacherId,callback) {
-            //alert('homeservice > teacherId ='+teacherId);
             $http({
                     method: 'GET',
-                    url: api_base_url+'api/teachers/'+teacherId+'/classes',
+                    //url: api_base_url+'api/teachers/'+teacherId+'/classes',
+                    url: api_base_url+'api/teachers/classes',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','Authorization':'Bearer '+access_token},    
                 }).success(function(data, status, headers, config){                  
                     data.status=true;
@@ -36,9 +38,9 @@
                     callback(data);
                 });
         }
+        
         /*STUDENT LIST ACCORDING TO CLASS ID*/
         service.studentListResponse = function (access_token,classId,callback) {
-            //alert(classId);
             $http({
                     method: 'GET',
                     url: api_base_url+'api/students/classid='+classId,
@@ -52,17 +54,37 @@
                     }else if(status == 0){
                         var data = {status:false,msg:"ERR_INTERNET_DISCONNECTED"}
                     } 
-                
                     //data.status=false;
                     callback(data);
                 });
         }
+        
         /*STUDENT LIST FOR INBOX*/
         service.studentListInboxResponse = function (access_token,teacherId,callback) {
+            $http({
+                    method: 'GET',
+                    url: api_base_url+'api/teachers/inboxstudents',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','Authorization':'Bearer '+access_token},    
+                }).success(function(data, status, headers, config){                  
+                    data.status=true;         
+                    callback(data);
+                }).error(function (data, status, headers, config) {
+                    if(status == 400){
+                        console.log(data);
+                    }else if(status == 0){
+                        var data = {status:false,msg:"ERR_INTERNET_DISCONNECTED"}
+                    } 
+                    //data.status=false;
+                    callback(data);
+                });
+        }
+        
+        /*RELOAD STUDENT MESSAGE COUNTER*/
+        service.studentListMessageCounter = function (access_token,studentId,classId,callback) {
           // console.log("studentListInboxResponse===="+api_base_url+'api/teachers/'+teacherId+'/inboxstudents');
             $http({
                     method: 'GET',
-                    url: api_base_url+'api/teachers/'+teacherId+'/inboxstudents',
+                    url: api_base_url+'api/students/'+studentId+'/counters/classId='+classId,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','Authorization':'Bearer '+access_token},    
                 }).success(function(data, status, headers, config){                  
                     data.status=true;         
@@ -80,11 +102,10 @@
         
         /*STUDENT INBOX PERFORMANCE DATA*/
         service.studentInboxPerformanceResponse = function (access_token,studentId,classId,callback) {
-           // console.log('PERFORMANCE URL =>');
-           // console.log(api_base_url+'api/students/'+studentId+'/performance/classid='+classId);
             $http({
                     method: 'GET',
-                    url: api_base_url+'api/students/'+studentId+'/performance/classid='+classId,
+                    url: api_base_url+'api/students/'+studentId+'/classperformance/classid='+classId,
+                   // url: api_base_url+'api/students/'+studentId+'/performance',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','Authorization':'Bearer '+access_token},    
                 }).success(function(data, status, headers, config){                  
                     data.status=true;         
@@ -102,7 +123,7 @@
         
         /*MY INBOX MESSAGE HISTORY*/
         service.InboxMessageHistoryResponse = function (access_token,studentId,classId,callback) {
-            //alert(teacherId);
+           // console.log(api_base_url+'api/messages/classid='+classId+'&studentid='+studentId+'&count=20&latestmessagetime=null');
             $http({
                     method: 'GET',
                     url: api_base_url+'api/messages/classid='+classId+'&studentid='+studentId+'&count=20&latestmessagetime=null',
@@ -116,26 +137,30 @@
                     }else if(status == 0){
                         var data = {status:false,msg:"ERR_INTERNET_DISCONNECTED"}
                     } 
-                    //data.status=false;
                     callback(data);
                 });
         }
+        
         /*MY INBOX MESSAGE HISTORY LOAD MORE*/
         service.InboxMessageHistoryLoadMoreResponse = function (access_token,studentId,classId,latestmessagetime,callback) {
-            //alert(teacherId);
             $http({
                     method: 'GET',
                     url: api_base_url+'api/messages/classid='+classId+'&studentid='+studentId+'&count=20&latestmessagetime='+latestmessagetime,
                     headers: {'Content-Type': 'application/json','Authorization':'Bearer '+access_token},    
-                }).success(function(data, status, headers, config){                  
+                }).success(function(data, status, headers, config){
+                    if (data == "") {
+                       data.msg="1";
+                    }else{
+                       data.msg="0";
+                    }
                     data.status=true;         
                     callback(data);
                 }).error(function (data, status, headers, config) {
-                    //if(status == 400){
-                    //    console.log(data);
-                    //}else if(status == 0){
-                    //    var data = {status:false,msg:"ERR_INTERNET_DISCONNECTED"}
-                    //} 
+                    if(status == 400){
+                        console.log(data);
+                    }else if(status == 0){
+                        var data = {status:false,msg:"ERR_INTERNET_DISCONNECTED"}
+                    } 
                     //data.status=false;
                     callback(data);
                 });
@@ -187,7 +212,11 @@
         /*STUDENT INBOX MESSAGE SEND*/
         service.studentInboxMessageSend = function (access_token,StudentId,classId,content,callback)
         {
-           
+           console.log({
+                           "StudentId": StudentId,
+                           "ClassId": classId,
+                           "Content": content
+                        });
             $http({
                     method: 'POST',
                     url: api_base_url+'api/messages',
@@ -219,7 +248,7 @@
             //alert(classId);
             $http({
                     method: 'GET',
-                    url: api_base_url+'api/teachers/'+teacherId+'/predefinedmessages',
+                    url: api_base_url+'api/teachers/predefinedmessages',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','Authorization':'Bearer '+access_token},    
                 }).success(function(data, status, headers, config){                  
                     data.status=true;         
@@ -294,6 +323,8 @@
         service.setTaskResponse = function (access_token,StudentIdsStr,TaskType,Title,Description,ClassId,dueDate,fileUploadResponse,callback) {
             //alert(StudentIds+' ### '+TaskType+' ### '+Title+' ### '+'"'+Description+'"'+' ### '+ClassId +'"'+' ### '+ dueDate);
             /*string to array convert*/
+            
+         
             var str = StudentIdsStr;
             var str_array = str.split(',');
             var studentArr = Array();
@@ -334,6 +365,7 @@
                            "DueDate": dueDate,
                            "ClassId": ClassId,
                            "Attachments": fileUploadData,
+                           "Mode": MODE
                         },
                    headers: {'Content-Type': 'application/json','Authorization':'Bearer '+access_token}
                 }).success(function(data, status, headers, config){
@@ -362,7 +394,8 @@
        
         /*UPDATE TASK*/
         service.updateTaskResponse = function (access_token,StudentIdsStr,taskId,title,description,dueDate,fileUploadResponse,existingFileUploadData,callback) {
-            
+            alert('NEW STUDENT IDS');
+            alert(StudentIdsStr);
             /*string to array convert*/
             var str = StudentIdsStr;
             var str_array = str.split(',');
@@ -400,7 +433,8 @@
                             "Title":  title,
                             "Description": description,
                             "DueDate": dueDate,
-                            "Attachments": finalFileUploadData
+                            "Attachments": finalFileUploadData,
+                            "Mode": MODE
                         },   
                     headers: {'Content-Type': 'application/json','Authorization':'Bearer '+access_token},    
                 }).success(function(data, status, headers, config){
@@ -431,6 +465,27 @@
                     callback(data);
                 });
         }
+        
+        ///*W10 - SEARCH TASK*/
+        service.taskSearchResponse = function (access_token,searchterm,callback) {
+                if (searchterm == "") {
+                    searchterm = "%20";
+                }
+                $http({
+                    method: 'GET',
+                    url: api_base_url+'api/search/teachertasks/text='+searchterm,
+                    //url: api_base_url+'api/teachers/findstudents/searchtext='+searchterm,
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded','Authorization':'Bearer '+access_token},    
+                }).success(function(data, status, headers, config){
+                    data.status=true;
+                    callback(data);
+                }).error(function (data, status, headers, config) {
+                    //data.status=false;
+                    callback(data);
+                });
+            
+        }
+        
         
         ///*W11 - PERFORMANCE*/
         service.performanceListResponse = function (access_token,classId,callback) {
@@ -490,13 +545,14 @@
         ///*W17 - SEARCH STUDENT (MY INBOX)*/
         service.studentSearchInboxResponse = function (access_token,teacherId,searchterm,callback) {
             console.log('studentSearchInboxResponse ==='+api_base_url+'api/search/students/teacherid='+teacherId+'&text='+searchterm);
+    
             if (searchterm == "") {
                 searchterm = "%20";
             }
                 $http({
                     method: 'GET',
-                    url: api_base_url+'api/search/students/teacherid='+teacherId+'&text='+searchterm,
-                    //url: api_base_url+'api/teachers/findstudents/searchtext='+searchterm,
+                   // url: api_base_url+'api/search/students/teacherid='+teacherId+'&text='+searchterm,
+                    url: api_base_url+'api/search/teacherstudents/text='+searchterm,
                     headers: {'Content-Type': 'application/x-www-form-urlencoded','Authorization':'Bearer '+access_token},    
                 }).success(function(data, status, headers, config){
                     data.status=true;
@@ -711,6 +767,184 @@
                 });
             
         }
+        /*SETTINGS CHANGE PASSWORD*/
+        service.change_pwd_Response = function (access_token,currentPwd,newPwd,callback) {
+            //console.log(access_token);
+            //console.log(currentPwd+"#######"+newPwd);
+            console.log({
+                            "Current": currentPwd,
+                            "New": newPwd
+                        });
+                $http({
+                    method: 'POST',
+                    url: api_base_url+'api/account/changepassword',
+                    headers: {'Content-Type': 'application/json','Authorization':'Bearer '+access_token},
+                    data:
+                        {
+                            "Current": currentPwd,
+                            "New": newPwd
+                        }
+                   
+                }).success(function(data, status, headers, config){
+                    console.log('CHANGE PASSWORD ===>>>'+data);
+                    data.status=true;
+                    callback(data);
+                }).error(function (data, status, headers, config) {
+                    //data.status=false;
+                    console.log(data);
+                    if(status == 400){
+                        data.status='fail';
+                        console.log(data);
+                    }else if(status == 0){
+                        var data = {status:false,msg:"ERR_INTERNET_DISCONNECTED"}
+                    }
+                    callback(data);
+                });
+            
+        }
+        /*SETTINGS EMAIL NOTIFICATION*/
+        service.email_notification = function (access_token,callback) {
+                $http({
+                    method: 'GET',
+                    url: api_base_url+'api/settings/notification',
+                    headers: {'Content-Type': 'application/json','Authorization':'Bearer '+access_token}
+                }).success(function(data, status, headers, config){
+                    console.log('EMAIL NOTIFICATION ===>>>');
+                    console.log(data);
+                    data.status=true;
+                    callback(data);
+                }).error(function (data, status, headers, config) {
+                   
+                    if(status == 400){
+                        data.status='fail';
+                        console.log(data);
+                    }else if(status == 0){
+                        var data = {status:false,msg:"ERR_INTERNET_DISCONNECTED"}
+                    }
+                    callback(data);
+                });
+            
+        }
+        /*UPDATE SETTINGS EMAIL NOTIFICATION*/
+        service.email_notification_update = function (access_token,status,callback) {
+                $http({
+                    method: 'POST',
+                    url: api_base_url+'api/settings/notification/emails='+status,
+                    headers: {'Content-Type': 'application/json','Authorization':'Bearer '+access_token},
+              
+                }).success(function(data, status, headers, config){
+                    console.log('CHANGE EMAIL NOTIFICATION ===>>>'+data);
+                    data.status=true;
+                    callback(data);
+                }).error(function (data, status, headers, config) {
+                    if(status == 400){
+                        data.status='fail';
+                        console.log(data);
+                    }else if(status == 0){
+                        var data = {status:false,msg:"ERR_INTERNET_DISCONNECTED"}
+                    }
+                    callback(data);
+                });
+            
+        }
+        /*SETTINGS FILE UPLOAD*/
+        service.fileUploadContactUs = function (access_token,callback) {
+                    
+            var data = new FormData();
+            $(".file_attachment_class4").each(function(){
+               //alert($(this).attr('id'));
+                var file_attachment_id = $(this).attr('id');
+                $.each($('#'+file_attachment_id)[0].files, function(i, file) {
+                     data.append('file-'+i, file);
+                });
+            });
+            
+            console.log('RESPONSE DATA');
+            console.log(data);
+    
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url":  api_base_url+"api/files",
+                "method": "POST",
+                "headers": {
+                    "authorization": "Bearer "+access_token,
+                    "cache-control": "no-cache",            
+                },
+                "processData": false,
+                "contentType": false,
+                "mimeType": "multipart/form-data",
+                "data": data
+            }
+            
+            $.ajax(settings).done(function (response,status) {
+                console.log("SERVICE RESPONSE");
+                console.log(status);
+                //response.ajax_status= true;
+                if(status == 'success'){
+                    response={response:response,status:true};
+                    console.log(response);
+                }else{
+                    var response = {response:'',status:false,msg:"ERR_INTERNET_DISCONNECTED"}
+                }
+                
+                callback(response);
+            })
+            .fail(function( response, status, errorThrown ) {
+               
+                 if(status == 'success'){
+                    response={response:response,status:true};
+                    console.log(response);
+                }else{
+                    var response = {response:'',status:false,msg:"ERR_INTERNET_DISCONNECTED"}
+                }
+                
+                callback(response);
+            })
+        }
+        
+        /*SUMBIT CONTACT US*/
+        service.submitContactUsResponse = function (access_token,Description,fileUploadResponse,callback) {
+           
+            var fileUploadData = Array();
+            if(fileUploadResponse == null){ //**when no file is uploaded
+                fileUploadData = [];  
+            }else{ //**when files are uploaded
+                var res = JSON.parse(fileUploadResponse.response);
+                for(var j=0 ; j<res.length ; j++){             
+                    fileUploadData[j] = {
+                                            "Id": res[j].Id,
+                                            "Name": res[j].Name
+                                        };
+                }
+            }
+            $http({
+                   method: 'POST',
+                   url: api_base_url+'api/contactus/query',
+                   data: {
+                           "Description": Description,
+                           "Attachments": fileUploadData
+                        },
+                   headers: {'Content-Type': 'application/json','Authorization':'Bearer '+access_token}
+                }).success(function(data, status, headers, config){
+                    console.log('SUCCESS');
+                    console.log(data);
+                    var data = {data:data,status:true,msg:""}
+                    callback(data);
+                }).error(function (data, status, headers, config) {
+                         console.log('FAIL');
+                console.log(data);
+                    if(status == 400){
+                        data.status=false;
+                        console.log(data);
+                    }else if(status == 0){
+                        var data = {status:false,msg:"ERR_INTERNET_DISCONNECTED"}
+                    }
+                    callback(data);
+                });
+        }
+
+        
         
 
         
